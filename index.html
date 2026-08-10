@@ -1,1 +1,2304 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Home Price Estimator V66 ©2026
+</title>
+<!-- ====================================== -->
+<!-- SECTION: STYLES / UI DESIGN -->
+<!-- ====================================== -->
+<style>
+/* ----- SUBSECTION: BASE LAYOUT ----- */
+body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f6f7f8; color: #222; margin:0; padding:30px 0;}
+.container {
+ max-width:1050px;
+ margin:0 auto;
+ padding:0 20px;
+ background:#fff;
+ border-radius:8px;
+ box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+ overflow:hidden;
+}
+/* ----- SUBSECTION: HEADER ----- */
+.header-container {
+  display:grid;
+  grid-template-rows:auto auto auto;
+  row-gap:4px;
+  margin-bottom:0;
+  background:transparent;
+  padding:16px 16px 10px;
+  border-radius:0;
+}.header-left { text-align:left; font-size:26px; font-weight:600;}
+.header-center { text-align:center; font-style:italic; color:#444;}
+.header-right { text-align:right; font-size:13px; color:#666;}
+
+.hero-subtitle{
+ text-align:center;
+ font-size:16px;
+ color:#555;
+ margin-top:4px;
+ margin-bottom:8px;
+}
+
+.trust-row{
+ text-align:center;
+ font-size:13px;
+ color:#666;
+ margin-top:6px;
+}
+
+.process-steps{
+ display:flex;
+ flex-wrap:wrap;
+ justify-content:center;
+ gap:8px;
+ margin-top:14px;
+}
+
+.step-pill{
+ background:#f2f8fb;
+ border:1px solid #d5e8f0;
+ border-radius:999px;
+ padding:6px 12px;
+ font-size:12px;
+ font-weight:600;
+ color:#2D4F6C;
+}
+
+.header-container::after {
+  content:"";
+  display:block;  height:1px;
+  background:#ADD8E6;
+  margin-top:10px;
+}
+h1{font-size:26px;margin-bottom:20px;}
+h2{
+  font-size:18px;
+  border-bottom:1px solid #ADD8E6;
+  padding-bottom:6px;
+}
+.card{
+ background:#fff;
+ border:1px solid #ddd;
+ border-radius:6px;
+ padding:18px 20px;
+ margin-bottom:24px;
+ box-shadow:0 2px 10px rgba(0,0,0,.05);
+
+break-inside:avoid;
+
+page-break-inside:avoid;
+
+}
+
+body {
+  background: #eef1f3;
+}
+.card.inputs{
+  background:transparent;
+  margin-bottom:0;
+  margin-top:0;
+  border:none;
+  border-radius:0;
+  padding-top:10px;
+}
+.inputs-title{font-size:16px;font-weight:600;margin-bottom:12px;color:#222;padding-bottom:0;}
+/* ----- SUBSECTION: INPUT GRID ----- */
+.grid{
+  display:grid;
+  grid-template-columns:minmax(260px,420px);
+  justify-content:center;
+  gap:18px;
+}
+label{font-size:13px;font-weight:600;display:block;margin-bottom:6px;}
+.label-with-tooltip{display:inline-flex;align-items:center;gap:6px;}
+.tooltip-icon{position:relative;cursor:pointer;}
+.tooltip-text{
+  visibility:hidden;
+  opacity:0;
+
+  width:min(90vw,420px);
+
+  background:#222;
+  color:#fff;
+  padding:14px 38px 14px 14px;
+
+  border-radius:8px;
+
+  position:fixed;
+  z-index:9999;
+
+  left:0;
+  top:0;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+
+  transition:opacity .2s ease;
+}
+
+.tooltip-icon:hover .tooltip-text{visibility:visible;opacity:1;}
+.tooltip-text.show{
+  visibility:visible;
+  opacity:1;
+}
+.tooltip-backdrop{
+  display:none;
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.45);
+
+  z-index:9998;
+}
+
+.tooltip-backdrop.show{
+  display:block;
+}
+
+input, select, button{
+  width:100%;
+  padding:10px 12px;
+  font-size:14px;
+}
+
+input,
+select{
+  border:1px solid #cfd8e3;
+  border-radius:6px;
+  background:#fff;
+}
+
+input:focus,
+select:focus{
+  outline:none;
+  border-color:#2D92B3;
+  box-shadow:0 0 0 3px rgba(45,146,179,.15);
+}
+/* ----- SUBSECTION: BUTTON ----- */
+button{
+  background:#2D92B3;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  margin-bottom:16px;
+  padding:14px;
+  font-size:16px;
+  font-weight:600;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+button:hover{background:#183fb0;}
+/* ----- SUBSECTION: TABLES ----- */
+table{
+ width:100%;
+ border-collapse:collapse;
+ font-size:14px;
+ table-layout:fixed;
+ margin-top:10px;
+}
+
+@media print{
+
+table{
+
+table-layout:auto;
+
+}
+
+th,td{
+
+white-space:normal;
+
+}
+
+}
+
+th{
+ background:#f8fafc;
+}
+
+th,td{
+ padding:8px 6px;
+ border-bottom:1px solid #eee;
+}
+
+.right{text-align:right;}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;}
+.highlight{
+ font-size:42px;
+ font-weight:700;
+ margin:0;
+ color:#2D92B3;
+ text-align:center;
+}
+
+.result-banner{
+ background:#f2f8fb;
+ border:1px solid #d5e8f0;
+ border-radius:8px;
+ padding:18px;
+ text-align:center;
+ margin:16px 0;
+}
+
+.pos { color:#1a7f37; font-weight:600; }
+.neg { color:#c92c2c; font-weight:600; }
+.neu { color:#6b7280; font-weight:400; }
+.disclaimer{font-size:12px;color:#666;text-align:center;margin-top:30px;}
+
+.subgrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+}
+
+.rate-table th,.rate-table td{width:33.333%;text-align:center;}
+.three-col-33 th,.three-col-33 td{width:33.333%;}
+
+@media(max-width:480px){
+.grid{grid-template-columns:1fr;}
+.header-left{font-size:20px;}
+.highlight{font-size:34px;} input,select,button{font-size:16px;} table{display:block;overflow-x:auto;white-space:nowrap;}}
+/* ----- SUBSECTION: EDITABLE FIELD STYLING ----- */
+
+input,
+select{
+  color:#2D4F6C;
+  font-weight:600;
+}
+
+input::placeholder{
+  color:#2D4F6C;
+  opacity:.75;
+}
+
+#maxPayment,
+#maxCash,
+#cityInput{
+  padding-right:0;
+}
+
+.input-helper{
+  font-size:11px;
+  color:#666;
+  margin-top:4px;
+  line-height:1.3;
+}
+/* ----- SUBSECTION: LOADING OVERLAY ----- */
+#loadingOverlay {  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.loaderBox {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+ 
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+ 
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+ 
+.loadingText {
+  font-size: 16px;
+}
+ 
+/* ======================================
+   AFFORDABILITY SIMULATOR
+====================================== */
+
+.simulator-card{
+    background:#f8fbfd;
+    border:1px solid #d5e8f0;
+    border-radius:8px;
+    padding:20px;
+    margin-top:18px;
+}
+
+.simulator-card h3{
+    margin-top:0;
+    margin-bottom:18px;
+    color:#2D4F6C;
+}
+
+.sliderRow{
+    margin-bottom:22px;
+    padding:0 8px;
+}
+
+.sliderHeader{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+.sliderValue{
+    font-weight:700;
+    color:#2D92B3;
+}
+
+.sliderRow input[type=range]{
+    width:100%;
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+    display:block;
+}
+
+.tooltip-label-size{
+    font-size:13px;
+}
+
+.simulatorReset{
+    margin-top:12px;
+}
+#rotateInlineNotice {
+ display: none;
+ background: #FFFAA0;
+ color: #856404;
+ padding: 8px 10px;
+ border-radius: 4px;
+ font-size: 13px;
+ margin-bottom: 10px;
+ text-align: center;
+ border: 1px solid #ffeeba;
+}
+/* ======================================
+   PRINT LAYOUT
+====================================== */
+
+@media print{
+
+body{
+    background:#fff !important;
+    padding:0;
+    margin:0;
+    color:#000;
+}
+
+.container{
+
+    max-width:100% !important;
+
+    width:100% !important;
+
+    margin:0 !important;
+
+    padding:20px !important;
+
+    border:none !important;
+
+    border-radius:0 !important;
+
+    box-shadow:none !important;
+
+}
+
+button{
+
+    display:none !important;
+
+}
+
+input[type=range]{
+
+    display:none !important;
+
+}
+
+.tooltip-icon{
+
+    display:none !important;
+
+}
+
+#loadingOverlay{
+
+    display:none !important;
+
+}
+
+#rotateInlineNotice{
+
+    display:none !important;
+
+}
+
+.header-container{
+
+    page-break-after:avoid;
+    break-after:avoid;
+
+}
+
+
+.card{
+
+    page-break-inside:avoid;
+    break-inside:avoid;
+
+    box-shadow:none !important;
+
+    border:1px solid #bbb;
+
+    margin-bottom:18px;
+
+}
+
+.disclaimer{
+
+    margin-top:30px;
+
+    page-break-inside:avoid;
+
+}
+
+.result-banner{
+
+    page-break-inside:avoid;
+
+    break-inside:avoid;
+
+}
+
+a{
+
+    color:#000;
+
+    text-decoration:none;
+
+}
+
+}
+
+*{
+
+-webkit-print-color-adjust:exact;
+
+print-color-adjust:exact;
+
+}
+
+</style>
+</head>
+<body>
+<!-- ====================================== -->
+<!-- SECTION: LOADING OVERLAY -->
+<!-- ====================================== -->
+<div id="loadingOverlay">
+  <div class="loaderBox">
+    <div class="spinner"></div>
+    <div class="loadingText">Loading… this may take a few seconds.</div>
+  </div>
+</div>
+<!-- ====================================== -->
+<!-- SECTION: HEADER / INPUT UI -->
+<!-- ====================================== -->
+<div class="container">
+ <div class="header-container">
+   <div class="header-left" style="color:#2d92b3;">Home Price Estimator</div>
+
+<div class="trust-row">
+
+    <div style="text-align:left;">
+        <b>Many online mortgage payment calculators start with a home price and then estimate a house payment, using entered assumptions for down payment, interest rates, taxes, insurance and sometimes PMI.<br><br>
+This calculator works in reverse by starting with your affordability—your budget—instead of a home price. Give it a try.</b>
+    </div>
+
+    <br>
+
+    <div style="text-align:center;">
+        ✓ No email required &nbsp;&nbsp;
+        ✓ No credit check &nbsp;&nbsp;
+        ✓ Estimates in seconds
+    </div>
+
+</div>
+
+<div class="process-steps">
+  <div class="step-pill">1. Select a property type</div>
+  <div class="step-pill">2. Enter a comfortable monthly payment</div>
+  <div class="step-pill">3. Enter available cash for purchase</div>
+  <div class="step-pill">4. Select a loan type</div>
+  <div class="step-pill">5. Select a location</div>
+  <div class="step-pill">6. Run Estimation for a home price</div>
+</div>
+
+</div>
+
+    <div class="grid">
+<div>
+  <label>Property Type</label>
+  <select id="propertyType">
+    <option value="1" selected>House</option>
+    <option value="3">Condominium</option>
+    <option value="2">Townhouse</option>
+    <option value="4">Planned Unit Development</option>
+  </select>
+</div> 
+      <div>
+        <label class="label-with-tooltip">
+  Comfortable Monthly Housing Payment
+          <span class="tooltip-icon">ⓘ
+            <span class="tooltip-text">
+              Some properties, such as condominiums, have a homeowners association (HOA) fee.<br><br>If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>&nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>- <u>Estimated average Association Fee</u><br>= <b>Enter</b>: Comfortable Monthly Housing Expense
+            </span>
+          </span>
+        </label> 
+<input id="maxPayment" value="$2,800">
+ 
+<div id="paymentHelper" class="input-helper"></div>
+ 
+    </div>
+
+       <div>
+        <label class="label-with-tooltip">
+          Available Cash for Purchase
+          <span class="tooltip-icon">ⓘ
+            <span class="tooltip-text">
+              &nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u> *<br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
+            </span>
+          </span>
+        </label>
+        <input id="maxCash" value="$60,000">
+      </div> 
+
+        <div>
+        <label>Loan Type</label>
+        <select id="term">
+          <option value="360" selected>30-Years Fixed-Rate</option>
+          <option value="180">15-Years Fixed-Rate</option>
+        </select>
+      </div>
+ 
+    <div class="subgrid">
+      <div>
+  <label>
+    State
+    <span id="stateRequired" style="color:#c92c2c;">
+      (required)
+    </span>
+  </label>
+  <select id="state"></select>
+</div>      <div>
+        <label>City (optional)</label>
+        <input id="cityInput" placeholder="Enter city">
+      </div>
+      <div>
+        <label>
+          County
+          <span id="countyRequired" style="color:#c92c2c;">
+            (required)
+          </span>
+        </label>
+        <select id="county" disabled></select>
+      </div>
+    </div>
+<!-- ----- SUBSECTION: BUTTON SPACING ----- -->
+<div style="height:16px;"></div>
+
+<button onclick="startNewEstimation()">Run Estimation</button>
+
+</div>   <!-- ← closes .grid -->
+</div>   <!-- ← closes first .container -->
+
+<!-- ====================================== -->
+<!-- SECTION: OUTPUT -->
+<!-- ====================================== -->
+<div class="container">
+  <div id="output"></div>
+</div>
+ 
+<!-- ====================================== -->
+<!-- SECTION: DISCLAIMER -->
+<!-- ====================================== -->
+<div class="disclaimer">Not an offer to lend.<br>The Home Price Estimator provides an illustrative estimate for entertainment and context only and not a precise determination. Results are simulations based on assumptions.<br>HP-Estimator.com&copy;2026</div>
+<!-- ====================================== -->
+<!-- SECTION: SCRIPT START -->
+<!-- ====================================== -->
+<script>
+"use strict";
+// ======================================
+// SECTION: CONSTANTS / GLOBALS
+// ======================================
+const MIN_DP = 0.05;
+ 
+// PMI factors (loaded dynamically)
+let PMI30_LB = null;
+let PMI30_HB = null;
+let PMI15_LB = null;
+let PMI15_HB = null;
+ 
+// Fallback BASE_RATE
+let BASE_RATE = 0.0609;
+let FR30_DEBUG = null;
+let FR15_DEBUG = null;
+ 
+// ======================================
+// SECTION: INPUT HANDLING & FORMATTING
+// ======================================
+function fmt(x, d=2) { return x.toLocaleString(undefined, {minimumFractionDigits:d, maximumFractionDigits:d}); }
+function num(id) {
+  return Number(
+    document.getElementById(id).value
+      .replace(/[^0-9.-]/g,"")
+  ) || 0;
+}
+["maxPayment","maxCash"].forEach(id=>{
+  const el = document.getElementById(id);
+
+  el.onfocus = ()=>{
+    el.value = el.value.replace(/[^0-9.-]/g,"");
+  };
+
+  el.onblur = ()=>{
+    const clean = Number(
+      el.value.replace(/[^0-9.-]/g,"")
+    );
+
+    if (!isNaN(clean)) {
+      el.value = clean.toLocaleString();
+    }
+  };
+});
+// ======================================
+// SECTION: LOCATION LOGIC (STATE / CITY / COUNTY)
+// ======================================
+window.addEventListener("DOMContentLoaded", () => {
+    const cityInput = document.getElementById("cityInput");
+    const stateEl = document.getElementById("state");
+ 
+    //  Start EMPTY and disabled
+    cityInput.value = "";
+    cityInput.placeholder = "";
+    cityInput.disabled = true;
+ 
+    // ENTER key still works
+    cityInput.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") applyCityInput();
+    });
+ 
+    // Blur (click away)
+    cityInput.addEventListener("blur", function() {
+        if (stateEl.value) {
+            applyCityInput();
+        }
+    });
+ 
+    //  WHEN STATE CHANGES
+    stateEl.addEventListener("change", function() {
+ 
+        if (stateEl.value) {
+            //  Enable + prompt user
+            cityInput.disabled = false;
+            cityInput.placeholder = "Enter City or skip & select County";
+        } else {
+            //  Reset if cleared
+            cityInput.value = "";
+            cityInput.placeholder = "";
+            cityInput.disabled = true;
+        }
+ 
+        // Keep your existing behavior
+        if (cityInput.value.trim()) {
+            applyCityInput();
+        }
+    });
+});
+ 
+// ======================================
+// SECTION: DATA LOADING
+// ======================================
+ 
+// ----- SUBSECTION: FETCH WITH RETRY -----
+async function fetchTextWithRetry(url, retries = 2, delay = 500) {
+    for (let i = 0; i <= retries; i++) {
+        try {
+            const res = await fetch(url, { cache: "no-store" });
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return await res.text();
+        } catch (err) {
+            if (i === retries) throw err;
+            await new Promise(r => setTimeout(r, delay));
+        }
+    }
+}
+ 
+async function loadBaseRateAll() {
+    const URL = "https://raw.githubusercontent.com/Harlow1420/MHP-Estimator/main/BaseRateAll.csv?v=" + Date.now();
+ 
+    try {
+        const text = await fetchTextWithRetry(URL, 2);
+ 
+        const lines = text.trim().split("\n");
+        if (lines.length >= 2) {
+ 
+            const rateLine = lines[1].split(",").map(x => parseFloat(x));
+ 
+            FR30_DEBUG = isNaN(rateLine[0]) ? null : rateLine[0];
+            FR15_DEBUG = isNaN(rateLine[1]) ? null : rateLine[1];
+ 
+            PMI30_LB = isNaN(rateLine[2]) ? null : rateLine[2];
+            PMI30_HB = isNaN(rateLine[3]) ? null : rateLine[3];
+            PMI15_LB = isNaN(rateLine[4]) ? null : rateLine[4];
+            PMI15_HB = isNaN(rateLine[5]) ? null : rateLine[5];
+ 
+console.log("PMI Loaded:", {
+              PMI30_LB, PMI30_HB, PMI15_LB, PMI15_HB
+            });
+ 
+        }
+ 
+    } catch (err) {        console.warn("BaseRateAll fetch failed:", err);
+        FR30_DEBUG = null;
+        FR15_DEBUG = null;
+ 
+        // Fallback PMI values (safety net)
+        PMI30_LB = 0.0034;
+        PMI30_HB = 0.0115;
+        PMI15_LB = 0.0025;
+        PMI15_HB = 0.0080;    }
+}
+ 
+// ----- SUBSECTION: LOAD CSV -----
+const CSV_URL = "https://raw.githubusercontent.com/Harlow1420/MHP-Estimator/main/EPTRBC.csv";
+ 
+let COUNTY_DATA = {};
+let ACTIVE_FACTORS = null;
+let originalEstimate = null;
+let simulatedEstimate = null; 
+
+// ======================================
+// SECTION: AFFORDABILITY SIMULATOR
+// ======================================
+
+const simulator = {
+
+    rate:0,
+    tax:0,
+    hoi:0
+
+};
+
+let simulatorHasRun = false;
+
+let newEstimation = false;
+
+function resetSimulatorState(){
+
+    simulator.rate = 0;
+    simulator.tax  = 0;
+    simulator.hoi  = 0;
+
+    simulatorHasRun = false;
+
+    simulatedEstimate = null;
+    originalEstimate = null;
+
+}
+function readSimulatorValues(){
+
+    ["rate","tax","hoi"].forEach(name=>{
+
+        const slider =
+            document.getElementById(name + "Slider");
+
+        if(slider){
+
+            simulator[name] =
+                Number(slider.value);
+
+        }
+
+    });
+
+}
+async function loadCSV() {
+    try {
+        const text = await fetchTextWithRetry(CSV_URL, 2);
+ 
+        const rows = text.trim().split("\n").slice(1);
+ 
+        rows.forEach(r => {
+    if (!r) return;
+
+    const cols = r.split(",");
+
+    if (cols.length < 9) return;
+
+    const [s, c, tax, cc, cov, hoi, oull, sti, ho3] = cols;
+
+    if (!s || !c) return;
+
+    if (!COUNTY_DATA[s]) COUNTY_DATA[s] = {};
+
+    COUNTY_DATA[s][c] = {
+        tax: parseFloat(tax) || 0,
+        cc: parseFloat(cc) || 0,
+    hoiBaseCoverage: parseFloat(cov) || 0,
+    hoiBaseAnnual: parseFloat(hoi) || 0,
+    oull: oull ? parseFloat(oull) : null,
+    sti: sti || "",
+    ho3: parseFloat(ho3) || null
+};
+        });
+ 
+        populateStates();
+ 
+    } catch (err) {
+        console.error("CSV load failed:", err);
+ 
+        const el = document.getElementById("loadingOverlay");
+        if (el) {
+            el.innerHTML = `
+                <div class="loaderBox">
+                    <div class="loadingText">
+                        Having trouble loading?<br><br>
+                        This tool may run slower on some devices.<br><br>
+                        <button onclick="location.reload()">Try Again</button>
+                        <br><br>
+                        <a href="/lite">Use Simplified Version</a>
+                    </div>
+                </div>
+            `;
+        }
+    }
+}
+ 
+function populateStates(){
+    const stateEl = document.getElementById("state");
+ 
+    stateEl.innerHTML = "";
+ 
+    //  Add placeholder option
+    const placeholder = new Option("Choose a State", "");
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    stateEl.add(placeholder);
+ 
+    Object.keys(COUNTY_DATA)
+        .sort()
+        .forEach(x => stateEl.add(new Option(x, x)));
+ 
+    setTimeout(() => {
+        if (document.getElementById("cityInput").value.trim()) {
+            applyCityInput();
+        }
+    }, 150);
+}
+function populateCounties(){
+    const stateEl = document.getElementById("state");
+    const countyEl = document.getElementById("county");
+ 
+    countyEl.innerHTML = "";
+ 
+    if(!stateEl.value){
+        countyEl.disabled = true;
+        ACTIVE_FACTORS = null;
+        return;
+    }
+ 
+    countyEl.disabled = false;
+ 
+    Object.keys(COUNTY_DATA[stateEl.value])
+        .sort()
+        .forEach(x => countyEl.add(new Option(x,x)));
+ 
+    countyEl.selectedIndex = -1;
+    ACTIVE_FACTORS = null;
+}
+ 
+document.getElementById("state").onchange = () => {
+
+    ACTIVE_FACTORS = null;
+
+    populateCounties();
+
+    document.getElementById("cityInput").value = "";
+
+    updateStateRequired();
+
+    updateCountyRequired();
+
+};
+
+document.getElementById("county").onchange = () => {
+
+    const stateEl =
+        document.getElementById("state");
+
+    const countyEl =
+        document.getElementById("county");
+
+    if(stateEl.value && countyEl.value){
+
+        ACTIVE_FACTORS =
+            COUNTY_DATA[stateEl.value][countyEl.value];
+
+    }else{
+
+        ACTIVE_FACTORS = null;
+
+    }
+
+    updateCountyRequired();
+
+};
+ 
+// ======================================
+// SECTION: UI ENHANCEMENTS (TOOLTIPS)
+// ======================================
+
+// Add close button to every tooltip
+// (disabled - tooltips close by tapping outside)
+
+// Tooltip open / close logic
+document.addEventListener("click", function(e){
+
+    // Close button clicked
+    if(e.target.classList.contains("tooltip-close")){
+
+        e.stopPropagation();
+
+        e.target
+          .closest(".tooltip-text")
+          ?.classList.remove("show");
+
+        document
+          .getElementById("tooltipBackdrop")
+          ?.classList.remove("show");
+
+        return;
+    }
+
+    const icon = e.target.closest(".tooltip-icon");
+
+    document.querySelectorAll(".tooltip-text.show").forEach(t=>{
+        if(!icon || !t.parentElement.contains(icon))
+            t.classList.remove("show");
+    });
+
+    document
+      .getElementById("tooltipBackdrop")
+      ?.classList.remove("show");
+
+    if(icon){
+
+        const tip = icon.querySelector(".tooltip-text");
+        const backdrop =
+          document.getElementById("tooltipBackdrop");
+
+        if(tip){
+
+            e.stopPropagation();
+
+            const opening =
+              !tip.classList.contains("show");
+
+            document
+              .querySelectorAll(".tooltip-text.show")
+              .forEach(t => t.classList.remove("show"));
+
+            backdrop?.classList.remove("show");
+
+            if(opening){
+
+    const rect =
+      icon.getBoundingClientRect();
+
+    if(window.innerWidth < 600){
+
+        tip.style.left = "50%";
+        tip.style.transform = "translateX(-50%)";
+
+    } else {
+
+        tip.style.left = `${rect.left}px`;
+        tip.style.transform = "none";
+    }
+
+    tip.style.top =
+      `${rect.bottom + 10}px`;
+
+    tip.classList.add("show");
+
+    requestAnimationFrame(()=>{
+
+        const tipRect =
+          tip.getBoundingClientRect();
+
+        if(tipRect.right > window.innerWidth - 10){
+
+            tip.style.left =
+              `${window.innerWidth - tipRect.width - 10}px`;
+        }
+
+        if(tipRect.left < 10){
+
+            tip.style.left = "10px";
+        }
+    });
+
+    backdrop?.classList.add("show");
+}
+        }
+    }
+});
+
+function updatePaymentHelper() {
+
+  const propertyType =
+    document.getElementById("propertyType")?.value || "1";
+
+  const helper =
+    document.getElementById("paymentHelper");
+
+  if (!helper) return;
+
+  helper.innerHTML =
+    propertyType === "1"
+      ? ""
+      : `
+        <strong style="color:#B45309;">
+          Enter payment excluding estimated Association Fee
+        </strong>
+        
+      `;
+}
+
+function updateStateRequired(){
+
+    const state =
+        document.getElementById("state");
+
+    const required =
+        document.getElementById("stateRequired");
+
+    if(!state || !required) return;
+
+    required.style.display =
+        state.value ? "none" : "inline";
+
+}
+
+function updateCountyRequired(){
+
+    const city =
+        document.getElementById("cityInput")
+        ?.value.trim();
+
+    const county =
+        document.getElementById("county")
+        ?.value;
+
+    const required =
+        document.getElementById("countyRequired");
+
+    if(!required) return;
+
+    required.style.display =
+        (city || county)
+            ? "none"
+            : "inline";
+
+}
+
+async function getCountyFromCity(city, state) {
+    const apiKey = "8adbac99bb8c428fbc8b2621fccf00f5";
+ 
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(city + ", " + state)}&key=${apiKey}`;
+ 
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+ 
+        if (!data.results || !data.results.length) return null;
+ 
+        let county = data.results[0].components.county || "";
+ 
+        if (county && !county.toLowerCase().includes("county")) {
+            county += " County";
+        }
+ 
+        return county;
+ 
+    } catch (err) {
+        console.warn("City → County lookup failed:", err);
+        return null;
+    }
+}
+ 
+updateCountyRequired();
+
+async function applyCityInput() {
+
+    updateCountyRequired();
+
+    const city = document.getElementById("cityInput").value.trim();
+    const state = document.getElementById("state").value;
+
+    if (!city || !state) return;
+
+    const county = await getCountyFromCity(city, state);
+ 
+    if (!county) {
+        console.warn("City lookup failed, leaving manual selection.");
+        return;
+    }
+ 
+    const countyEl = document.getElementById("county");
+    let matched = false;
+ 
+    for (let opt of countyEl.options) {
+        if (opt.value.toLowerCase() === county.toLowerCase()) {
+            countyEl.value = opt.value;
+            matched = true;
+            break;
+        }
+    }
+ 
+    if (matched) {
+        countyEl.dispatchEvent(new Event("change"));
+        console.log(`Mapped: ${city} → ${county}`);
+    } else {
+ 
+        console.warn("County not found:", county);
+ 
+        const countyEl = document.getElementById("county");
+        countyEl.style.border = "1px solid #c92c2c";
+ 
+        setTimeout(() => {
+            countyEl.style.border = "";
+        }, 2000);
+
+    }
+
+    updateCountyRequired();
+}
+</script>
+<script>
+ 
+// ======================================
+// SECTION: CALCULATION ENGINE
+// ======================================
+function calc(
+    rate,
+    maxPmt,
+    maxCash,
+    term,
+    sim = simulator
+){
+
+    if(
+        !ACTIVE_FACTORS ||
+        !ACTIVE_FACTORS.tax ||
+        !ACTIVE_FACTORS.cc ||
+        !ACTIVE_FACTORS.hoiBaseCoverage
+    ){
+        return null;
+    }
+
+    const truncatedRate =
+Math.trunc(rate / 0.00125) * 0.00125;
+
+const effectiveRate =
+(sim.rate === 0)
+    ? rate
+    : truncatedRate + (sim.rate * 0.00125);
+
+const r =
+effectiveRate / 12;    const PIF = (r * Math.pow(1+r,term)) / (Math.pow(1+r,term)-1);
+ 
+    // Term-based PMI (with fallback safety)
+    const LBPMI = (term === 180)
+        ? (PMI15_LB ?? 0.0025)
+        : (PMI30_LB ?? 0.0034);
+ 
+    const HBPMI = (term === 180)
+        ? (PMI15_HB ?? 0.0080)
+        : (PMI30_HB ?? 0.0115);
+ 
+    let hp = 50000, last = null;
+ 
+    while(true){
+        const cc = hp * ACTIVE_FACTORS.cc;
+        const dp = maxCash - cc;
+        if(dp < hp*MIN_DP) break;
+ 
+        const la = Math.max(0, hp - dp);
+        const ltv = la > 0 ? la / hp : 0;
+ 
+        const pi = la * PIF;
+
+const taxRate =
+    ACTIVE_FACTORS.tax *
+    (1 + sim.tax/100);
+
+const tax =
+    (hp * taxRate)/12;
+
+const cov =
+    Math.max(la, 0.8*hp);
+        const propertyType =
+ document.getElementById("propertyType")?.value || "1";
+
+const annualHoiBase =
+ propertyType === "3"
+   ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+   : ACTIVE_FACTORS.hoiBaseAnnual;
+
+const annualHoi =
+    annualHoiBase *
+    (1 + sim.hoi/100);
+
+const hoi =
+ (annualHoi *
+ (cov / ACTIVE_FACTORS.hoiBaseCoverage)) / 12;
+ 
+        let pmiF = ltv > 0.8
+    ? (ltv >= 0.95
+        ? HBPMI
+        : LBPMI + (HBPMI-LBPMI)*(ltv-0.8)/(0.95-0.8))
+    : 0;
+
+// PMI intentionally not user-adjustable
+
+const pmi = (la * pmiF)/12;        const pmt = pi + tax + hoi + pmi;
+ 
+        if (la === 0) {
+            const pmtNoLoan = tax + hoi;
+            if(pmtNoLoan <= maxPmt && dp + cc <= maxCash){
+                last = {hp, la:0, dp, cc, ltv, pi:0, tax, hoi, pmi:0, pmt:pmtNoLoan, pmiF:0, cov};
+                hp += 1000;
+                continue;
+            } else { break; }
+        }
+ 
+        if(pmt <= maxPmt && dp + cc <= maxCash){
+            last={hp, la, dp, cc, ltv, pi, tax, hoi, pmi, pmt, pmiF, cov};
+            hp += 1000;
+        } else {
+            // Refinement around 80% LTV
+            if(last && Math.abs(last.ltv - 0.8) < 0.02){
+                let best = last;
+                for(let h = last.hp-2000; h <= last.hp+2000; h += 100){
+                    if(h <= 0) continue;
+                    const cc2 = h * ACTIVE_FACTORS.cc;
+                    const dp2 = maxCash - cc2;
+                    if(dp2 < h*MIN_DP) continue;
+                    const la2 = h - dp2;
+const ltv2 = la2 / h;
+const pi2 = la2 * PIF;
+const tax2 =
+(h * ACTIVE_FACTORS.tax *
+(1 + sim.tax/100))/12;
+const cov2 = Math.max(la2, 0.8*h);
+
+const propertyType =
+ document.getElementById("propertyType")?.value || "1";
+
+const annualHoi2 =
+(
+ propertyType === "3"
+   ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+   : ACTIVE_FACTORS.hoiBaseAnnual
+)
+*
+(1 + sim.hoi/100);
+
+const hoi2 =
+ (annualHoi2 *
+ (cov2 / ACTIVE_FACTORS.hoiBaseCoverage)) / 12;
+
+let pmiF2 = ltv2 > 0.8 ? (ltv2>=0.95 ? HBPMI : LBPMI+(HBPMI-LBPMI)*(ltv2-0.8)/(0.95-0.8)) : 0;
+// PMI no longer adjustable
+                    const pmi2 = (la2*pmiF2)/12;
+                    const pmt2 = pi2 + tax2 + hoi2 + pmi2;
+                    if(pmt2 <= maxPmt && dp2 + cc2 <= maxCash){
+                        best = {hp:h, la:la2, dp:dp2, cc:cc2, ltv:ltv2, pi:pi2, tax:tax2, hoi:hoi2, pmi:pmi2, pmt:pmt2, pmiF:pmiF2, cov:cov2};
+                    }
+                }
+                last = best;
+            }
+            break;
+        }
+    }
+ 
+    return last;
+}
+ 
+</script>
+<script>
+ 
+// ======================================
+// SECTION: OUTPUT RENDERING
+// ======================================
+function startNewEstimation(){
+
+    resetSimulatorState();
+
+    newEstimation = true;
+
+    runCalculator();
+
+    newEstimation = false;
+
+}
+function runCalculator(){
+
+    if(!ACTIVE_FACTORS){
+        alert("Please select a county first.");
+        return;
+    }
+
+    const term =parseInt(document.getElementById("term").value);
+const termLabel = `${term/12}-Year Fixed-Rate`;
+let rateUsed = BASE_RATE;
+if(term===360 && FR30_DEBUG!==null) rateUsed = FR30_DEBUG;
+else if(term===180 && FR15_DEBUG!==null) rateUsed = FR15_DEBUG;
+console.log("Using rate:", rateUsed);
+
+if(!newEstimation){
+    readSimulatorValues();
+}
+
+const currentSimulation = {
+    rate: simulator.rate,
+    tax: simulator.tax,
+    hoi: simulator.hoi
+};
+
+const base = calc(
+    rateUsed,
+    num("maxPayment"),
+    num("maxCash"),
+    term,
+    currentSimulation
+);
+
+if(!base){
+
+    console.warn("Calculation failed.");
+
+    console.log({
+        ACTIVE_FACTORS,
+        simulator,
+        rateUsed,
+        term
+    });
+
+    return;
+}
+
+if(!simulatorHasRun){
+
+    originalEstimate = structuredClone(base);
+
+}else{
+
+    simulatedEstimate = structuredClone(base);
+
+}
+
+const original =
+    originalEstimate ?? base;
+
+const adjusted =
+    simulatorHasRun
+        ? (simulatedEstimate ?? original)
+        : original;
+
+const piFactor =
+    original.la > 0
+        ? original.pi / (original.la / 1000)
+        : 0;
+
+const propertyType =
+ document.getElementById("propertyType")?.value || "1";
+
+const annualHoiDisplay =
+ propertyType === "3"
+   ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+   : ACTIVE_FACTORS.hoiBaseAnnual;
+
+const insuranceLabel =
+ propertyType === "3"
+   ? "HO-6 Insurance"
+   : "Home Insurance";
+
+const currentProgramRate =
+    term===180
+        ? (FR15_DEBUG ?? BASE_RATE)
+        : (FR30_DEBUG ?? BASE_RATE);
+
+const currentProgramName =
+    term===180
+        ? "15-Year Fixed-Rate"
+        : "30-Year Fixed-Rate";
+
+const miDrop =
+    original.pi > 0
+        ? term -
+          (
+            Math.log(
+                1 - ((original.hp * 0.8) * ((rateUsed/12)/original.pi))
+            ) * -1
+          ) /
+          Math.log(1 + rateUsed/12)
+        : 0;
+
+const note1 = original.pmi > 0
+  ? `Note: Based on these numbers, the PMI would be eligible to be cancelled after approximately ${Math.round(miDrop)} payments. `
+  : "";
+ 
+    // Stability Buffer Around 80% LTV
+    const PMI_BUFFER_LOW  = 0.7925;
+const PMI_BUFFER_HIGH = 0.8075;
+const ltv = original.la / original.hp;
+
+const paymentFailSafe =
+(((original.pmt / (original.hp / 1000) * 2)
++ original.pmt
+- num("maxPayment")) * -1 > 0)
+&& (ltv > 0.9);
+    const outsidePmiCusp = (ltv < PMI_BUFFER_LOW || ltv > PMI_BUFFER_HIGH);
+    const dpConstraint = paymentFailSafe && outsidePmiCusp;
+ 
+    const note2 = dpConstraint
+        ? `<p> Based on the inputs provided, the maximum home price would likely be a with less than 5% down payment.</p><p>This tool cannot calculate examples for less than 5% down payment, like FHA, VA, USDA Rural and First-Time Buyer Programs, because they have additional requirements and/or restrictions making them outside the scope of this tool.</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
+        : "";
+ 
+    const note3 =
+    (ACTIVE_FACTORS.oull &&
+     original.la > ACTIVE_FACTORS.oull)
+        ? `<p>Based on the inputs provided, the projected loan amount is greater than the conforming loan limit of $${ACTIVE_FACTORS.oull.toLocaleString()} for ${document.getElementById("county").value}, ${ACTIVE_FACTORS.sti}.</p>
+           <p>Jumbo Loans may have other requirements and/or restrictions and are outside the scope of this tool.</p><p>Jumbo program options should be discussed with a lender.</p>`
+        : "";
+ 
+const note4 =
+(original.la === 0)  ? `Note: Based on your inputs, you have the cash available to pay for a higher priced home, but the equivalent of the effective monthly taxes and homeowner’s insurance on a higher priced home could exceed the monthly housing expense you inputted for your comfort level. `
+  : "";
+
+const truncatedRate =
+Math.trunc(rateUsed / 0.00125) * 0.00125;
+
+const adjustedRate =
+(simulator.rate === 0)
+    ? rateUsed
+    : truncatedRate + (simulator.rate * 0.00125);
+
+const adjustedEstimate =
+   simulatorHasRun
+       ? (simulatedEstimate ?? original)
+       : original;
+
+const adjustedMiDrop =
+(
+   adjustedEstimate.la > 0 &&
+   adjustedEstimate.hp > 0 &&
+   adjustedEstimate.la / adjustedEstimate.hp > 0.80 &&
+   adjustedEstimate.pi > 0
+)
+?
+term -
+(
+   Math.log(
+       1 -
+       (
+           (adjustedEstimate.hp * 0.80) *
+           (
+               (adjustedRate / 12) /
+               adjustedEstimate.pi
+           )
+       )
+   ) * -1
+)
+/
+Math.log(
+   1 + adjustedRate / 12
+)
+: null;
+
+const adjustedPmiTooltip =
+adjustedMiDrop === null
+?
+`PMI is not applicable in this example.`
+:
+`Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.round(adjustedMiDrop)} payments.`; 
+    document.getElementById("output").innerHTML = `
+<div class="card">
+  ${(note2 || note3) ? `
+      ${note2 ? `<div class="neg" style="margin-bottom:8px;">${note2}</div>` : ""}
+      ${note3 ? `<div class="neg">${note3}</div>` : ""}
+  ` : `
+      <div>
+Based on what you’ve shared, and using a few conservative assumptions along with an example interest rate of <b>${(rateUsed*100).toFixed(2)}%</b>* on a <b>${termLabel} Mortgage</b>, a reasonable estimate is:
+</div>
+
+<div class="result-banner">
+
+  <div style="font-size:14px;color:#555;">
+    Estimated Home Price
+  </div>
+
+  <div class="highlight">
+    $${original.hp.toLocaleString()}
+</div>
+
+</div>
+
+<div>
+with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0
+})}</b><br><br><small style="display:block; text-align:right;">* updated weekly</small>
+  `}
+</div>${!(note2 || note3) ? `
+ 
+<div class="card">
+<div id="rotateInlineNotice"></div>
+  <h2>Estimated Monthly Payment</h2>
+  <div style="margin-bottom:10px;">
+    Here’s how the estimated monthly housing payment is made up.
+  </div>
+<table id="paymentTable" class="mono three-col-33">
+    <tr><th></th><th class="right">Monthly Estimate</th><th class="right">How it’s Calculated</th></tr>
+    <tr><td><span class="label-with-tooltip">
+      Principal &amp; Interest (P&amp;I)
+      <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          In this example, with the 1st payment, the loan balance would decrease by $${fmt(original.pi-( original.la*rateUsed/12))} from the principal portion of the payment. And in every scheduled payment thereafter, the principal portion of the payment would increase.
+        </span>
+      </span>
+    </span></td><td class="right">$${fmt(original.pi)}</td><td class="right">${ original.la > 0 ? `($${fmt(piFactor,3)} per $1,000<br>of loan amount)` : ""}
+</td></tr>
+    <tr><td>Property Taxes</td><td class="right">+ ${fmt(original.tax)}</td><td class="right">(${fmt(ACTIVE_FACTORS.tax*100,2)}% of home price<br>${document.getElementById("county").value}, ${ACTIVE_FACTORS.sti})</td></tr>
+    <tr>
+<td>${Number(propertyType) === 3
+  ? `Homeowners Insurance (Condo)
+      <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          Homeowners Insurance for a Condominium Unit is sometimes referred to as an HO-6 Policy. It covers the "walls-in" portion of the unit. The remainder of the building is typically insured by the Condominium Association as part of the Association Fees.
+        </span>
+      </span>`
+  : 'Homeowners Insurance'
+}</td>
+<td class="right">+ ${fmt(original.hoi)}</td>
+<td class="right">
+${ original.la/ original.hp > 0.8
+ ? ` ($${fmt(annualHoiDisplay,0)} per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)}<br> of loan amount) `
+ : ` ($${fmt(annualHoiDisplay,0)} per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of<br>80% of home price) `}
+</td></tr>
+    <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
+    <tr><th>${Number(propertyType) === 1
+  ? 'Total Estimated Payment'
+  : 'Total Estimated Payment, excluding any required Association Fee'}
+</th><th class="right">&#8776; $${fmt(original.pmt)}</th><th class="right">For estimates only<br>not actual numbers</th></tr>
+  </table>
+  ${note1?`<div class="neu" style="margin-top:12px;">${note1}</div>`:""}
+</div>
+ 
+<div class="card">
+  <h2>Estimated Costs to Purchase</h2>
+  <div style="margin-bottom:10px;">
+    An estimate of what buying at this price could look like.
+  </div>
+  <table class="mono three-col-33">
+    <tr><th></th><th class="right">Estimated Amount</th><th class="right">Notes</th></tr>
+    <tr><td>Home Price</td><td class="right">$${ original.hp.toLocaleString()}</td><td></td></tr>
+    <tr>
+  <td>
+
+<span class="label-with-tooltip">
+  Loan Amount
+  <span class="tooltip-icon">ⓘ
+    <span class="tooltip-text">
+
+${(() => {
+
+  const P =  original.la;
+  const r = rateUsed / 12;
+
+  function bal(n){
+    if(P <= 0) return 0;
+
+    const pmt =
+      P *
+      (r * Math.pow(1+r,term)) /
+      (Math.pow(1+r,term)-1);
+
+    return Math.max(
+      0,
+      P*Math.pow(1+r,n)
+      -
+      pmt *
+      (
+        (Math.pow(1+r,n)-1)/r
+      )
+    );
+  }
+
+  if(term === 360){
+
+    return `
+      <b>Estimated Remaining Loan Balance After -</b><br><br>
+
+      60 Payments (5-Years):
+      $${Math.round(bal(60)).toLocaleString()}<br>
+
+      120 Payments (10-Years):
+      $${Math.round(bal(120)).toLocaleString()}<br>
+
+      180 Payments (15-Years):
+      $${Math.round(bal(180)).toLocaleString()}<br>
+
+      240 Payments (20-Years):
+      $${Math.round(bal(240)).toLocaleString()}<br>
+
+      300 Payments (25-Years):
+      $${Math.round(bal(300)).toLocaleString()}<br>
+
+      360 Payments (30-Years):
+      $0
+    `;
+
+  } else {
+
+    return `
+      <b>Estimated Remaining Loan Balance After -</b><br><br>
+
+      60 Payments (5-Years):
+      $${Math.round(bal(60)).toLocaleString()}<br>
+
+      120 Payments (10-Years):
+      $${Math.round(bal(120)).toLocaleString()}<br>
+
+      180 Payments (15-Years):
+      $0
+    `;
+  }
+
+})()}
+
+    </span>
+  </span>
+</span>
+
+  </td>
+
+  <td class="right">
+    - ${ original.la.toLocaleString()}
+  </td>
+
+  <td class="right">
+    ${ original.la > 0
+      ? `(${fmt((original.la/ original.hp*100),2)}% <br>loan-to-value)`
+      : ""}
+  </td>
+</tr>
+    <tr>
+  <td>Down Payment</td>
+  <td class="right">= $${( original.hp- original.la).toLocaleString()}</td>
+  <td class="right">${ original.la > 0 ? `(${fmt(((original.hp- original.la)/ original.hp*100),2)}%<br> down payment)` : ""}</td>
+</tr>
+    <td>Estimated Closing Costs</td>
+  <td class="right">+ ${ original.cc.toLocaleString()}</td>
+  <td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td>
+</tr>
+    <tr><th>Estimated Cash Needed</th><th class="right">&#8776; $${( original.hp- original.la+ original.cc).toLocaleString()}</th><th class="right">For estimates only<br>not actual numbers</th></tr>
+  </table>
+${note4?`<div class="neu" style="margin-top:12px;">${note4}</div>`:""}
+</div>
+ 
+<div class="card">
+  <h2>Adjust Assumptions</h2>
+
+<div style="margin-bottom:14px;">
+
+The estimate above is based on several assumptions, including the interest rate, property taxes, and homeowners’ insurance.
+
+Use the controls below to see how changing one or more assumptions affects the estimated home price while keeping your monthly payment target the same.
+
+</div>
+
+<div class="simulator-card">
+
+<h3>Interactive What-If Calculator</h3>
+
+<div class="sliderRow">
+<div class="sliderHeader">
+<span>Interest Rate (${currentProgramName})
+</span>
+<span class="sliderValue" id="rateSliderValue">
+${
+(
+(() => {
+
+    const truncatedRate =
+        Math.trunc(rateUsed / 0.00125) * 0.00125;
+
+    return (
+        simulator.rate === 0
+            ? rateUsed
+            : truncatedRate + (simulator.rate * 0.00125)
+    );
+
+})()
+)*100
+.toFixed(3)
+}%
+</span>
+</div>
+<input
+type="range"
+id="rateSlider"
+min="-24"
+max="24"
+value="${simulator.rate}"
+step="1">
+</div>
+
+<div class="sliderRow">
+
+<div class="sliderHeader">
+
+<span>Property Taxes (% of home value per year)</span>
+
+<span class="sliderValue" id="taxSliderValue">
+${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%
+</span>
+
+</div>
+
+<div
+id="taxEquivalent"
+style="
+    text-align:right;
+    font-size:12px;
+    color:#666;
+    margin:-2px 0 8px 0;
+    font-style:italic;
+">
+Equivalent to
+$${fmt(
+300000 *
+ACTIVE_FACTORS.tax *
+(1 + simulator.tax/100),
+0
+)} per year on a $300,000 home
+</div>
+
+<input
+type="range"
+id="taxSlider"
+min="-50"
+max="50"
+value="${simulator.tax}"
+step="1">
+
+</div>
+<div class="sliderRow">
+
+<div class="sliderHeader">
+
+<span>
+${Number(propertyType)===3
+    ? "HO-6 Insurance"
+    : "Home Insurance"}
+(per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of dwelling coverage per year)
+</span>
+
+<span class="sliderValue"
+id="hoiSliderValue">
+$${fmt(
+annualHoiDisplay * (1 + simulator.hoi/100),
+0
+)}
+</span>
+
+</div>
+
+<input
+type="range"
+id="hoiSlider"
+min="-50"
+max="50"
+value="${simulator.hoi}"
+step="1">
+
+</div>
+
+<button
+class="simulatorReset"
+id="resetSimulator">
+
+Rerun Using Adjustments
+
+</button>
+
+<button
+type="button"
+id="restoreDefaults"
+style="margin-top:10px;background:#777;">
+
+Restore Original Assumptions
+
+</button>
+
+</div>
+
+<div class="card"
+style="margin-top:20px;
+
+display:${simulatorHasRun ? "block" : "none"};">
+
+<h2>Adjusted Assumptions</h2>
+
+<div style="margin-bottom:12px;"></div>
+
+<table class="mono">
+<tr>
+<td>Interest Rate</td>
+<td class="right">
+${
+(() => {
+
+   const truncatedRate =
+       Math.trunc(rateUsed / 0.00125) * 0.00125;
+
+   const displayRate =
+       simulator.rate === 0
+           ? rateUsed
+           : truncatedRate + (simulator.rate * 0.00125);
+
+   return (displayRate * 100).toFixed(3);
+
+})()
+}%
+</td>
+</tr>
+
+<tr>
+<td>Property Tax Rate</td>
+<td class="right">
+${fmt(ACTIVE_FACTORS.tax*(1+simulator.tax/100)*100,2)}%
+</td>
+</tr>
+
+<tr>
+<td>${insuranceLabel}</td>
+<td class="right">
+$${fmt(
+annualHoiDisplay*(1+simulator.hoi/100),
+0
+)}
+</td>
+</tr>
+<tr><td></td><td></td></tr>
+<th>
+    <span style="font-size:18px;font-weight:700;">
+        Adjusted Home Price Estimate
+    </span>
+</th>
+
+<th class="center">
+
+<span style="font-size:24px;font-weight:700;">
+    $${adjusted.hp.toLocaleString()}
+</span>
+
+<div style="margin-top:4px;font-size:14px;font-weight:600;">
+${
+(() => {
+    const diff = adjusted.hp - original.hp;
+
+    if (diff > 0) {
+        return `
+            <span class="pos">$${Math.abs(diff).toLocaleString()} higher</span>
+            <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
+                than original estimate
+            </div>
+        `;
+    }
+
+    if (diff < 0) {
+        return `
+            <span class="neg">$${Math.abs(diff).toLocaleString()} lower</span>
+            <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
+                than original estimate
+            </div>
+        `;
+    }
+
+    return `
+        <span class="neu">No change</span>
+        <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
+            from original estimate
+        </div>
+    `;
+})()
+}
+</div>
+
+</th>
+</tr>
+
+<tr><td></td><td></td></tr>
+
+<tr><td><b>Estimated Monthly Payment:</b></td><td></td></tr>
+
+<tr><td>Principal & Interest</td><td align="right">$${fmt(adjusted.pi)}</td></tr>
+<tr><td>Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
+<tr><td>HOI</td><td align="right">+ $${fmt(adjusted.hoi)}</td></tr>
+<tr>
+
+<td>
+
+PMI
+
+<span class="tooltip-icon">ⓘ
+
+<span class="tooltip-text">
+
+${adjustedPmiTooltip}
+
+</span>
+
+</span>
+
+</td>
+
+<td align="right">
+
++ $${fmt(adjusted.pmi)}
+
+</td>
+
+</tr>
+
+<tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td></tr>
+
+<tr><td></td><td></td></tr>
+
+<tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
+
+<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
+<tr><td>Loan Amount</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
+<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
+
+<tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
+
+<tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></td></tr>
+
+</table>
+
+</div>
+</div>
+ 
+` : ""}
+ 
+  <div style="text-align:center; margin-top:24px;">
+
+<button
+id="printButton"
+type="button"
+onclick="printEstimator()"
+style="
+max-width:280px;
+margin:0 auto 18px auto;
+display:block;
+background:#555;
+">
+ Print / Save as PDF
+</button>
+
+<a href="https://hp-estimator.com/references"
+title="References / Terms of Use / Q&A's"
+target="_blank"
+rel="noopener noreferrer">
+
+References / Terms of Use / Q&A’s
+
+</a>
+
+</div> 
+    `;
+ 
+    if(document.getElementById("rateSlider")){
+    initializeSimulator();
+}
+
+setTimeout(handleInlineRotateNotice,100);
+ 
+}
+ 
+// ======================================
+// SECTION: INITIALIZATION
+// ======================================
+ 
+// ----- SUBSECTION: INIT FLOW -----
+async function init() {
+
+    await loadBaseRateAll();
+
+    await loadCSV();
+
+}
+ 
+window.addEventListener("DOMContentLoaded", init);
+window.addEventListener("DOMContentLoaded", () => {
+  updatePaymentHelper();
+  updateStateRequired();
+  updateCountyRequired();
+});
+
+  document
+    .getElementById("propertyType")
+    .addEventListener("change", updatePaymentHelper);
+
+  document
+    .getElementById("cityInput")
+    .addEventListener("input", updateCountyRequired);
+
+// ======================================
+// SIMULATOR UI
+// ======================================
+
+function updateSimulatorLabels(){
+
+    const ids = [
+    ["rate","rateSliderValue"],
+    ["tax","taxSliderValue"],
+    ["hoi","hoiSliderValue"]
+];
+
+    ids.forEach(([name,label])=>{
+
+        const slider =
+            document.getElementById(name+"Slider");
+
+        const output =
+            document.getElementById(label);
+
+        if(!slider || !output) return;
+
+        const v = simulator[name];
+
+slider.value = v;
+
+if(name==="rate"){
+
+    const term =
+        parseInt(document.getElementById("term").value);
+
+    const fetchedRate =
+        term===180
+            ? (FR15_DEBUG ?? BASE_RATE)
+            : (FR30_DEBUG ?? BASE_RATE);
+
+    const truncatedRate =
+        Math.trunc(fetchedRate / 0.00125) * 0.00125;
+
+    const displayRate =
+        simulator.rate === 0
+            ? fetchedRate
+            : truncatedRate + (simulator.rate * 0.00125);
+
+    output.textContent =
+        (displayRate * 100).toFixed(3) + "%";
+
+}else if(name==="tax"){
+
+    const taxRate =
+ACTIVE_FACTORS.tax *
+(1 + simulator.tax/100);
+
+output.textContent =
+(taxRate * 100).toFixed(2) + "%";
+
+const taxEquivalent =
+document.getElementById("taxEquivalent");
+
+if(taxEquivalent){
+
+    taxEquivalent.textContent =
+        "Equivalent to $" +
+        fmt(300000 * taxRate, 0) +
+        " per year on a $300,000 home";
+
+}
+
+}else{
+
+    const propertyType =
+        document.getElementById("propertyType")?.value || "1";
+
+    const annualBase =
+        propertyType==="3"
+        ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+        : ACTIVE_FACTORS.hoiBaseAnnual;
+
+    output.textContent =
+        "$" +
+        fmt(
+            annualBase *
+            (1 + simulator.hoi/100),
+            0
+        );
+
+}
+
+    });
+
+}
+
+function initializeSimulator(){
+
+    updateSimulatorLabels();
+
+["rate","tax","hoi"].forEach(name=>{
+
+    const slider =
+        document.getElementById(name+"Slider");
+
+    if(!slider) return;
+
+    slider.oninput = function(){
+
+    simulator[name] =
+        Number(this.value);
+
+    updateSimulatorLabels();
+
+};
+
+});
+
+const restoreButton =
+    document.getElementById("resetSimulator");
+
+if(restoreButton){
+
+    restoreButton.onclick = function(){
+
+    simulatorHasRun = true;
+
+    simulatedEstimate = null;
+
+    runCalculator();
+
+    window.scrollTo({
+            top:document.getElementById("output").offsetTop-20,
+            behavior:"smooth"
+        });
+
+    };
+
+}
+
+const defaultsButton =
+    document.getElementById("restoreDefaults");
+
+if(defaultsButton){
+
+    defaultsButton.onclick = function(){
+
+        resetSimulatorState();
+
+        updateSimulatorLabels();
+
+        runCalculator();
+
+    };
+
+}
+
+
+}
+
+
+function handleInlineRotateNotice() {
+ const notice = document.getElementById("rotateInlineNotice");
+ const table = document.getElementById("paymentTable");
+ 
+ if (!notice || !table) return;
+ 
+ const isMobile = /iPhone|Android/i.test(navigator.userAgent);
+ const isPortrait = window.innerHeight > window.innerWidth;
+ 
+  //  iPhone-safe detection
+  const hasOverflow =
+    table.scrollWidth > table.clientWidth + 5 ||
+    table.getBoundingClientRect().width > window.innerWidth;
+ 
+  if (isMobile && isPortrait && hasOverflow) {
+    notice.style.display = "block";
+ 
+    notice.innerHTML = "Rotate your device sideways → for a better view";
+ 
+    setTimeout(() => {
+      notice.style.display = "none";
+    }, 5000);
+ 
+  } else {
+    notice.style.display = "none";
+  }
+}
+// Run AFTER output renders
+setTimeout(handleInlineRotateNotice, 300);
+ 
+// Re-run on rotation
+window.addEventListener("resize", handleInlineRotateNotice);
+ 
+setTimeout(() => {
+    const overlay = document.getElementById("loadingOverlay");
+    if (overlay && overlay.style.display !== "none") {
+        overlay.querySelector(".loadingText").innerHTML =
+            "Still loading… just a moment longer.";
+    }
+}, 5000);                                                                                                                     
+window.addEventListener("load", function () {
+ const overlay = document.getElementById("loadingOverlay");
+ if (overlay) overlay.style.display = "none";
+});
+
+/* ======================================
+  PRINT / SAVE AS PDF
+====================================== */
+
+function printEstimator(){
+
+   setTimeout(function(){
+
+       window.print();
+
+   },150);
+
+}
+
+</script>
+
+<div id="tooltipBackdrop"
+    class="tooltip-backdrop">
+</div>
+</body>
+</html>
 
