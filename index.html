@@ -1,6 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Home Price Estimator V66.4 ©2026
+<title>Home Price Estimator V66.4C ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -615,7 +615,7 @@ This calculator works in reverse by starting with your affordability—your budg
 <!-- ----- SUBSECTION: BUTTON SPACING ----- -->
 <div style="height:16px;"></div>
 
-<button onclick="startNewEstimation()">Run Estimation</button>
+<button id="runEstimationButton" onclick="startNewEstimation()">Run Estimation</button>
 
 </div>   <!-- ← closes .grid -->
 </div>   <!-- ← closes first .container -->
@@ -677,11 +677,53 @@ function num(id) {
     if (!isNaN(clean)) {
       el.value = clean.toLocaleString();
     }
+
+    checkOriginalInputChanges();
   };
 });
 // ======================================
 // SECTION: LOCATION LOGIC (STATE / CITY / COUNTY)
 // ======================================
+function checkOriginalInputChanges(){
+
+    if(!originalEstimate) return;
+
+    const runButton =
+        document.getElementById("runEstimationButton");
+
+    if(!runButton) return;
+
+    const currentPayment =
+        num("maxPayment");
+
+    const currentCash =
+        num("maxCash");
+
+    const currentPropertyType =
+        document.getElementById("propertyType").value;
+
+    const currentTerm =
+        document.getElementById("term").value;
+
+    const currentState =
+        document.getElementById("state").value;
+
+    const currentCounty =
+        document.getElementById("county").value;
+
+    const changed =
+        currentPayment !== originalEstimate.inputMaxPayment ||
+        currentCash !== originalEstimate.inputMaxCash ||
+        currentPropertyType !== originalEstimate.inputPropertyType ||
+        currentTerm !== originalEstimate.inputTerm ||
+        currentState !== originalEstimate.inputState ||
+        currentCounty !== originalEstimate.inputCounty;
+
+    runButton.textContent =
+        changed
+            ? "Rerun Estimation"
+            : "Run Estimation";
+}
 window.addEventListener("DOMContentLoaded", () => {
     const cityInput = document.getElementById("cityInput");
     const stateEl = document.getElementById("state");
@@ -938,6 +980,8 @@ document.getElementById("state").onchange = () => {
 
     updateCountyRequired();
 
+    checkOriginalInputChanges();
+
 };
 
 document.getElementById("county").onchange = () => {
@@ -960,6 +1004,8 @@ document.getElementById("county").onchange = () => {
     }
 
     updateCountyRequired();
+
+    checkOriginalInputChanges();
 
 };
  
@@ -1353,6 +1399,11 @@ let pmiF2 = ltv2 > 0.8 ? (ltv2>=0.95 ? HBPMI : LBPMI+(HBPMI-LBPMI)*(ltv2-0.8)/(0
 // ======================================
 function startNewEstimation(){
 
+    if(!ACTIVE_FACTORS){
+        alert("Please select a county first.");
+        return;
+    }
+
     resetSimulatorState();
 
     newEstimation = true;
@@ -1360,6 +1411,15 @@ function startNewEstimation(){
     runCalculator();
 
     newEstimation = false;
+
+    const runButton =
+        document.getElementById("runEstimationButton");
+
+    if(runButton){
+
+        runButton.textContent = "Rerun Estimation";
+
+    }
 
 }
 function runCalculator(){
@@ -1411,6 +1471,24 @@ if(!base){
 if(!simulatorHasRun){
 
     originalEstimate = structuredClone(base);
+
+    originalEstimate.inputMaxPayment =
+        num("maxPayment");
+
+    originalEstimate.inputMaxCash =
+        num("maxCash");
+
+    originalEstimate.inputPropertyType =
+        document.getElementById("propertyType").value;
+
+    originalEstimate.inputTerm =
+        document.getElementById("term").value;
+
+    originalEstimate.inputState =
+        document.getElementById("state").value;
+
+    originalEstimate.inputCounty =
+        document.getElementById("county").value;
 
 }else{
 
@@ -1836,6 +1914,18 @@ annualHoiDisplay * (1 + simulator.hoi/100),
 
 </div>
 
+<div
+id="hoiEquivalent"
+style="
+    text-align:right;
+    font-size:12px;
+    color:#666;
+    margin:-2px 0 8px 0;
+    font-style:italic;
+">
+per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of dwelling coverage per year
+</div>
+
 <input
 type="range"
 id="hoiSlider"
@@ -2027,7 +2117,7 @@ margin:0 auto 18px auto;
 display:block;
 background:#555;
 ">
- Print / Save as PDF
+ Print
 </button>
 
 <a href="resources.html"
@@ -2098,12 +2188,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("propertyType")
-    .addEventListener("change", updatePaymentHelper);
+    .addEventListener("change", function(){
 
+        updatePaymentHelper();
+        checkOriginalInputChanges();
+
+    });
   document
-    .getElementById("cityInput")
-    .addEventListener("input", updateCountyRequired);
-
+    .getElementById("term")
+    .addEventListener("change", checkOriginalInputChanges);
 // ======================================
 // SIMULATOR UI
 // ======================================
