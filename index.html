@@ -2,7 +2,7 @@
 
 <link rel="icon" type="image/png" href="ownerpal-favicon.png">
 
-<title>Home Price Estimator V68 ©2026
+<title>Home Price Estimator V68.1 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -522,7 +522,7 @@ print-color-adjust:exact;
 
     <div style="text-align:left;">
         <b>Many online mortgage payment calculators start with a home price and then estimate a house payment, using entered assumptions for down payment, interest rates, taxes, insurance and sometimes PMI.<br><br>
-This calculator works in reverse by starting with your affordability—your budget—instead of a home price. Give it a try.</b>
+This calculator works in reverse by starting with affordability (your budget) instead of a home price. Give it a try.</b>
     </div>
 
     <br>
@@ -2033,7 +2033,7 @@ ${
 
     if (diff > 0) {
         return `
-            <span class="pos">$${Math.abs(diff).toLocaleString()} higher</span>
+            <span class="pos">$${Math.abs(diff).toLocaleString()} higher (+ ${(((adjusted.hp / original.hp)-1)*100).toFixed(1)}%)</span>
             <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
                 than original estimate
             </div>
@@ -2042,7 +2042,7 @@ ${
 
     if (diff < 0) {
         return `
-            <span class="neg">$${Math.abs(diff).toLocaleString()} lower</span>
+            <span class="neg">$${Math.abs(diff).toLocaleString()} lower (- ${(((adjusted.hp / original.hp)-1)*-100).toFixed(1)}%)</span>
             <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
                 than original estimate
             </div>
