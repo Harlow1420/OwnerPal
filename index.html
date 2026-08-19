@@ -2033,7 +2033,7 @@ ${
 
     if (diff > 0) {
         return `
-            <span class="pos">$${Math.abs(diff).toLocaleString()} higher (+ ${(((adjusted.hp / original.hp)-1)*100).toFixed(1)}%)</span>
+            <span class="pos">$${Math.abs(diff).toLocaleString()} higher (+${(((adjusted.hp / original.hp)-1)*100).toFixed(1)}%)</span>
             <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
                 than original estimate
             </div>
@@ -2042,7 +2042,7 @@ ${
 
     if (diff < 0) {
         return `
-            <span class="neg">$${Math.abs(diff).toLocaleString()} lower (- ${(((adjusted.hp / original.hp)-1)*-100).toFixed(1)}%)</span>
+            <span class="neg">$${Math.abs(diff).toLocaleString()} lower (-${(((adjusted.hp / original.hp)-1)*-100).toFixed(1)}%)</span>
             <div style="margin-top:2px;font-size:12px;color:#666;text-align:center;">
                 than original estimate
             </div>
