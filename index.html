@@ -1672,7 +1672,7 @@ with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
       Principal &amp; Interest (P&amp;I)
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
-          In this example, with the 1st payment, the loan balance would decrease by $${fmt(original.pi-( original.la*rateUsed/12))} from the principal portion of the payment, which effectively increases the equity position in a home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
+          In this example, with the 1st payment the loan balance would decrease by $${fmt(original.pi-( original.la*rateUsed/12))} from the principal portion of the payment, which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
         </span>
       </span>
     </span></td><td class="right">$${fmt(original.pi)}</td><td class="right">${ original.la > 0 ? `($${fmt(piFactor,3)} per $1,000<br>of loan amount)` : ""}
