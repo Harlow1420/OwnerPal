@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V70 ©2026
+<title>Home Price Estimator V70.5 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -599,19 +599,21 @@ This calculator works in reverse by starting with affordability (your budget) in
   </label>
   <select id="state"></select>
 </div>      <div>
-        <label>Enter: City (optional)</label>
-        <input id="cityInput" placeholder="Enter city">
-      </div>
-      <div>
-        <label>
-          Select: County
-          <span id="countyRequired" style="color:#c92c2c;">
-            (required)
-          </span>
-        </label>
-        <select id="county" disabled></select>
-      </div>
-    </div>
+<label>Enter: City (optional)</label>
+<input id="cityInput" placeholder="Enter city">
+</div>
+
+<div>
+  <label>
+    <span id="countyLabel">Select: County</span>
+    <span id="countyRequired" style="color:#c92c2c;">
+      (required)
+    </span>
+  </label>
+  <select id="county" disabled></select>
+</div>
+
+</div>
 <!-- ----- SUBSECTION: BUTTON SPACING ----- -->
 <div style="height:16px;"></div>
 
