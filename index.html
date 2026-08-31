@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V70.6 ©2026
+<title>Home Price Estimator V70.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -615,12 +615,25 @@ This calculator works in reverse by starting with affordability (your budget) in
 </div>
 
 <script>
-  // Call this function AFTER GeoCode successfully
-  // populates the County.
-  function countyAutoSelected() {
-    document.getElementById("countyLabel").textContent = "County";
-    document.getElementById("countyRequired").style.display = "none";
-  }
+  // Keep the initial County label as:
+  // "Select: County (required)"
+  //
+  // When GeoCode populates the County dropdown,
+  // automatically change the label to "County".
+
+  const countySelect = document.getElementById("county");
+
+  const countyObserver = new MutationObserver(function () {
+    if (countySelect.value) {
+      document.getElementById("countyLabel").textContent = "County";
+      document.getElementById("countyRequired").style.display = "none";
+    }
+  });
+
+  countyObserver.observe(countySelect, {
+    childList: true,
+    subtree: true
+  });
 </script>
 </div>
 
