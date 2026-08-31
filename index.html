@@ -598,9 +598,10 @@ This calculator works in reverse by starting with affordability (your budget) in
     </span>
   </label>
   <select id="state"></select>
-</div>      <div>
-<label>Enter: City (optional)</label>
-<input id="cityInput" placeholder="Enter city">
+</div>      
+<div>
+  <label>Enter: City (optional)</label>
+  <input id="cityInput" placeholder="Enter city">
 </div>
 
 <div>
@@ -611,6 +612,14 @@ This calculator works in reverse by starting with affordability (your budget) in
     </span>
   </label>
   <select id="county" disabled></select>
+</div>
+
+<script>
+  // When GeoCode successfully selects the County,
+  // use these two lines:
+  document.getElementById("countyLabel").textContent = "County";
+  document.getElementById("countyRequired").style.display = "none";
+</script>
 </div>
 
 </div>
