@@ -542,20 +542,9 @@ This calculator works in reverse by starting with affordability (your budget) in
 
 </div>
 
-<div class="process-steps">
-  <div class="step-pill">1. Select a property type</div>
-  <div class="step-pill">2. Enter a comfortable monthly payment</div>
-  <div class="step-pill">3. Enter available cash for purchase</div>
-  <div class="step-pill">4. Select a loan type</div>
-  <div class="step-pill">5. Select a location</div>
-  <div class="step-pill">6. Run Estimation for a home price</div>
-</div>
-
-</div>
-
     <div class="grid">
 <div>
-  <label>Property Type</label>
+  <label>Select: Property Type</label>
   <select id="propertyType">
     <option value="1" selected>House</option>
     <option value="3">Condominium</option>
@@ -565,7 +554,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 </div> 
       <div>
         <label class="label-with-tooltip">
-  Comfortable Monthly Housing Payment
+  Enter: A Comfortable Monthly Housing Payment
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
               Some properties, such as condominiums, have a homeowners association (HOA) fee.<br><br>If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>&nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>- <u>Estimated average Association Fee</u><br>= <b>Enter</b>: Comfortable Monthly Housing Expense
@@ -580,7 +569,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 
        <div>
         <label class="label-with-tooltip">
-          Available Cash for Purchase
+          Enter: Available Cash for Purchase
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
               &nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u> *<br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
@@ -591,7 +580,7 @@ This calculator works in reverse by starting with affordability (your budget) in
       </div> 
 
         <div>
-        <label>Loan Type</label>
+        <label>Select: Loan Type</label>
         <select id="term">
           <option value="360" selected>30-Years Fixed-Rate</option>
           <option value="180">15-Years Fixed-Rate</option>
@@ -601,19 +590,19 @@ This calculator works in reverse by starting with affordability (your budget) in
     <div class="subgrid">
       <div>
   <label>
-    State
+    Select: State
     <span id="stateRequired" style="color:#c92c2c;">
       (required)
     </span>
   </label>
   <select id="state"></select>
 </div>      <div>
-        <label>City (optional)</label>
+        <label>Enter: City (optional)</label>
         <input id="cityInput" placeholder="Enter city">
       </div>
       <div>
         <label>
-          County
+          Select: County
           <span id="countyRequired" style="color:#c92c2c;">
             (required)
           </span>
@@ -1672,7 +1661,7 @@ with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
       Principal &amp; Interest (P&amp;I)
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
-          In this example, with the 1st payment the loan balance would decrease by $${fmt(original.pi-( original.la*rateUsed/12))} from the principal portion of the payment, which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
+          In this example, with the 1st payment, the loan balance would decrease by $${fmt(original.pi-( original.la*rateUsed/12))} from the principal portion of the payment which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
         </span>
       </span>
     </span></td><td class="right">$${fmt(original.pi)}</td><td class="right">${ original.la > 0 ? `($${fmt(piFactor,3)} per $1,000<br>of loan amount)` : ""}
