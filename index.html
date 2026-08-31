@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V70.7 ©2026
+<title>Home Price Estimator V70 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -598,46 +598,20 @@ This calculator works in reverse by starting with affordability (your budget) in
     </span>
   </label>
   <select id="state"></select>
-</div>      
-<div>
-  <label>Enter: City (optional)</label>
-  <input id="cityInput" placeholder="Enter city">
-</div>
-
-<div>
-  <label>
-    <span id="countyLabel">Select: County</span>
-    <span id="countyRequired" style="color:#c92c2c;">
-      (required)
-    </span>
-  </label>
-  <select id="county" disabled></select>
-</div>
-
-<script>
-  // Keep the initial County label as:
-  // "Select: County (required)"
-  //
-  // When GeoCode populates the County dropdown,
-  // automatically change the label to "County".
-
-  const countySelect = document.getElementById("county");
-
-  const countyObserver = new MutationObserver(function () {
-    if (countySelect.value) {
-      document.getElementById("countyLabel").textContent = "County";
-      document.getElementById("countyRequired").style.display = "none";
-    }
-  });
-
-  countyObserver.observe(countySelect, {
-    childList: true,
-    subtree: true
-  });
-</script>
-</div>
-
-</div>
+</div>      <div>
+        <label>Enter: City (optional)</label>
+        <input id="cityInput" placeholder="Enter city">
+      </div>
+      <div>
+        <label>
+          Select: County
+          <span id="countyRequired" style="color:#c92c2c;">
+            (required)
+          </span>
+        </label>
+        <select id="county" disabled></select>
+      </div>
+    </div>
 <!-- ----- SUBSECTION: BUTTON SPACING ----- -->
 <div style="height:16px;"></div>
 
