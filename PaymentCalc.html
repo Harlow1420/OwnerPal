@@ -1,0 +1,502 @@
+<!-- =========================================================
+     MORTGAGE PAYMENT CALCULATOR
+     3 Inputs:
+       1. Loan Amount
+       2. Interest Rate
+       3. Loan Term
+     ========================================================= -->
+
+<div id="mortgageCalculator">
+
+  <style>
+    #mortgageCalculator {
+      max-width: 760px;
+      margin: 20px auto;
+      padding: 24px;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+      color: #222;
+    }
+
+    #mortgageCalculator h2 {
+      text-align: center;
+      margin: 0 0 22px;
+      font-size: 26px;
+    }
+
+    #mortgageCalculator .input-group {
+      margin-bottom: 16px;
+    }
+
+    #mortgageCalculator label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    #mortgageCalculator input,
+    #mortgageCalculator select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px 12px;
+      font-size: 16px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      background: #fff;
+    }
+
+    #mortgageCalculator button {
+      display: block;
+      width: 100%;
+      margin: 20px 0;
+      padding: 12px;
+      border: 0;
+      border-radius: 5px;
+      background: #2d92b3;
+      color: #fff;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    #mortgageCalculator button:hover {
+      opacity: 0.9;
+    }
+
+    #mortgageCalculator .payment-result {
+      text-align: center;
+      margin: 22px 0;
+      padding: 18px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background: #f7f7f7;
+    }
+
+    #mortgageCalculator .payment-label {
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    #mortgageCalculator .payment-value {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    #mortgageCalculator .schedule-title {
+      margin: 28px 0 10px;
+      font-size: 21px;
+    }
+
+    #mortgageCalculator .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid #ddd;
+    }
+
+    #mortgageCalculator table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+
+    #mortgageCalculator th,
+    #mortgageCalculator td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    #mortgageCalculator th {
+      background: #f0f0f0;
+      font-weight: 700;
+    }
+
+    #mortgageCalculator th:first-child,
+    #mortgageCalculator td:first-child {
+      text-align: center;
+    }
+
+    #mortgageCalculator .error {
+      display: none;
+      margin-top: 8px;
+      color: #c92c2c;
+      font-size: 14px;
+    }
+  </style>
+
+
+  <h2>Mortgage Payment Calculator</h2>
+
+
+  <!-- Loan Amount -->
+  <div class="input-group">
+    <label for="mcLoanAmount">Loan Amount</label>
+    <input
+      id="mcLoanAmount"
+      type="text"
+      inputmode="decimal"
+      placeholder="Example: $300,000"
+      autocomplete="off">
+    <div id="mcLoanError" class="error">
+      Please enter a valid loan amount.
+    </div>
+  </div>
+
+
+  <!-- Interest Rate -->
+  <div class="input-group">
+    <label for="mcInterestRate">Interest Rate</label>
+
+    <select id="mcInterestRate">
+
+      <option value="0.01">1.000% (1%)</option>
+      <option value="0.01125">1.125% (1 1/8%)</option>
+      <option value="0.0125">1.250% (1 1/4%)</option>
+      <option value="0.01375">1.375% (1 3/8%)</option>
+      <option value="0.015">1.500% (1 1/2%)</option>
+      <option value="0.01625">1.625% (1 5/8%)</option>
+      <option value="0.0175">1.750% (1 3/4%)</option>
+      <option value="0.01875">1.875% (1 7/8%)</option>
+      <option value="0.02">2.000% (2%)</option>
+      <option value="0.02125">2.125% (2 1/8%)</option>
+      <option value="0.0225">2.250% (2 1/4%)</option>
+      <option value="0.02375">2.375% (2 3/8%)</option>
+      <option value="0.025">2.500% (2 1/2%)</option>
+      <option value="0.02625">2.625% (2 5/8%)</option>
+      <option value="0.0275">2.750% (2 3/4%)</option>
+      <option value="0.02875">2.875% (2 7/8%)</option>
+      <option value="0.03">3.000% (3%)</option>
+      <option value="0.03125">3.125% (3 1/8%)</option>
+      <option value="0.0325">3.250% (3 1/4%)</option>
+      <option value="0.03375">3.375% (3 3/8%)</option>
+      <option value="0.035">3.500% (3 1/2%)</option>
+      <option value="0.03625">3.625% (3 5/8%)</option>
+      <option value="0.0375">3.750% (3 3/4%)</option>
+      <option value="0.03875">3.875% (3 7/8%)</option>
+      <option value="0.04">4.000% (4%)</option>
+      <option value="0.04125">4.125% (4 1/8%)</option>
+      <option value="0.0425">4.250% (4 1/4%)</option>
+      <option value="0.04375">4.375% (4 3/8%)</option>
+      <option value="0.045">4.500% (4 1/2%)</option>
+      <option value="0.04625">4.625% (4 5/8%)</option>
+      <option value="0.0475">4.750% (4 3/4%)</option>
+      <option value="0.04875">4.875% (4 7/8%)</option>
+      <option value="0.05">5.000% (5%)</option>
+      <option value="0.05125">5.125% (5 1/8%)</option>
+      <option value="0.0525">5.250% (5 1/4%)</option>
+      <option value="0.05375">5.375% (5 3/8%)</option>
+      <option value="0.055">5.500% (5 1/2%)</option>
+      <option value="0.05625">5.625% (5 5/8%)</option>
+      <option value="0.0575">5.750% (5 3/4%)</option>
+      <option value="0.05875">5.875% (5 7/8%)</option>
+      <option value="0.06">6.000% (6%)</option>
+      <option value="0.06125">6.125% (6 1/8%)</option>
+      <option value="0.0625">6.250% (6 1/4%)</option>
+      <option value="0.06375">6.375% (6 3/8%)</option>
+      <option value="0.065">6.500% (6 1/2%)</option>
+      <option value="0.06625">6.625% (6 5/8%)</option>
+      <option value="0.0675" selected>6.750% (6 3/4%)</option>
+      <option value="0.06875">6.875% (6 7/8%)</option>
+      <option value="0.07">7.000% (7%)</option>
+      <option value="0.07125">7.125% (7 1/8%)</option>
+      <option value="0.0725">7.250% (7 1/4%)</option>
+      <option value="0.07375">7.375% (7 3/8%)</option>
+      <option value="0.075">7.500% (7 1/2%)</option>
+      <option value="0.07625">7.625% (7 5/8%)</option>
+      <option value="0.0775">7.750% (7 3/4%)</option>
+      <option value="0.07875">7.875% (7 7/8%)</option>
+      <option value="0.08">8.000% (8%)</option>
+      <option value="0.08125">8.125% (8 1/8%)</option>
+      <option value="0.0825">8.250% (8 1/4%)</option>
+      <option value="0.08375">8.375% (8 3/8%)</option>
+      <option value="0.085">8.500% (8 1/2%)</option>
+      <option value="0.08625">8.625% (8 5/8%)</option>
+      <option value="0.0875">8.750% (8 3/4%)</option>
+      <option value="0.08875">8.875% (8 7/8%)</option>
+      <option value="0.09">9.000% (9%)</option>
+      <option value="0.09125">9.125% (9 1/8%)</option>
+      <option value="0.0925">9.250% (9 1/4%)</option>
+      <option value="0.09375">9.375% (9 3/8%)</option>
+      <option value="0.095">9.500% (9 1/2%)</option>
+      <option value="0.09625">9.625% (9 5/8%)</option>
+      <option value="0.0975">9.750% (9 3/4%)</option>
+      <option value="0.09875">9.875% (9 7/8%)</option>
+      <option value="0.10">10.000% (10%)</option>
+
+    </select>
+  </div>
+
+
+  <!-- Loan Term -->
+  <div class="input-group">
+    <label for="mcLoanTerm">Loan Term</label>
+
+    <select id="mcLoanTerm">
+      <option value="180">15-Year Fixed Rate (180-Months)</option>
+      <option value="240">20-Year Fixed Rate (240-Months)</option>
+      <option value="360" selected>30-Year Fixed Rate (360-Months)</option>
+    </select>
+  </div>
+
+
+  <button type="button" id="mcCalculate">
+    Calculate Monthly Payment
+  </button>
+
+
+  <!-- Monthly Payment -->
+  <div class="payment-result">
+    <div class="payment-label">Monthly Principal &amp; Interest Payment</div>
+    <div class="payment-value" id="mcMonthlyPayment">$0.00</div>
+  </div>
+
+
+  <!-- Amortization Schedule -->
+  <h3 class="schedule-title">Amortization Schedule</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Payment</th>
+          <th>Principal</th>
+          <th>Interest</th>
+          <th>Loan Balance</th>
+        </tr>
+      </thead>
+
+      <tbody id="mcScheduleBody">
+        <tr>
+          <td colspan="4" style="text-align:center;">
+            Enter a loan amount and select your assumptions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <script>
+    (function () {
+
+      const loanInput = document.getElementById("mcLoanAmount");
+      const rateInput = document.getElementById("mcInterestRate");
+      const termInput = document.getElementById("mcLoanTerm");
+      const calculateButton = document.getElementById("mcCalculate");
+      const paymentOutput = document.getElementById("mcMonthlyPayment");
+      const scheduleBody = document.getElementById("mcScheduleBody");
+      const errorOutput = document.getElementById("mcLoanError");
+
+
+      function parseLoanAmount(value) {
+
+        if (!value) return 0;
+
+        // Remove currency symbols, commas, spaces, etc.
+        const cleaned = value.replace(/[^0-9.]/g, "");
+        const amount = parseFloat(cleaned);
+
+        return isFinite(amount) ? amount : 0;
+      }
+
+
+      function money(value) {
+
+        return value.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+
+      }
+
+
+      function calculateMortgage() {
+
+        const principal = parseLoanAmount(loanInput.value);
+        const annualRate = parseFloat(rateInput.value);
+        const numberOfPayments = parseInt(termInput.value, 10);
+
+        errorOutput.style.display = "none";
+
+
+        if (!principal || principal <= 0) {
+
+          errorOutput.style.display = "block";
+          paymentOutput.textContent = "$0.00";
+
+          scheduleBody.innerHTML =
+            '<tr>' +
+            '<td colspan="4" style="text-align:center;">' +
+            'Please enter a valid loan amount.' +
+            '</td>' +
+            '</tr>';
+
+          return;
+        }
+
+
+        const monthlyRate = annualRate / 12;
+
+
+        /*
+         * Standard fixed-rate mortgage payment formula:
+         *
+         * M = P[r(1+r)^n] / [(1+r)^n - 1]
+         *
+         * Where:
+         * P = principal
+         * r = monthly interest rate
+         * n = number of payments
+         */
+
+        let scheduledPayment;
+
+
+        if (monthlyRate === 0) {
+
+          scheduledPayment = principal / numberOfPayments;
+
+        } else {
+
+          const factor = Math.pow(
+            1 + monthlyRate,
+            numberOfPayments
+          );
+
+          scheduledPayment =
+            principal *
+            (
+              monthlyRate * factor
+            ) /
+            (
+              factor - 1
+            );
+
+        }
+
+
+        // Display normal monthly payment rounded to cents.
+        const displayedPayment =
+          Math.round(scheduledPayment * 100) / 100;
+
+        paymentOutput.textContent =
+          money(displayedPayment);
+
+
+        /*
+         * Build amortization schedule.
+         *
+         * Calculations retain full precision internally.
+         * The final payment is adjusted so the ending
+         * balance reaches exactly $0.00.
+         */
+
+        let balance = principal;
+
+        let rows = "";
+
+
+        for (let paymentNumber = 1;
+             paymentNumber <= numberOfPayments;
+             paymentNumber++) {
+
+          const interest =
+            balance * monthlyRate;
+
+          let principalPaid =
+            scheduledPayment - interest;
+
+          let actualPayment =
+            scheduledPayment;
+
+
+          /*
+           * Final-payment protection.
+           *
+           * If the calculated principal would pay
+           * more than the remaining balance, reduce
+           * the final payment accordingly.
+           */
+
+          if (principalPaid > balance) {
+
+            principalPaid = balance;
+            actualPayment =
+              principalPaid + interest;
+
+          }
+
+
+          balance -= principalPaid;
+
+
+          // Prevent tiny floating-point residue.
+          if (Math.abs(balance) < 0.005) {
+            balance = 0;
+          }
+
+
+          rows +=
+            "<tr>" +
+              "<td>" + paymentNumber.toLocaleString("en-US") + "</td>" +
+              "<td>" + money(principalPaid) + "</td>" +
+              "<td>" + money(interest) + "</td>" +
+              "<td>" + money(Math.max(balance, 0)) + "</td>" +
+            "</tr>";
+
+
+          if (balance <= 0) {
+            break;
+          }
+
+        }
+
+
+        scheduleBody.innerHTML = rows;
+
+      }
+
+
+      /*
+       * Format the Loan Amount as currency when the
+       * user leaves the field.
+       */
+
+      loanInput.addEventListener("blur", function () {
+
+        const amount = parseLoanAmount(loanInput.value);
+
+        if (amount > 0) {
+          loanInput.value = money(amount);
+        }
+
+      });
+
+
+      /*
+       * Allow Enter key to calculate.
+       */
+
+      loanInput.addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+          event.preventDefault();
+          calculateMortgage();
+        }
+
+      });
+
+
+      calculateButton.addEventListener(
+        "click",
+        calculateMortgage
+      );
+
+
+    })();
+  </script>
+
+</div>
