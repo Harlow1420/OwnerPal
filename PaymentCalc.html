@@ -276,10 +276,21 @@
     </table>
   </div>
 
+  <!-- Print Button -->
+  <div style="text-align:center; margin-top:20px;">
+    <button
+      type="button"
+      id="mcPrint"
+      style="display:inline-block; width:auto; min-width:150px;
+             margin:0; padding:10px 24px; border:1px solid #2d92b3;
+             border-radius:5px; background:#2d92b3; color:#fff;
+             font-size:16px; font-weight:600; cursor:pointer;">
+       Print
+    </button>
+  </div>
 
   <script>
     (function () {
-
       const loanInput = document.getElementById("mcLoanAmount");
       const rateInput = document.getElementById("mcInterestRate");
       const termInput = document.getElementById("mcLoanTerm");
@@ -495,8 +506,32 @@
         calculateMortgage
       );
 
-
+      document.getElementById("mcPrint").addEventListener(
+        "click",
+        function () {
+          window.print();
+        }
+      );
     })();
-  </script>
+    @media print {
+      #mortgageCalculator button {
+        display: none !important;
+      }
 
+      #mortgageCalculator {
+        max-width: 100%;
+        margin: 0;
+        padding: 10px;
+      }
+
+      #mortgageCalculator .table-wrap {
+        overflow: visible;
+      }
+
+      #mortgageCalculator table {
+        min-width: 0;
+        width: 100%;
+      }
+    }
+  </script>
 </div>
