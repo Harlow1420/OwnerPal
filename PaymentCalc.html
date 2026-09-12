@@ -299,9 +299,9 @@
 
 
   <!-- Amortization Schedule -->
-<h3 class="schedule-title" id="mcScheduleTitle">
-  Amortization Schedule
-</h3>
+  <h3 class="schedule-title" id="mcScheduleTitle">
+    Amortization Schedule
+  </h3>
 
   <div class="table-wrap">
 
@@ -348,11 +348,24 @@
              font-weight:600;
              cursor:pointer;">
 
-       Print
+      Print
 
     </button>
 
   </div>
+
+
+  <!-- OwnerPal Footer -->
+  <footer style="
+    text-align:center;
+    margin-top:40px;
+    padding:18px 10px;
+    border-top:1px solid #e0e0e0;
+    font-size:13px;
+    color:#666;
+  ">
+    OwnerPal©️2026
+  </footer>
 
 
   <script>
@@ -489,39 +502,40 @@
             scheduledPayment * 100
           ) / 100;
 
-      paymentOutput.textContent =
-        money(displayedPayment);
+
+        paymentOutput.textContent =
+          money(displayedPayment);
 
 
-      /*
-       * Update Amortization Schedule heading
-       * using the assumptions actually calculated.
-       */
+        /*
+         * Update Amortization Schedule heading
+         * using the assumptions actually calculated.
+         */
 
-      const selectedRateText =
-        rateInput.options[
-          rateInput.selectedIndex
-        ].textContent;
+        const selectedRateText =
+          rateInput.options[
+            rateInput.selectedIndex
+          ].textContent;
 
-      const selectedTermText =
-        termInput.options[
-          termInput.selectedIndex
-        ].textContent;
+        const selectedTermText =
+          termInput.options[
+            termInput.selectedIndex
+          ].textContent;
 
-      const scheduleTitle =
-        document.getElementById("mcScheduleTitle");
+        const scheduleTitle =
+          document.getElementById("mcScheduleTitle");
 
-      scheduleTitle.textContent =
-        "Amortization Schedule: " +
-        money(principal) +
-        " Loan Amount at " +
-        selectedRateText +
-        " on a " +
-        selectedTermText;
+        scheduleTitle.textContent =
+          "Amortization Schedule: " +
+          money(principal) +
+          " Loan Amount at " +
+          selectedRateText +
+          " on a " +
+          selectedTermText;
 
 
-      /*
-       * Build amortization schedule.
+        /*
+         * Build amortization schedule.
          *
          * Calculations retain full precision internally.
          * The final payment is adjusted so the ending
