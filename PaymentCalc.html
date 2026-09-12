@@ -420,6 +420,24 @@
       }
 
 
+      /*
+       * Currency formatting without decimal places.
+       * Used only for the loan amount displayed
+       * in the Amortization Schedule heading.
+       */
+
+      function moneyNoCents(value) {
+
+        return value.toLocaleString("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        });
+
+      }
+
+
       function calculateMortgage() {
 
         const principal =
@@ -527,7 +545,7 @@
 
         scheduleTitle.textContent =
           "Amortization Schedule: " +
-          money(principal) +
+          moneyNoCents(principal) +
           " Loan Amount at " +
           selectedRateText +
           " on a " +
