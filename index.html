@@ -523,7 +523,7 @@ print-color-adjust:exact;
 <!-- ====================================== -->
 <div class="container">
  <div class="header-container">
-   <div class="header-left" style="color:#2d92b3;">Home Price Estimator<small><small>, a smarter way to think about a home search.</small></small></div>
+   <div class="header-left" style="color:#2d92b3;">Home Price Estimator<small>, a smarter way to think about a home search.</small></div>
 
 <div class="trust-row">
 
@@ -615,7 +615,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ----- SUBSECTION: BUTTON SPACING ----- -->
 <div style="height:16px;"></div>
 
-<button id="runEstimationButton" onclick="startNewEstimation()">Run Estimation</button>
+<button id="runEstimationButton" onclick="startNewEstimation()">Run Estimation<br><small><small>scroll down to view</small></small></button>
 
 </div>   <!-- ← closes .grid -->
 </div>   <!-- ← closes first .container -->
@@ -1897,8 +1897,8 @@ ACTIVE_FACTORS.tax *
 <input
 type="range"
 id="taxSlider"
-min="-75"
-max="75"
+min="-100"
+max="100"
 value="${simulator.tax}"
 step="1">
 
@@ -1938,8 +1938,8 @@ per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of dwelling coverage per year
 <input
 type="range"
 id="hoiSlider"
-min="-75"
-max="75"
+min="-100"
+max="100"
 value="${simulator.hoi}"
 step="1">
 
@@ -1949,7 +1949,7 @@ step="1">
 class="simulatorReset"
 id="resetSimulator">
 
-Rerun Using Adjustments
+Rerun Using Adjustments<br><small><small>scroll down to view</small></small>
 
 </button>
 
