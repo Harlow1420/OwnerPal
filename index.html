@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V71 ©2026
+<title>Home Price Estimator V71.5 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -719,10 +719,9 @@ function checkOriginalInputChanges(){
         currentState !== originalEstimate.inputState ||
         currentCounty !== originalEstimate.inputCounty;
 
-    runButton.textContent =
-        changed
-            ? "Rerun Estimation"
-            : "Run Estimation";
+    runEstimationButton.innerHTML = changed
+        ? 'Rerun Estimation<br><small><small>then scroll down to view</small></small>'
+        : 'Run Estimation<br><small><small>then scroll down to view</small></small>';
 }
 window.addEventListener("DOMContentLoaded", () => {
     const cityInput = document.getElementById("cityInput");
