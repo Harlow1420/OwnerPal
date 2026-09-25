@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V72.2
+<title>Home Price Estimator V72.3
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1868,7 +1868,7 @@ step="1">
 
 <div class="sliderHeader">
 
-<span>Property Taxes (% of home value per year)</span>
+<span>Property Taxes (as % of home value per year)</span>
 
 <span class="sliderValue" id="taxSliderValue">
 ${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%
@@ -1975,7 +1975,7 @@ display:${simulatorHasRun ? "block" : "none"};">
 
 <table class="mono">
 <tr>
-<td>Interest Rate (${termLabel} Mortgage)
+<td>Interest Rate on a ${termLabel} Mortgage
 </td>
 <td class="right">
 ${
@@ -2114,8 +2114,8 @@ ${adjustedPmiTooltip}
 <tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
 
 <tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
-<tr><td>Loan Amount</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
-<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
+<tr><td>Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
+<tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
 
 <tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
 
