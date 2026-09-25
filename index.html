@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V72.3
+<title>Home Price Estimator V72.5
  ©2026
 </title>
 <!-- ====================================== -->
@@ -2070,7 +2070,14 @@ ${
 
 <tr><td><b>Estimated Monthly Payment:</b></td><td></td></tr>
 
-<tr><td>Principal & Interest (P&I)</td><td align="right">$${fmt(adjusted.pi)}</td></tr>
+<tr><td><span class="label-with-tooltip">
+      Principal &amp; Interest (P&amp;I)
+      <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          In this example, with the 1st payment, the loan balance would decrease by $${fmt(adjusted.pi-( adjusted.la*adjustedRate/12))} from the principal portion of the payment which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
+        </span>
+      </span>
+    </span></td><td align="right">$${fmt(adjusted.pi)}</td></tr>
 <tr><td>Property Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
@@ -2114,7 +2121,81 @@ ${adjustedPmiTooltip}
 <tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
 
 <tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
-<tr><td>Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
+<tr><td><span class="label-with-tooltip">
+  Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}
+  <span class="tooltip-icon">ⓘ
+    <span class="tooltip-text">
+
+${(() => {
+
+  const P =  adjusted.la;
+  const r = adjustedRate / 12;
+
+  function bal(n){
+    if(P <= 0) return 0;
+
+    const pmt =
+      P *
+      (r * Math.pow(1+r,term)) /
+      (Math.pow(1+r,term)-1);
+
+    return Math.max(
+      0,
+      P*Math.pow(1+r,n)
+      -
+      pmt *
+      (
+        (Math.pow(1+r,n)-1)/r
+      )
+    );
+  }
+
+  if(term === 360){
+
+    return `
+      <b>Estimated Remaining Loan Balance After -</b><br><br>
+
+      60 Payments (5-Years):
+      $${Math.round(bal(60)).toLocaleString()}<br>
+
+      120 Payments (10-Years):
+      $${Math.round(bal(120)).toLocaleString()}<br>
+
+      180 Payments (15-Years):
+      $${Math.round(bal(180)).toLocaleString()}<br>
+
+      240 Payments (20-Years):
+      $${Math.round(bal(240)).toLocaleString()}<br>
+
+      300 Payments (25-Years):
+      $${Math.round(bal(300)).toLocaleString()}<br>
+
+      360 Payments (30-Years):
+      $0
+    `;
+
+  } else {
+
+    return `
+      <b>Estimated Remaining Loan Balance After -</b><br><br>
+
+      60 Payments (5-Years):
+      $${Math.round(bal(60)).toLocaleString()}<br>
+
+      120 Payments (10-Years):
+      $${Math.round(bal(120)).toLocaleString()}<br>
+
+      180 Payments (15-Years):
+      $0
+    `;
+  }
+
+})()}
+
+    </span>
+  </span>
+</span>
+</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
 <tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
 
 <tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
