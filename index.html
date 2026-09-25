@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V72.5
+<title>Home Price Estimator V72.6
  ©2026
 </title>
 <!-- ====================================== -->
@@ -2094,16 +2094,6 @@ ${
 
 Private Mortgage Insurance (PMI)
 
-<span class="tooltip-icon">ⓘ
-
-<span class="tooltip-text">
-
-${adjustedPmiTooltip}
-
-</span>
-
-</span>
-
 </td>
 
 <td align="right">
@@ -2115,7 +2105,11 @@ ${adjustedPmiTooltip}
 </tr>
 
 <tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td></tr>
-
+</table>
+${adjusted.la / adjusted.hp > 0.8
+  ? `<small style="display:block; text-align:center;"><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.round(adjustedMiDrop)} payments.</small>`
+  : ""}
+<table class="mono">
 <tr><td></td><td></td></tr>
 
 <tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
