@@ -9,7 +9,8 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V71.5 ©2026
+<title>Home Price Estimator V72.2
+ ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1617,7 +1618,7 @@ Math.log(
 const adjustedPmiTooltip =
 adjustedMiDrop === null
 ?
-`PMI is not applicable in this example.`
+`PMI is not required in this example.`
 :
 `Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.round(adjustedMiDrop)} payments.`; 
     document.getElementById("output").innerHTML = `
@@ -1907,10 +1908,10 @@ step="1">
 <div class="sliderHeader">
 
 <span>
-${Number(propertyType)===3
-    ? "HO-6 Insurance"
-    : "Home Insurance"}
-</span>
+${Number(propertyType) === 3
+  ? 'Homeowners Insurance (Condo)'
+  : 'Homeowners Insurance'
+}</span>
 
 <span class="sliderValue"
 id="hoiSliderValue">
@@ -1974,7 +1975,8 @@ display:${simulatorHasRun ? "block" : "none"};">
 
 <table class="mono">
 <tr>
-<td>Interest Rate</td>
+<td>Interest Rate (${termLabel} Mortgage)
+</td>
 <td class="right">
 ${
 (() => {
@@ -1995,14 +1997,19 @@ ${
 </tr>
 
 <tr>
-<td>Property Tax Rate</td>
+<td>Property Tax Rate (as % of home value per year)</td>
 <td class="right">
 ${fmt(ACTIVE_FACTORS.tax*(1+simulator.tax/100)*100,2)}%
 </td>
 </tr>
 
 <tr>
-<td>${insuranceLabel}</td>
+<td>${Number(propertyType) === 3
+  ? 'Homeowners Insurance (Condo)'
+  : 'Homeowners Insurance'
+}${ adjusted.la/ adjusted.hp > 0.8
+ ? `, per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of loan amount `
+ : `, per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of 80% of home price `}</td>
 <td class="right">
 $${fmt(
 annualHoiDisplay*(1+simulator.hoi/100),
@@ -2063,14 +2070,22 @@ ${
 
 <tr><td><b>Estimated Monthly Payment:</b></td><td></td></tr>
 
-<tr><td>Principal & Interest</td><td align="right">$${fmt(adjusted.pi)}</td></tr>
-<tr><td>Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
-<tr><td>HOI</td><td align="right">+ $${fmt(adjusted.hoi)}</td></tr>
+<tr><td>Principal & Interest (P&I)</td><td align="right">$${fmt(adjusted.pi)}</td></tr>
+<tr><td>Property Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
+<tr><td>${Number(propertyType) === 3
+  ? `Homeowners Insurance (Condo)
+      <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          Homeowners Insurance for a Condominium Unit is sometimes referred to as an HO-6 Policy. It covers the "walls-in" portion of the unit. The remainder of the building is typically insured by the Condominium Association as part of the Association Fees.
+        </span>
+      </span>`
+  : 'Homeowners Insurance'
+}</td><td align="right">+ $${fmt(adjusted.hoi)}</td></tr>
 <tr>
 
 <td>
 
-PMI
+Private Mortgage Insurance (PMI)
 
 <span class="tooltip-icon">ⓘ
 
