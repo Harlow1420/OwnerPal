@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V72.6
+<title>Home Price Estimator V72.7
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1544,7 +1544,7 @@ const miDrop =
         : 0;
 
 const note1 = original.pmi > 0
-  ? `Note: Based on these numbers, the PMI would be eligible to be cancelled after approximately ${Math.round(miDrop)} payments. `
+  ? `Note: Based on these numbers, the PMI would be eligible to be cancelled after approximately ${Math.ceil(miDrop)} payments. `
   : "";
  
     // Stability Buffer Around 80% LTV
@@ -1620,7 +1620,7 @@ adjustedMiDrop === null
 ?
 `PMI is not required in this example.`
 :
-`Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.round(adjustedMiDrop)} payments.`; 
+`Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.`; 
     document.getElementById("output").innerHTML = `
 <div class="card">
   ${(note2 || note3) ? `
