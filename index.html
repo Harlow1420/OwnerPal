@@ -2107,7 +2107,7 @@ Private Mortgage Insurance (PMI)
 <tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td></tr>
 </table>
 ${adjusted.la / adjusted.hp > 0.8
-  ? `<small style="display:block; text-align:center;"><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.round(adjustedMiDrop)} payments.</small>`
+  ? `<small style="display:block; text-align:center;"><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}
 <table class="mono">
 <tr><td></td><td></td></tr>
