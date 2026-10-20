@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V72.9
+<title>Home Price Estimator V73
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1430,7 +1430,7 @@ function runCalculator(){
     }
 
     const term =parseInt(document.getElementById("term").value);
-const termLabel = `${term/12}-Year Fixed-Rate`;
+const termLabel = `${term/12}-Year Fixed Rate`;
 let rateUsed = BASE_RATE;
 if(term===360 && FR30_DEBUG!==null) rateUsed = FR30_DEBUG;
 else if(term===180 && FR15_DEBUG!==null) rateUsed = FR15_DEBUG;
@@ -1529,8 +1529,8 @@ const currentProgramRate =
 
 const currentProgramName =
     term===180
-        ? "15-Year Fixed-Rate"
-        : "30-Year Fixed-Rate";
+        ? "15-Year Fixed Rate"
+        : "30-Year Fixed Rate";
 
 const miDrop =
     original.pi > 0
@@ -1801,7 +1801,7 @@ ${(() => {
   <td class="right">+ ${ original.cc.toLocaleString()}</td>
   <td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td>
 </tr>
-    <tr><th>Estimated Cash Needed</th><th class="right">&#8776; $${( original.hp- original.la+ original.cc).toLocaleString()}</th><th class="right">For illustration<br> only, not actual<br>numbers</th></tr>
+    <tr><th>Estimated Cash Needed</th><th class="right">&#8776; $${( original.hp- original.la+ original.cc).toLocaleString()}</th><th class="right">For illustration<br>only, not actual<br>numbers</th></tr>
   </table>
 ${note4?`<div class="neu" style="margin-top:12px;">${note4}</div>`:""}
 </div>
