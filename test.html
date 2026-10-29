@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74
+<title>Home Price Estimator V73
  ©2026
 </title>
 <!-- ====================================== -->
@@ -821,7 +821,7 @@ console.log("PMI Loaded:", {
 }
  
 // ----- SUBSECTION: LOAD CSV -----
-const CSV_URL = "https://raw.githubusercontent.com/Harlow1420/OwnerPal/main/Data.csv";
+const CSV_URL = "https://raw.githubusercontent.com/Harlow1420/MHP-Estimator/main/EPTRBC.csv";
  
 let COUNTY_DATA = {};
 let ACTIVE_FACTORS = null;
@@ -877,7 +877,7 @@ async function loadCSV() {
     try {
         const text = await fetchTextWithRetry(CSV_URL, 2);
  
-        const rows = text.trim().split("\n").slice(1);
+        const [s, c, tax, cc, cov, hoi, oull, sti, ho3, ho6per] = cols;
  
         rows.forEach(r => {
     if (!r) return;
@@ -899,7 +899,8 @@ async function loadCSV() {
     hoiBaseAnnual: parseFloat(hoi) || 0,
     oull: oull ? parseFloat(oull) : null,
     sti: sti || "",
-    ho3: parseFloat(ho3) || null
+    ho3: parseFloat(ho3) || null,
+          ho6per: parseFloat(ho6per) ||
 };
         });
  
@@ -1298,16 +1299,27 @@ const taxRate =
     ACTIVE_FACTORS.tax *
     (1 + sim.tax/100);
 
-const tax =
-    (hp * taxRate)/12;
+const cov = Math.max(la, 0.8*h);
+    const propertyType =
+      document.getElementById("propertyType")?.value || "1";
 
-const cov =
-    Math.max(la, 0.8*hp);
-        const propertyType =
- document.getElementById("propertyType")?.value || "1";
+    const hoiAmt = Number(propertyType) === 3
+      ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+      : ACTIVE_FACTORS.hoiBaseCoverage;
 
-const annualHoiBase =
- propertyType === "3"
+    const annualHoiBase =
+      propertyType === "3"
+        ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+        : ACTIVE_FACTORS.hoiBaseAnnual;
+
+    const annualHoi =
+      annualHoiBase * (1 + sim.hoi/100);
+
+    const hoi =
+      (annualHoi * (cov / hoiAmt)) / 12;
+
+    let pmiF = ltv > 0.8
+      ? (ltv >= 0.95
    ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
    : ACTIVE_FACTORS.hoiBaseAnnual;
 
@@ -1357,15 +1369,25 @@ const tax2 =
 (h * ACTIVE_FACTORS.tax *
 (1 + sim.tax/100))/12;
 const cov2 = Math.max(la2, 0.8*h);
+    const propertyType =
+      document.getElementById("propertyType")?.value || "1";
 
-const propertyType =
- document.getElementById("propertyType")?.value || "1";
+    const hoiAmt = Number(propertyType) === 3
+      ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+      : ACTIVE_FACTORS.hoiBaseCoverage;
 
-const annualHoi2 =
-(
- propertyType === "3"
-   ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
-   : ACTIVE_FACTORS.hoiBaseAnnual
+    const annualHoi2 =
+      (
+        propertyType === "3"
+          ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+          : ACTIVE_FACTORS.hoiBaseAnnual
+      ) *
+      (1 + sim.hoi/100);
+
+    const hoi2 =
+      (annualHoi2 * (cov2 / hoiAmt)) / 12;
+
+    let pmiF2 = ltv2 > 0.8   : ACTIVE_FACTORS.hoiBaseAnnual
 )
 *
 (1 + sim.hoi/100);
@@ -1510,15 +1532,19 @@ const piFactor =
         : 0;
 
 const propertyType =
- document.getElementById("propertyType")?.value || "1";
+  document.getElementById("propertyType")?.value || "1";
+
+const hoiAmt = Number(propertyType) === 3
+  ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+  : ACTIVE_FACTORS.hoiBaseCoverage;
 
 const annualHoiDisplay =
- propertyType === "3"
-   ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
-   : ACTIVE_FACTORS.hoiBaseAnnual;
+  propertyType === "3"
+    ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
+    : ACTIVE_FACTORS.hoiBaseAnnual;
 
 const insuranceLabel =
- propertyType === "3"
+  propertyType === "3"
    ? "HO-6 Insurance"
    : "Home Insurance";
 
@@ -1682,9 +1708,10 @@ with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
 <td class="right">+ ${fmt(original.hoi)}</td>
 <td class="right">
 ${ original.la/ original.hp > 0.8
- ? ` ($${fmt(annualHoiDisplay,0)} per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)}<br> of loan amount) `
- : ` ($${fmt(annualHoiDisplay,0)} per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of<br>80% of home price) `}
-</td></tr>
+? ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)}<br> of loan
+amount) `
+: ` ($${fmt(annualHoiDisplay,0)}/$${fmt(hoiAmt,0)} of<br>80% of
+home price) `}</td></tr>
     <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
     <tr><th>${Number(propertyType) === 1
   ? 'Total Estimated Payment'
@@ -1908,11 +1935,11 @@ step="1">
 <div class="sliderHeader">
 
 <span>
-${Number(propertyType) === 3
-  ? 'Homeowners Insurance (Condo)'
-  : 'Homeowners Insurance'
-}</span>
-
+${Number(propertyType)===3
+  ? "HO-6 Insurance"
+  : "Home Insurance"}
+(per $${fmt(hoiAmt,0)})
+</span>
 <span class="sliderValue"
 id="hoiSliderValue">
 $${fmt(
