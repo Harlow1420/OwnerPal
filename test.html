@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.2
+<title>Home Price Estimator V74.3
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1981,9 +1981,16 @@ step="1">
 <div class="sliderHeader">
 
 <span>
-${Number(propertyType)===3
-  ? "HO-6 Insurance"
-  : "Home Insurance"}
+${Number(propertyType) === 3
+  ? `Homeowners Insurance (Condo)
+      <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          Homeowners Insurance for a Condominium Unit is sometimes referred to as an HO-6 Policy. It covers the "walls-in" portion of the unit. The remainder of the building is typically insured by the Condominium Association as part of the Association Fees.
+        </span>
+      </span>`
+  : 'Homeowners Insurance'
+}
+
 </span>
 <span class="sliderValue"
 id="hoiSliderValue">
