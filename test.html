@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.1
+<title>Home Price Estimator V74.2
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1984,7 +1984,6 @@ step="1">
 ${Number(propertyType)===3
   ? "HO-6 Insurance"
   : "Home Insurance"}
-(per $${fmt(hoiAmt,0)})
 </span>
 <span class="sliderValue"
 id="hoiSliderValue">
@@ -2005,7 +2004,7 @@ style="
     margin:-2px 0 8px 0;
     font-style:italic;
 ">
-per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of dwelling coverage per year
+per $${fmt(hoiAmt,0)} of dwelling coverage per year
 </div>
 
 <input
