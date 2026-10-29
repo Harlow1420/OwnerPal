@@ -876,40 +876,55 @@ function readSimulatorValues(){
 async function loadCSV() {
     try {
         const text = await fetchTextWithRetry(CSV_URL, 2);
- 
-        const [s, c, tax, cc, cov, hoi, oull, sti, ho3, ho6per] = cols;
- 
-        rows.forEach(r => {
-    if (!r) return;
+        const rows = text.trim().split(/\r?\n/);
 
-    const cols = r.split(",");
+        // Skip the header row and read the county data.
+        rows.slice(1).forEach(r => {
+            if (!r.trim()) return;
 
-    if (cols.length < 9) return;
+            const cols = r.split(",");
 
-    const [s, c, tax, cc, cov, hoi, oull, sti, ho3] = cols;
+            // The CSV must contain all 10 expected columns.
+            if (cols.length < 10) return;
 
-    if (!s || !c) return;
+            const [
+                s,
+                c,
+                tax,
+                cc,
+                cov,
+                hoi,
+                oull,
+                sti,
+                ho3,
+                ho6per
+            ] = cols;
 
-    if (!COUNTY_DATA[s]) COUNTY_DATA[s] = {};
+            if (!s || !c) return;
 
-    COUNTY_DATA[s][c] = {
-        tax: parseFloat(tax) || 0,
-        cc: parseFloat(cc) || 0,
-    hoiBaseCoverage: parseFloat(cov) || 0,
-    hoiBaseAnnual: parseFloat(hoi) || 0,
-    oull: oull ? parseFloat(oull) : null,
-    sti: sti || "",
-    ho3: parseFloat(ho3) || null,
-          ho6per: parseFloat(ho6per) ||
-};
+            if (!COUNTY_DATA[s]) {
+                COUNTY_DATA[s] = {};
+            }
+
+            COUNTY_DATA[s][c] = {
+                tax: parseFloat(tax) || 0,
+                cc: parseFloat(cc) || 0,
+                hoiBaseCoverage: parseFloat(cov) || 0,
+                hoiBaseAnnual: parseFloat(hoi) || 0,
+                oull: oull ? parseFloat(oull) : null,
+                sti: sti || "",
+                ho3: parseFloat(ho3) || null,
+                ho6per: parseFloat(ho6per) || null
+            };
         });
- 
+
         populateStates();
- 
+
     } catch (err) {
         console.error("CSV load failed:", err);
- 
+
         const el = document.getElementById("loadingOverlay");
+
         if (el) {
             el.innerHTML = `
                 <div class="loaderBox">
@@ -925,6 +940,7 @@ async function loadCSV() {
         }
     }
 }
+
  
 function populateStates(){
     const stateEl = document.getElementById("state");
@@ -1252,164 +1268,194 @@ function calc(
     maxCash,
     term,
     sim = simulator
-){
+) {
 
-    if(
+    if (
         !ACTIVE_FACTORS ||
         !ACTIVE_FACTORS.tax ||
         !ACTIVE_FACTORS.cc ||
         !ACTIVE_FACTORS.hoiBaseCoverage
-    ){
+    ) {
         return null;
     }
 
     const truncatedRate =
-Math.trunc(rate / 0.00125) * 0.00125;
+        Math.trunc(rate / 0.00125) * 0.00125;
 
-const effectiveRate =
-(sim.rate === 0)
-    ? rate
-    : truncatedRate + (sim.rate * 0.00125);
+    const effectiveRate =
+        sim.rate === 0
+            ? rate
+            : truncatedRate + (sim.rate * 0.00125);
 
-const r =
-effectiveRate / 12;    const PIF = (r * Math.pow(1+r,term)) / (Math.pow(1+r,term)-1);
- 
-    // Term-based PMI (with fallback safety)
-    const LBPMI = (term === 180)
+    const r = effectiveRate / 12;
+
+    const PIF =
+        (r * Math.pow(1 + r, term)) /
+        (Math.pow(1 + r, term) - 1);
+
+    const LBPMI = term === 180
         ? (PMI15_LB ?? 0.0025)
         : (PMI30_LB ?? 0.0034);
- 
-    const HBPMI = (term === 180)
+
+    const HBPMI = term === 180
         ? (PMI15_HB ?? 0.0080)
         : (PMI30_HB ?? 0.0115);
- 
-    let hp = 50000, last = null;
- 
-    while(true){
-        const cc = hp * ACTIVE_FACTORS.cc;
-        const dp = maxCash - cc;
-        if(dp < hp*MIN_DP) break;
- 
-        const la = Math.max(0, hp - dp);
-        const ltv = la > 0 ? la / hp : 0;
- 
-        const pi = la * PIF;
 
-const taxRate =
-    ACTIVE_FACTORS.tax *
-    (1 + sim.tax/100);
-
-const cov = Math.max(la, 0.8*h);
     const propertyType =
-      document.getElementById("propertyType")?.value || "1";
+        document.getElementById("propertyType")?.value || "1";
 
+    // Use the HO-6 coverage basis for condos when available.
     const hoiAmt = Number(propertyType) === 3
-      ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
-      : ACTIVE_FACTORS.hoiBaseCoverage;
+        ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+        : ACTIVE_FACTORS.hoiBaseCoverage;
 
-    const annualHoiBase =
-      propertyType === "3"
+    // Use the applicable annual insurance amount.
+    const annualHoiBase = propertyType === "3"
         ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
         : ACTIVE_FACTORS.hoiBaseAnnual;
 
-    const annualHoi =
-      annualHoiBase * (1 + sim.hoi/100);
+    const adjustedAnnualHoi =
+        annualHoiBase * (1 + sim.hoi / 100);
 
-    const hoi =
-      (annualHoi * (cov / hoiAmt)) / 12;
+    const taxRate =
+        ACTIVE_FACTORS.tax * (1 + sim.tax / 100);
 
-    let pmiF = ltv > 0.8
-      ? (ltv >= 0.95
-   ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
-   : ACTIVE_FACTORS.hoiBaseAnnual;
+    let hp = 50000;
+    let last = null;
 
-const annualHoi =
-    annualHoiBase *
-    (1 + sim.hoi/100);
+    while (true) {
 
-const hoi =
- (annualHoi *
- (cov / ACTIVE_FACTORS.hoiBaseCoverage)) / 12;
- 
-        let pmiF = ltv > 0.8
-    ? (ltv >= 0.95
-        ? HBPMI
-        : LBPMI + (HBPMI-LBPMI)*(ltv-0.8)/(0.95-0.8))
-    : 0;
+        const cc = hp * ACTIVE_FACTORS.cc;
+        const dp = maxCash - cc;
 
-// PMI intentionally not user-adjustable
+        if (dp < hp * MIN_DP) break;
 
-const pmi = (la * pmiF)/12;        const pmt = pi + tax + hoi + pmi;
- 
+        const la = Math.max(0, hp - dp);
+        const ltv = la > 0 ? la / hp : 0;
+
+        const pi = la * PIF;
+        const tax = hp * taxRate / 12;
+
+        const cov = Math.max(la, 0.8 * hp);
+
+        const hoi =
+            (adjustedAnnualHoi * (cov / hoiAmt)) / 12;
+
+        const pmiF = ltv > 0.8
+            ? (
+                ltv >= 0.95
+                    ? HBPMI
+                    : LBPMI +
+                      (HBPMI - LBPMI) *
+                      (ltv - 0.8) / (0.95 - 0.8)
+              )
+            : 0;
+
+        const pmi = (la * pmiF) / 12;
+        const pmt = pi + tax + hoi + pmi;
+
         if (la === 0) {
+
             const pmtNoLoan = tax + hoi;
-            if(pmtNoLoan <= maxPmt && dp + cc <= maxCash){
-                last = {hp, la:0, dp, cc, ltv, pi:0, tax, hoi, pmi:0, pmt:pmtNoLoan, pmiF:0, cov};
+
+            if (
+                pmtNoLoan <= maxPmt &&
+                dp + cc <= maxCash
+            ) {
+                last = {
+                    hp, la: 0, dp, cc, ltv,
+                    pi: 0, tax, hoi, pmi: 0,
+                    pmt: pmtNoLoan, pmiF: 0, cov
+                };
+
                 hp += 1000;
                 continue;
-            } else { break; }
+
+            } else {
+                break;
+            }
         }
- 
-        if(pmt <= maxPmt && dp + cc <= maxCash){
-            last={hp, la, dp, cc, ltv, pi, tax, hoi, pmi, pmt, pmiF, cov};
+
+        if (pmt <= maxPmt && dp + cc <= maxCash) {
+
+            last = {
+                hp, la, dp, cc, ltv,
+                pi, tax, hoi, pmi, pmt, pmiF, cov
+            };
+
             hp += 1000;
+
         } else {
-            // Refinement around 80% LTV
-            if(last && Math.abs(last.ltv - 0.8) < 0.02){
+
+            // Refine the estimate near the 80% LTV threshold.
+            if (last && Math.abs(last.ltv - 0.8) < 0.02) {
+
                 let best = last;
-                for(let h = last.hp-2000; h <= last.hp+2000; h += 100){
-                    if(h <= 0) continue;
+
+                for (
+                    let h = last.hp - 2000;
+                    h <= last.hp + 2000;
+                    h += 100
+                ) {
+
+                    if (h <= 0) continue;
+
                     const cc2 = h * ACTIVE_FACTORS.cc;
                     const dp2 = maxCash - cc2;
-                    if(dp2 < h*MIN_DP) continue;
+
+                    if (dp2 < h * MIN_DP) continue;
+
                     const la2 = h - dp2;
-const ltv2 = la2 / h;
-const pi2 = la2 * PIF;
-const tax2 =
-(h * ACTIVE_FACTORS.tax *
-(1 + sim.tax/100))/12;
-const cov2 = Math.max(la2, 0.8*h);
-    const propertyType =
-      document.getElementById("propertyType")?.value || "1";
+                    const ltv2 = la2 / h;
+                    const pi2 = la2 * PIF;
+                    const tax2 = h * taxRate / 12;
 
-    const hoiAmt = Number(propertyType) === 3
-      ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
-      : ACTIVE_FACTORS.hoiBaseCoverage;
+                    const cov2 = Math.max(la2, 0.8 * h);
 
-    const annualHoi2 =
-      (
-        propertyType === "3"
-          ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
-          : ACTIVE_FACTORS.hoiBaseAnnual
-      ) *
-      (1 + sim.hoi/100);
+                    const hoi2 =
+                        (adjustedAnnualHoi * (cov2 / hoiAmt)) / 12;
 
-    const hoi2 =
-      (annualHoi2 * (cov2 / hoiAmt)) / 12;
+                    const pmiF2 = ltv2 > 0.8
+                        ? (
+                            ltv2 >= 0.95
+                                ? HBPMI
+                                : LBPMI +
+                                  (HBPMI - LBPMI) *
+                                  (ltv2 - 0.8) / (0.95 - 0.8)
+                          )
+                        : 0;
 
-    let pmiF2 = ltv2 > 0.8   : ACTIVE_FACTORS.hoiBaseAnnual
-)
-*
-(1 + sim.hoi/100);
-
-const hoi2 =
- (annualHoi2 *
- (cov2 / ACTIVE_FACTORS.hoiBaseCoverage)) / 12;
-
-let pmiF2 = ltv2 > 0.8 ? (ltv2>=0.95 ? HBPMI : LBPMI+(HBPMI-LBPMI)*(ltv2-0.8)/(0.95-0.8)) : 0;
-// PMI no longer adjustable
-                    const pmi2 = (la2*pmiF2)/12;
+                    const pmi2 = (la2 * pmiF2) / 12;
                     const pmt2 = pi2 + tax2 + hoi2 + pmi2;
-                    if(pmt2 <= maxPmt && dp2 + cc2 <= maxCash){
-                        best = {hp:h, la:la2, dp:dp2, cc:cc2, ltv:ltv2, pi:pi2, tax:tax2, hoi:hoi2, pmi:pmi2, pmt:pmt2, pmiF:pmiF2, cov:cov2};
+
+                    if (
+                        pmt2 <= maxPmt &&
+                        dp2 + cc2 <= maxCash
+                    ) {
+                        best = {
+                            hp: h,
+                            la: la2,
+                            dp: dp2,
+                            cc: cc2,
+                            ltv: ltv2,
+                            pi: pi2,
+                            tax: tax2,
+                            hoi: hoi2,
+                            pmi: pmi2,
+                            pmt: pmt2,
+                            pmiF: pmiF2,
+                            cov: cov2
+                        };
                     }
                 }
+
                 last = best;
             }
+
             break;
         }
     }
- 
+
     return last;
 }
  
