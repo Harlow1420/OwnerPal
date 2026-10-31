@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.4
+<title>Home Price Estimator V74.5
  ©2026
 </title>
 <!-- ====================================== -->
@@ -599,7 +599,8 @@ This calculator works in reverse by starting with affordability (your budget) in
     </span>
   </label>
   <select id="state"></select>
-</div>      <div>
+</div>      
+      <div>
         <label>Enter: City (optional)</label>
         <input id="cityInput" placeholder="Enter city">
       </div>
@@ -1870,10 +1871,11 @@ ${(() => {
   <td class="right">= $${( original.hp- original.la).toLocaleString()}</td>
   <td class="right">${ original.la > 0 ? `(${fmt(((original.hp- original.la)/ original.hp*100),2)}%<br> down payment)` : ""}</td>
 </tr>
+  <tr>
     <td>Estimated Closing Costs</td>
-  <td class="right">+ ${ original.cc.toLocaleString()}</td>
-  <td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td>
-</tr>
+    <td class="right">+ ${ original.cc.toLocaleString()}</td>
+    <td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td>
+  </tr>
     <tr><th>Estimated Cash Needed</th><th class="right">&#8776; $${( original.hp- original.la+ original.cc).toLocaleString()}</th><th class="right">For illustration<br>only, not actual<br>numbers</th></tr>
   </table>
 ${note4?`<div class="neu" style="margin-top:12px;">${note4}</div>`:""}
