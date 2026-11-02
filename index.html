@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.4
+<title>Home Price Estimator V74.6
  ©2026
 </title>
 <!-- ====================================== -->
@@ -599,7 +599,8 @@ This calculator works in reverse by starting with affordability (your budget) in
     </span>
   </label>
   <select id="state"></select>
-</div>      <div>
+</div>      
+      <div>
         <label>Enter: City (optional)</label>
         <input id="cityInput" placeholder="Enter city">
       </div>
@@ -652,6 +653,7 @@ let PMI15_HB = null;
 let BASE_RATE = 0.0609;
 let FR30_DEBUG = null;
 let FR15_DEBUG = null;
+let RSL = 0;
  
 // ======================================
 // SECTION: INPUT HANDLING & FORMATTING
@@ -797,6 +799,10 @@ async function loadBaseRateAll() {
  
             FR30_DEBUG = isNaN(rateLine[0]) ? null : rateLine[0];
             FR15_DEBUG = isNaN(rateLine[1]) ? null : rateLine[1];
+
+            RSL = FR15_DEBUG !== null
+            ? Math.max(0, Math.trunc((FR15_DEBUG - 0.01) / 0.00125))
+           : 0;
  
             PMI30_LB = isNaN(rateLine[2]) ? null : rateLine[2];
             PMI30_HB = isNaN(rateLine[3]) ? null : rateLine[3];
@@ -1870,10 +1876,11 @@ ${(() => {
   <td class="right">= $${( original.hp- original.la).toLocaleString()}</td>
   <td class="right">${ original.la > 0 ? `(${fmt(((original.hp- original.la)/ original.hp*100),2)}%<br> down payment)` : ""}</td>
 </tr>
+  <tr>
     <td>Estimated Closing Costs</td>
-  <td class="right">+ ${ original.cc.toLocaleString()}</td>
-  <td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td>
-</tr>
+    <td class="right">+ ${ original.cc.toLocaleString()}</td>
+    <td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td>
+  </tr>
     <tr><th>Estimated Cash Needed</th><th class="right">&#8776; $${( original.hp- original.la+ original.cc).toLocaleString()}</th><th class="right">For illustration<br>only, not actual<br>numbers</th></tr>
   </table>
 ${note4?`<div class="neu" style="margin-top:12px;">${note4}</div>`:""}
@@ -1929,12 +1936,12 @@ style="
 ">
 </div>
 <input
-type="range"
-id="rateSlider"
-min="-36"
-max="36"
-value="${simulator.rate}"
-step="1">
+    type="range"
+    id="rateSlider"
+    min="${-RSL}"
+    max="${RSL}"
+    value="${simulator.rate}"
+    step="1">
 </div>
 
 <div class="sliderRow">
