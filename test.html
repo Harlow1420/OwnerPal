@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.7
+<title>Home Price Estimator V74.8
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1765,6 +1765,13 @@ amount) `
 : ` ($${fmt(annualHoiDisplay,0)}/$${fmt(hoiAmt,0)} of<br>80% of
 home price) `}</td></tr>
     <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
+${Number(document.getElementById("propertyType").value) === 1 ? `
+<tr>
+  <td>Association Fee</td>
+  <td class="right">+ 0.00</td>
+  <td class="right"></td>
+</tr>
+` : ""}
     <tr><th>${Number(propertyType) === 1
   ? 'Total Estimated Payment'
   : 'Total Estimated Payment, excluding any required Association Fee'}
