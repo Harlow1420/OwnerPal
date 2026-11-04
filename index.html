@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.8
+<title>Home Price Estimator V74.9
  ©2026
 </title>
 <!-- ====================================== -->
@@ -1765,16 +1765,26 @@ amount) `
 : ` ($${fmt(annualHoiDisplay,0)}/$${fmt(hoiAmt,0)} of<br>80% of
 home price) `}</td></tr>
     <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
-${Number(document.getElementById("propertyType").value) === 1 ? `
-<tr>
-  <td>Association Fee</td>
-  <td class="right">+ 0.00</td>
-  <td class="right"></td>
-</tr>
-` : ""}
-    <tr><th>${Number(propertyType) === 1
+${Number(propertyType) === 1
+  ? `
+    <tr>
+      <td>Association Fee</td>
+      <td class="right">+ 0.00</td>
+      <td class="right">Excludes any<br>Association Fee <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          Some properties have a homeowners association (HOA) fee.<br><br>
+          If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
+          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
+          - <u>Estimated average Association Fee</u><br>
+          = <b>Enter</b>: Comfortable Monthly Housing Expense
+        </span>
+      </span></td>
+    </tr>
+    `
+  : ""}
+<tr><th>${Number(propertyType) === 1
   ? 'Total Estimated Payment'
-  : 'Total Estimated Payment, excluding any required Association Fee'}
+  : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'}
 </th><th class="right">&#8776; $${fmt(original.pmt)}</th><th class="right">For illustration<br>only, not actual<br>numbers</th></tr>
   </table>
   ${note1?`<div class="neu" style="margin-top:12px;">${note1}</div>`:""}
