@@ -9,8 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.9
- ©2026
+<title>Home Price Estimator V75.1 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -632,7 +631,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ====================================== -->
 <!-- SECTION: DISCLAIMER -->
 <!-- ====================================== -->
-<div class="disclaimer">Not an offer to lend.<br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
+<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advise.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
 <!-- ====================================== -->
 <!-- SECTION: SCRIPT START -->
 <!-- ====================================== -->
@@ -1768,9 +1767,7 @@ home price) `}</td></tr>
 ${Number(propertyType) === 1
   ? `
     <tr>
-      <td>Association Fee</td>
-      <td class="right">+ 0.00</td>
-      <td class="right">Excludes any<br>Association Fee <span class="tooltip-icon">ⓘ
+      <td>Association Fee <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
           Some properties have a homeowners association (HOA) fee.<br><br>
           If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
@@ -1779,6 +1776,8 @@ ${Number(propertyType) === 1
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
+      <td class="right">+ 0.00</td>
+      <td class="right">Excludes any<br>Association Fee </td>
     </tr>
     `
   : ""}
