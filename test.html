@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.3 ©2026
+<title>Home Price Estimator V75.2 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2194,26 +2194,17 @@ ${
 <tr>
 
 <td>
+
 Private Mortgage Insurance (PMI)
+
 </td>
+
 <td align="right">
+
 + $${fmt(adjusted.pmi)}
+
 </td>
-<td>
-${Number(propertyType) === 1
-  ? `
-    <tr>
-      <td>Association Fee <span class="tooltip-icon">ⓘ
-        <span class="tooltip-text">
-          Some properties have a homeowners association (HOA) fee.<br><br>
-          If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
-          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
-          - <u>Estimated average Association Fee</u><br>
-          = <b>Enter</b>: Comfortable Monthly Housing Expense
-        </span>
-      </span></td>
-<td align="right"> Excludes any<br>Association Fee</td>
-</tr>
+
 </tr>
 
 <tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td></tr>
