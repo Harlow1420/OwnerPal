@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.35 ©2026
+<title>Home Price Estimator V75.4 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2217,7 +2217,13 @@ ${Number(propertyType) === 1
   : ''
 }
 
-<tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td></tr>
+<tr>
+  <td><b>${Number(propertyType) === 1
+    ? 'Total Estimated Payment'
+    : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'
+  }</b></td>
+  <td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td>
+</tr>
 </table>
 ${adjusted.la / adjusted.hp > 0.8
   ? `<small style="display:block; text-align:center;"><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
