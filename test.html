@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.1 ©2026
+<title>Home Price Estimator V75.2 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2110,8 +2110,8 @@ ${fmt(ACTIVE_FACTORS.tax*(1+simulator.tax/100)*100,2)}%
   ? 'Homeowners Insurance (Condo)'
   : 'Homeowners Insurance'
 }${ adjusted.la/ adjusted.hp > 0.8
- ? `, per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of loan amount `
- : `, per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of 80% of home price `}</td>
+ ? `, per $${fmt(hoiAmt,0)} of loan amount `
+ : `, per $${fmt(hoiAmt,0)} of 80% of home price `}</td>
 <td class="right">
 $${fmt(
 annualHoiDisplay*(1+simulator.hoi/100),
