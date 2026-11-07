@@ -631,7 +631,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ====================================== -->
 <!-- SECTION: DISCLAIMER -->
 <!-- ====================================== -->
-<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advise.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
+<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
 <!-- ====================================== -->
 <!-- SECTION: SCRIPT START -->
 <!-- ====================================== -->
@@ -2171,7 +2171,7 @@ ${
 
 <tr><td></td><td></td></tr>
 
-<tr><td><b>Estimated Monthly Payment:</b></td><td></td></tr>
+<tr><td><b>Estimated Monthly Payment</b></td><td></td></tr>
 
 <tr><td><span class="label-with-tooltip">
       Principal &amp; Interest (P&amp;I)
@@ -2182,7 +2182,7 @@ ${
       </span>
     </span></td><td align="right">$${fmt(adjusted.pi)}</td></tr>
 
-<tr><td>Property Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
+<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td></tr>
 
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
@@ -2192,11 +2192,11 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ $${fmt(adjusted.hoi)}</td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td></tr>
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
-<td align="right">+ $${fmt(adjusted.pmi)}</td>
+<td align="right">+ ${fmt(adjusted.pmi)}</td>
 </tr>
 
 ${Number(propertyType) === 1
@@ -2211,7 +2211,7 @@ ${Number(propertyType) === 1
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
-      <th align="right">+ $0.00</td>
+      <td align="right">0.00</td>
     </tr>
   `
   : ''
@@ -2230,7 +2230,7 @@ ${adjusted.la / adjusted.hp > 0.8
   : ""}<table class="mono">
 <tr><td></td><td></td></tr>
 
-<tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
+<tr><td><b>Estimated Costs to Purchase</b></td><td></td></tr>
 
 <tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
 <tr><td><span class="label-with-tooltip">
@@ -2307,10 +2307,10 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td></tr>
 <tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
 
-<tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
+<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td></tr>
 
 <tr><th><b>Estimated Cash Needed</b></th>
     <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th></tr>
