@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.4 ©2026
+<title>Home Price Estimator V75.6 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -631,7 +631,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ====================================== -->
 <!-- SECTION: DISCLAIMER -->
 <!-- ====================================== -->
-<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advise.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
+<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
 <!-- ====================================== -->
 <!-- SECTION: SCRIPT START -->
 <!-- ====================================== -->
@@ -2218,17 +2218,16 @@ ${Number(propertyType) === 1
 }
 
 <tr>
-  <td><b>${Number(propertyType) === 1
+  <th><b>${Number(propertyType) === 1
     ? 'Total Estimated Payment'
     : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'
-  }</b></td>
-  <td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td>
+  }</b></th>
+  <th align="right"><b>≈ $${fmt(adjusted.pmt)}</b></th>
 </tr>
 </table>
 ${adjusted.la / adjusted.hp > 0.8
-  ? `<small style="display:block; text-align:center;"><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
-  : ""}
-<table class="mono">
+  ? `<small style="display:block;"><br><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
+  : ""}<table class="mono">
 <tr><td></td><td></td></tr>
 
 <tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
@@ -2313,7 +2312,8 @@ ${(() => {
 
 <tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
 
-<tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></td></tr>
+<tr><th><b>Estimated Cash Needed</b></th>
+    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th></tr>
 
 </table>
 
