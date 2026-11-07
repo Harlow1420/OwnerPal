@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.5 ©2026
+<title>Home Price Estimator V75.55 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2313,10 +2313,8 @@ ${(() => {
 
 <tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
 
-<tr class="total-row">
-    <td><b>Estimated Cash Needed</b></td>
-    <td align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></td>
-</tr>
+<tr><th><b>Estimated Cash Needed</b></th>
+    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th></tr>
 
 </table>
 
