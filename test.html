@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.6 ©2026
+<title>Home Price Estimator V75.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2211,7 +2211,7 @@ ${Number(propertyType) === 1
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
-      <td align="right">0.00</td>
+      <td align="right">+ 0.00</td>
     </tr>
   `
   : ''
@@ -2226,7 +2226,7 @@ ${Number(propertyType) === 1
 </tr>
 </table>
 ${adjusted.la / adjusted.hp > 0.8
-  ? `<small style="display:block;"><br><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
+  ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}<table class="mono">
 <tr><td></td><td></td></tr>
 
