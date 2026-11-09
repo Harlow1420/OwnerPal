@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.7 ©2026
+<title>Home Price Estimator V75.8 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2169,20 +2169,22 @@ ${
 </th>
 </tr>
 
-<tr><td></td><td></td></tr>
-
-<tr><td><b>Estimated Monthly Payment</b></td><td></td></tr>
-
-<tr><td><span class="label-with-tooltip">
+  <h2>Estimated Monthly Payment</h2>
+  <div style="margin-bottom:10px;">
+    Here’s how the estimated monthly housing payment is made up.
+  </div><tr>
+<table id="paymentTable" class="mono three-col-33">
+    <tr><th></th><th class="right">Monthly Estimate</th><th class="right">How it’s Calculated</th></tr>
+<td><span class="label-with-tooltip">
       Principal &amp; Interest (P&amp;I)
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
           In this example, with the 1st payment, the loan balance would decrease by $${fmt(adjusted.pi-( adjusted.la*adjustedRate/12))} from the principal portion of the payment which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
         </span>
       </span>
-    </span></td><td align="right">$${fmt(adjusted.pi)}</td></tr>
+    </span></td><td align="right">$${fmt(adjusted.pi)}</td><td></td></tr>
 
-<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td></tr>
+<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td><td></td></tr>
 
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
@@ -2192,11 +2194,11 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ ${fmt(adjusted.hoi)}</td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td></td></tr>
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
-<td align="right">+ ${fmt(adjusted.pmi)}</td>
+<td align="right">+ ${fmt(adjusted.pmi)}</td><td></td>
 </tr>
 
 ${Number(propertyType) === 1
@@ -2217,14 +2219,15 @@ ${Number(propertyType) === 1
   : ''
 }
 
-<tr>
+<td</td><tr>
   <th><b>${Number(propertyType) === 1
     ? 'Total Estimated Payment'
     : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'
   }</b></th>
   <th align="right"><b>≈ $${fmt(adjusted.pmt)}</b></th>
-</tr>
+<th></th></tr>
 </table>
+
 ${adjusted.la / adjusted.hp > 0.8
   ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}<table class="mono">
