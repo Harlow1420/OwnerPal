@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.8 ©2026
+<title>Home Price Estimator V75.9 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2169,10 +2169,13 @@ ${
 </th>
 </tr>
 
+<div class="card">
+<div id="rotateInlineNotice"></div>
   <h2>Estimated Monthly Payment</h2>
   <div style="margin-bottom:10px;">
     Here’s how the estimated monthly housing payment is made up.
-  </div><tr>
+  </div>
+<tr>
 <table id="paymentTable" class="mono three-col-33">
     <tr><th></th><th class="right">Monthly Estimate</th><th class="right">How it’s Calculated</th></tr>
 <td><span class="label-with-tooltip">
@@ -2231,11 +2234,14 @@ ${Number(propertyType) === 1
 ${adjusted.la / adjusted.hp > 0.8
   ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}<table class="mono">
-<tr><td></td><td></td></tr>
-
-<tr><td><b>Estimated Costs to Purchase</b></td><td></td></tr>
-
-<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
+<div class="card">
+  <h2>Estimated Costs to Purchase</h2>
+  <div style="margin-bottom:10px;">
+    An estimate of what buying at this price could look like.
+  </div>
+  <table class="mono three-col-33">
+    <tr><th></th><th class="right">Estimated Amount</th><th class="right">Notes</th></tr>
+<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td><td></td></tr>
 <tr><td><span class="label-with-tooltip">
   Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}
   <span class="tooltip-icon">ⓘ
@@ -2310,13 +2316,13 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- ${fmt(adjusted.la,0)}</td></tr>
-<tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td><td></td></tr>
+<tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td></td></tr>
 
-<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td></tr>
+<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td></td></tr>
 
 <tr><th><b>Estimated Cash Needed</b></th>
-    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th></tr>
+    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th><th</th></tr>
 
 </table>
 
