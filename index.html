@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.6 ©2026
+<title>Home Price Estimator V75.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2171,7 +2171,7 @@ ${
 
 <tr><td></td><td></td></tr>
 
-<tr><td><b>Estimated Monthly Payment:</b></td><td></td></tr>
+<tr><td><b>Estimated Monthly Payment</b></td><td></td></tr>
 
 <tr><td><span class="label-with-tooltip">
       Principal &amp; Interest (P&amp;I)
@@ -2182,7 +2182,7 @@ ${
       </span>
     </span></td><td align="right">$${fmt(adjusted.pi)}</td></tr>
 
-<tr><td>Property Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
+<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td></tr>
 
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
@@ -2192,11 +2192,11 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ $${fmt(adjusted.hoi)}</td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td></tr>
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
-<td align="right">+ $${fmt(adjusted.pmi)}</td>
+<td align="right">+ ${fmt(adjusted.pmi)}</td>
 </tr>
 
 ${Number(propertyType) === 1
@@ -2211,7 +2211,7 @@ ${Number(propertyType) === 1
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
-      <td align="right">+ $0.00</td>
+      <td align="right">+ 0.00</td>
     </tr>
   `
   : ''
@@ -2226,11 +2226,11 @@ ${Number(propertyType) === 1
 </tr>
 </table>
 ${adjusted.la / adjusted.hp > 0.8
-  ? `<small style="display:block;"><br><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
+  ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}<table class="mono">
 <tr><td></td><td></td></tr>
 
-<tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
+<tr><td><b>Estimated Costs to Purchase</b></td><td></td></tr>
 
 <tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
 <tr><td><span class="label-with-tooltip">
@@ -2307,10 +2307,10 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td></tr>
 <tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
 
-<tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
+<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td></tr>
 
 <tr><th><b>Estimated Cash Needed</b></th>
     <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th></tr>
