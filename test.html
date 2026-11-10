@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.5 ©2026
+<title>Home Price Estimator V76.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2185,7 +2185,8 @@ ${
           In this example, with the 1st payment, the loan balance would decrease by $${fmt(adjusted.pi-( adjusted.la*adjustedRate/12))} from the principal portion of the payment which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
         </span>
       </span>
-    </span></td><td align="right">$${fmt(adjusted.pi)}</td><td></td></tr>
+    </span></td><td align="right">$${fmt(adjusted.pi)}</td><td class="right">${ adjusted.la > 0 ? `($${fmt(adjusted.pi/adjusted.la*1000,3)} per $1,000<br>of loan amount)` : ""}
+</td></tr>
 
 <tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td><td></td></tr>
 
