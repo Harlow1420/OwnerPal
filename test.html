@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.891 ©2026
+<title>Home Price Estimator V76.892 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2198,7 +2198,7 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td></td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td class="right">$${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)}</td></tr>
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
