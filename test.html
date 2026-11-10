@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.85 ©2026
+<title>Home Price Estimator V76.86 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2202,8 +2202,7 @@ ${
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
-<td align="right">+ ${fmt(adjusted.pmi)}</td><td></td>
-</tr>
+<td align="right">+ ${fmt(adjusted.pmi)}</td><td class="right">${adjusted.pmi > 0 ? `(${fmt(adjusted.pmi*12/adjusted.la*100,2)}% of<br>loan amount)` : ""}</td></tr>
 
 ${Number(propertyType) === 1
   ? `
