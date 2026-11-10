@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.89 ©2026
+<title>Home Price Estimator V76.891 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2320,9 +2320,9 @@ ${(() => {
   </span>
 </span>
 </td><td align="right">- ${fmt(adjusted.la,0)}</td><td>${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}</td></tr>
-<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td>${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td></tr>
+<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td class="right">${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td></tr>
 
-<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td></td></tr>
+<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td></tr>
 
 <tr><th><b>Estimated Cash Needed</b></th>
     <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b><th class="right">For illustration<br>only, not actual<br>numbers</th>
