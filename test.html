@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77 ©2026
+<title>Home Price Estimator V77.1 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1763,7 +1763,7 @@ ${ original.la/ original.hp > 0.8
 amount) `
 : ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)} of<br>80% of
 home price) `}</td></tr>
-    <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
+    <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${original.pmi > 0 ? `(${fmt(original.pmi*12/original.la*100,2)}% of<br>loan amount)` : ""}</td></tr>
 ${Number(propertyType) === 1
   ? `
     <tr>
