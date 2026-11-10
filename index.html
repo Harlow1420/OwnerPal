@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V75.7 ©2026
+<title>Home Price Estimator V77 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1761,7 +1761,7 @@ with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
 ${ original.la/ original.hp > 0.8
 ? ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)}<br> of loan
 amount) `
-: ` ($${fmt(annualHoiDisplay,0)}/$${fmt(hoiAmt,0)} of<br>80% of
+: ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)} of<br>80% of
 home price) `}</td></tr>
     <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
 ${Number(propertyType) === 1
@@ -2169,20 +2169,26 @@ ${
 </th>
 </tr>
 
-<tr><td></td><td></td></tr>
+<table class="mono">
+<div>
+  <h2>Estimated Monthly Payment</h2>
+  <div style="margin-bottom:10px;">
+    Here’s how the estimated monthly housing payment is made up with adjustments.
+  </div>
 
-<tr><td><b>Estimated Monthly Payment</b></td><td></td></tr>
-
-<tr><td><span class="label-with-tooltip">
+<table id="paymentTable" class="mono three-col-33">
+    <tr><th></th><th class="right">Monthly Estimate</th><th class="right">How it’s Calculated</th></tr>
+<td><span class="label-with-tooltip">
       Principal &amp; Interest (P&amp;I)
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
           In this example, with the 1st payment, the loan balance would decrease by $${fmt(adjusted.pi-( adjusted.la*adjustedRate/12))} from the principal portion of the payment which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
         </span>
       </span>
-    </span></td><td align="right">$${fmt(adjusted.pi)}</td></tr>
+    </span></td><td align="right">$${fmt(adjusted.pi)}</td><td class="right">${ adjusted.la > 0 ? `($${fmt(adjusted.pi/adjusted.la*1000,3)} per $1,000<br>of loan amount)` : ""}
+</td></tr>
 
-<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td></tr>
+<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td><td class="right">(${fmt((adjusted.tax*12)/adjusted.hp *100,2)}% of home price)</td></tr>
 
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
@@ -2192,12 +2198,16 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ ${fmt(adjusted.hoi)}</td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td class="right">
+${ adjusted.la/ adjusted.hp > 0.8
+? ` ($${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)} per $${fmt(hoiAmt,0)}<br> of loan
+amount) `
+: ` ($${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)} per $${fmt(hoiAmt,0)} of<br>80% of
+home price) `}</td></tr>
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
-<td align="right">+ ${fmt(adjusted.pmi)}</td>
-</tr>
+<td align="right">+ ${fmt(adjusted.pmi)}</td><td class="right">${adjusted.pmi > 0 ? `(${fmt(adjusted.pmi*12/adjusted.la*100,2)}% of<br>loan amount)` : ""}</td></tr>
 
 ${Number(propertyType) === 1
   ? `
@@ -2211,30 +2221,37 @@ ${Number(propertyType) === 1
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
-      <td align="right">+ 0.00</td>
+      <td align="right">+ 0.00</td><td class="right">Excludes any<br>Association Fee </td>
     </tr>
   `
   : ''
 }
 
+      
 <tr>
   <th><b>${Number(propertyType) === 1
     ? 'Total Estimated Payment'
     : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'
   }</b></th>
   <th align="right"><b>≈ $${fmt(adjusted.pmt)}</b></th>
+<th class="right">For illustration<br>only, not actual<br>numbers</th>
 </tr>
 </table>
+
 ${adjusted.la / adjusted.hp > 0.8
   ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
-  : ""}<table class="mono">
-<tr><td></td><td></td></tr>
-
-<tr><td><b>Estimated Costs to Purchase</b></td><td></td></tr>
-
-<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
+  : ""}
+<table class="mono">
+<div>
+  <h2>Estimated Costs to Purchase</h2>
+  <div style="margin-bottom:10px;">
+    An estimate of what buying at this price could look like with adjustments.
+  </div>
+  <table class="mono three-col-33">
+    <tr><th></th><th class="right">Estimated Amount</th><th class="right">Notes</th></tr>
+<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td><td></td></tr>
 <tr><td><span class="label-with-tooltip">
-  Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}
+  Loan Amount
   <span class="tooltip-icon">ⓘ
     <span class="tooltip-text">
 
@@ -2307,13 +2324,14 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- ${fmt(adjusted.la,0)}</td></tr>
-<tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td><td align="right">${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}</td></tr>
+<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td class="right">${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td></tr>
 
-<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td></tr>
+<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td></tr>
 
 <tr><th><b>Estimated Cash Needed</b></th>
-    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th></tr>
+    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b><th class="right">For illustration<br>only, not actual<br>numbers</th>
+</tr>
 
 </table>
 
