@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.88 ©2026
+<title>Home Price Estimator V76.89 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2246,7 +2246,7 @@ ${adjusted.la / adjusted.hp > 0.8
     <tr><th></th><th class="right">Estimated Amount</th><th class="right">Notes</th></tr>
 <tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td><td></td></tr>
 <tr><td><span class="label-with-tooltip">
-  Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}
+  Loan Amount
   <span class="tooltip-icon">ⓘ
     <span class="tooltip-text">
 
@@ -2319,8 +2319,8 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- ${fmt(adjusted.la,0)}</td><td></td></tr>
-<tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td></td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td><td>${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}</td></tr>
+<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td>${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td></tr>
 
 <tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td></td></tr>
 
