@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.892 ©2026
+<title>Home Price Estimator V76.893 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1761,7 +1761,7 @@ with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
 ${ original.la/ original.hp > 0.8
 ? ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)}<br> of loan
 amount) `
-: ` ($${fmt(annualHoiDisplay,0)}/$${fmt(hoiAmt,0)} of<br>80% of
+: ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)} of<br>80% of
 home price) `}</td></tr>
     <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
 ${Number(propertyType) === 1
@@ -2198,7 +2198,12 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td class="right">$${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)}</td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td class="right">
+${ adjusted.la/ adjusted.hp > 0.8
+? ` ($${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)} per $${fmt(hoiAmt,0)}<br> of loan
+amount) `
+: ` ($${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)} per $${fmt(hoiAmt,0)} of<br>80% of
+home price) `}</td></tr>
 
 <tr>
 <td>Private Mortgage Insurance (PMI)</td>
