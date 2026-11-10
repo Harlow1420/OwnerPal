@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V76.7 ©2026
+<title>Home Price Estimator V76.8 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2188,7 +2188,7 @@ ${
     </span></td><td align="right">$${fmt(adjusted.pi)}</td><td class="right">${ adjusted.la > 0 ? `($${fmt(adjusted.pi/adjusted.la*1000,3)} per $1,000<br>of loan amount)` : ""}
 </td></tr>
 
-<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td><td></td></tr>
+<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td><td class="right">(${fmt(adjusted.tax/adjusted.hp *100,2)}% of home price</td></tr>
 
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
