@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.3 ©2026
+<title>Home Price Estimator V77.4 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1981,13 +1981,22 @@ style="
     margin:-2px 0 8px 0;
     font-style:italic;
 ">
-Equivalent to
+${((ACTIVE_FACTORS.tax * (1 + simulator.tax/100)) / ACTIVE_FACTORS.tax - 1) > 0
+  ? `A ${(((ACTIVE_FACTORS.tax * (1 + simulator.tax/100)) / ACTIVE_FACTORS.tax - 1) * 100).toFixed(1)}% increase per year from original estimate (Equivalent to
 $${fmt(
 300000 *
 ACTIVE_FACTORS.tax *
 (1 + simulator.tax/100),
 0
-)} per year on a $300,000 home
+)} per year on a $300,000 home).`
+  : `A ${Math.abs(((ACTIVE_FACTORS.tax * (1 + simulator.tax/100)) / ACTIVE_FACTORS.tax - 1) * 100).toFixed(1)}% decrease per year from original estimate (Equivalent to
+$${fmt(
+300000 *
+ACTIVE_FACTORS.tax *
+(1 + simulator.tax/100),
+0
+)} per year on a $300,000 home).`
+}
 </div>
 
 <input
