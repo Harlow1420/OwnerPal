@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.46 ©2026
+<title>Home Price Estimator V77.5 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2539,9 +2539,9 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `A ${Math.abs(change).toFixed(1)}% increase per year from original estimate `
+        ? `${Math.abs(change).toFixed(0)}% increase per year from original estimate `
         : change < 0
-            ? `A ${Math.abs(change).toFixed(1)}% decrease per year from original estimate `
+            ? `${Math.abs(change).toFixed(0)}% decrease per year from original estimate `
             : "";
 
     taxEquivalent.textContent =
