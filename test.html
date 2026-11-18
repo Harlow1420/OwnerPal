@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.44 ©2026
+<title>Home Price Estimator V77.45 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2536,13 +2536,21 @@ document.getElementById("taxEquivalent");
 
 if(taxEquivalent){
 
+    const change = Number(simulator.tax);
+
+    const changeText = change > 0
+        ? `A ${Math.abs(change).toFixed(1)}% increase per year from original estimate. `
+        : change < 0
+            ? `A ${Math.abs(change).toFixed(1)}% decrease per year from original estimate. `
+            : "";
+
     taxEquivalent.textContent =
-        "Equivalent 2to $" +
+        changeText +
+        "Equivalent to $" +
         fmt(300000 * taxRate, 0) +
         " per year on a $300,000 home";
 
 }
-
 }else{
 
     const propertyType =
