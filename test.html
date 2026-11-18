@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.1 ©2026
+<title>Home Price Estimator V77.3 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2169,7 +2169,7 @@ ${
 </th>
 </tr>
 
-<table class="mono">
+<table>
 <div>
   <h2>Estimated Monthly Payment</h2>
   <div style="margin-bottom:10px;">
@@ -2178,7 +2178,7 @@ ${
 
 <table id="paymentTable" class="mono three-col-33">
     <tr><th></th><th class="right">Monthly Estimate</th><th class="right">How it’s Calculated</th></tr>
-<td><span class="label-with-tooltip">
+<tr><td><span class="label-with-tooltip">
       Principal &amp; Interest (P&amp;I)
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
@@ -2241,7 +2241,6 @@ ${Number(propertyType) === 1
 ${adjusted.la / adjusted.hp > 0.8
   ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}
-<table class="mono">
 <div>
   <h2>Estimated Costs to Purchase</h2>
   <div style="margin-bottom:10px;">
@@ -2324,13 +2323,14 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- ${fmt(adjusted.la,0)}</td><td align="right">${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}</td></tr>
-<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td class="right">${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td><td align="right">${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}%<br>loan-to-value)` : ""}</td></tr>
+<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td class="right">${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%<br>down payment)` : ""}</td></tr>
 
 <tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td></tr>
 
 <tr><th><b>Estimated Cash Needed</b></th>
-    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b><th class="right">For illustration<br>only, not actual<br>numbers</th>
+    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th>
+    <th class="right">For illustration<br>only, not actual<br>numbers</th>
 </tr>
 
 </table>
