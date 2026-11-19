@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.7 ©2026
+<title>Home Price Estimator V77.6 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2034,23 +2034,7 @@ style="
     margin:-2px 0 8px 0;
     font-style:italic;
 ">
-if(hoiEquivalent){
-
-    const change = Number(simulator.hoi);
-
-    const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.hoi,0)} estimate `
-        : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.hoi,0)}% estimate `
-            : "";
-
-    hoiEquivalent.textContent =
-        changeText +
-        "(per $" +
-        ${fmt(hoiAmt,0)}  +
-        " of coverage";
-
-}
+per $${fmt(hoiAmt,0)} of coverage per year
 </div>
 
 <input
