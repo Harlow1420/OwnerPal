@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.5 ©2026
+<title>Home Price Estimator V77.6 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2516,12 +2516,11 @@ if(name==="rate"){
             if(piEquivalent){
 
                 piEquivalent.textContent =
-                    "Equal to $" +
-                    piFactor.toFixed(3) +
-                    " per $1,000 of loan amount";
+                    "Compared to " +
+                    ${(rateUsed*100).toFixed(2)}% +
+                    " from original estimate";
 
             }
-
 }else if(name==="tax"){
 
     const taxRate =
