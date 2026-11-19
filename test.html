@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.7 ©2026
+<title>Home Price Estimator V77.6 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2539,16 +2539,16 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate `
         : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate `
             : "";
 
     taxEquivalent.textContent =
         changeText +
-        "equivalent to $" +
+        "(Equivalent to $" +
         fmt(300000 * taxRate, 0) +
-        " per year on a $300,000 home";
+        " per year on a $300,000 home).";
 
 }
 }else{
@@ -2557,42 +2557,21 @@ if(taxEquivalent){
         document.getElementById("propertyType")?.value || "1";
 
     const annualBase =
-        propertyType === "3"
+        propertyType==="3"
         ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
         : ACTIVE_FACTORS.hoiBaseAnnual;
 
-    const hoiAmount =
-        annualBase *
-        (1 + simulator.hoi/100);
-
     output.textContent =
         "$" +
-        fmt(hoiAmount, 0);
-
-    const hoiEquivalent =
-        document.getElementById("hoiEquivalent");
-
-    if(hoiEquivalent){
-
-        const change = Number(simulator.hoi);
-
-        const changeText = change > 0
-            ? `${Math.abs(change).toFixed(0)}% increase from original ${fmt(annualBase,0)} annual estimate, `
-            : change < 0
-                ? `${Math.abs(change).toFixed(0)}% decrease from original ${fmt(annualBase,0)} annual estimate, `
-                : "";
-
-        hoiEquivalent.textContent =
-            changeText +
-            "equivalent to $" +
-            fmt(hoiAmount, 0) +
-            " per $" +
-            fmt(hoiAmt, 0) +
-            " of coverage per year";
-
-    }
+        fmt(
+            annualBase *
+            (1 + simulator.hoi/100),
+            0
+        );
 
 }
+
+    });
 
 }
 
