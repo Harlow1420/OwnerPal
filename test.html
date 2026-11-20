@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.6 ©2026
+<title>Home Price Estimator V77.71 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1922,7 +1922,7 @@ Use the controls below to see how changing one or more assumptions affects the e
 <span>Interest Rate (${currentProgramName})
 </span>
 <span class="sliderValue" id="rateSliderValue">
-${
+${(
 (
 (() => {
 
@@ -1936,9 +1936,7 @@ ${
     );
 
 })()
-)*100
-.toFixed(3)
-}%
+) * 100).toFixed(3)}%
 </span>
 </div>
 <div
@@ -2169,7 +2167,9 @@ ${
 </th>
 </tr>
 
-<table>
+</table>
+
+</div>
 <div>
   <h2>Estimated Monthly Payment</h2>
   <div style="margin-bottom:10px;">
@@ -2335,12 +2335,13 @@ ${(() => {
 
 </table>
 
-</div>
-</div>
- 
+</div>  <!-- ← closes Estimated Costs section -->
+</div>  <!-- ← closes Estimated Monthly Payment section -->
+</div>  <!-- ← closes outer Adjust Assumptions card -->
+
 ` : ""}
- 
-  <div style="text-align:center; margin-top:24px;">
+
+ <div style="text-align:center; margin-top:24px;">
 
 <button
 id="printButton"
@@ -2539,16 +2540,16 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate `
+        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
         : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate `
+            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
             : "";
 
     taxEquivalent.textContent =
         changeText +
-        "(Equivalent to $" +
+        "equivalent to $" +
         fmt(300000 * taxRate, 0) +
-        " per year on a $300,000 home).";
+        " per year on a $300,000 home";
 
 }
 }else{
@@ -2557,21 +2558,47 @@ if(taxEquivalent){
         document.getElementById("propertyType")?.value || "1";
 
     const annualBase =
-        propertyType==="3"
+        propertyType === "3"
         ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
         : ACTIVE_FACTORS.hoiBaseAnnual;
 
+    const hoiCoverage =
+        Number(propertyType) === 3
+        ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+        : ACTIVE_FACTORS.hoiBaseCoverage;
+
+    const hoiAmount =
+        annualBase *
+        (1 + simulator.hoi/100);
+
     output.textContent =
         "$" +
-        fmt(
-            annualBase *
-            (1 + simulator.hoi/100),
-            0
-        );
+        fmt(hoiAmount, 0);
+
+    const hoiEquivalent =
+        document.getElementById("hoiEquivalent");
+
+    if(hoiEquivalent){
+
+        const change = Number(simulator.hoi);
+
+        const changeText = change > 0
+            ? `${Math.abs(change).toFixed(0)}% increase from original ${fmt(annualBase,0)} annual estimate, `
+            : change < 0
+                ? `${Math.abs(change).toFixed(0)}% decrease from original ${fmt(annualBase,0)} annual estimate, `
+                : "";
+
+        hoiEquivalent.textContent =
+            changeText +
+            "equivalent to $" +
+            fmt(hoiAmount, 0) +
+            " per $" +
+            fmt(hoiCoverage, 0) +
+            " of coverage per year";
+
+    }
 
 }
-
-    });
 
 }
 
