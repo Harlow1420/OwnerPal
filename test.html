@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V77.6 ©2026
+<title>Home Price Estimator V77.8 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -2516,7 +2516,7 @@ if(name==="rate"){
             if(piEquivalent){
 
                 piEquivalent.textContent =
-                    "Equal to $" +
+                    "equal to $" +
                     piFactor.toFixed(3) +
                     " per $1,000 of loan amount";
 
@@ -2539,36 +2539,54 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate `
+        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
         : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate `
+            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
             : "";
 
     taxEquivalent.textContent =
         changeText +
-        "(Equivalent to $" +
+        "equivalent to $" +
         fmt(300000 * taxRate, 0) +
-        " per year on a $300,000 home).";
+        " per year on a $300,000 home";
 
 }
 }else{
+    const propertyType = document.getElementById("propertyType")?.value || "1";
 
-    const propertyType =
-        document.getElementById("propertyType")?.value || "1";
-
-    const annualBase =
-        propertyType==="3"
+    const annualBase = propertyType === "3"
         ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
         : ACTIVE_FACTORS.hoiBaseAnnual;
 
-    output.textContent =
-        "$" +
-        fmt(
-            annualBase *
-            (1 + simulator.hoi/100),
-            0
-        );
+    const hoiCoverage = Number(propertyType) === 3
+        ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+        : ACTIVE_FACTORS.hoiBaseCoverage;
 
+    const adjustedAnnual = annualBase * (1 + simulator.hoi / 100);
+
+    output.textContent = "$" + fmt(adjustedAnnual, 0);
+
+    const hoiEquivalent = document.getElementById("hoiEquivalent");
+
+    if (hoiEquivalent) {
+        const changePct = annualBase
+            ? ((adjustedAnnual / annualBase) - 1) * 100
+            : 0;
+
+        if (Math.abs(adjustedAnnual - annualBase) < 0.01) {
+            hoiEquivalent.textContent =
+                "per $" + fmt(hoiCoverage, 0) + " of coverage per year";
+        } else {
+            const changeWord = changePct > 0 ? "increase" : "decrease";
+
+            hoiEquivalent.textContent =
+                Math.abs(changePct).toFixed(0) +
+                "% " + changeWord +
+                " from the $" + fmt(annualBase, 0) +
+                " per year per $" + fmt(hoiCoverage, 0) +
+                " of coverage in the original estimate";
+        }
+    }
 }
 
     });
