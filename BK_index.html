@@ -9,8 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V74.5
- ©2026
+<title>Home Price Estimator V78 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -632,7 +631,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ====================================== -->
 <!-- SECTION: DISCLAIMER -->
 <!-- ====================================== -->
-<div class="disclaimer">Not an offer to lend.<br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
+<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
 <!-- ====================================== -->
 <!-- SECTION: SCRIPT START -->
 <!-- ====================================== -->
@@ -653,6 +652,7 @@ let PMI15_HB = null;
 let BASE_RATE = 0.0609;
 let FR30_DEBUG = null;
 let FR15_DEBUG = null;
+let RSL = 0;
  
 // ======================================
 // SECTION: INPUT HANDLING & FORMATTING
@@ -798,6 +798,10 @@ async function loadBaseRateAll() {
  
             FR30_DEBUG = isNaN(rateLine[0]) ? null : rateLine[0];
             FR15_DEBUG = isNaN(rateLine[1]) ? null : rateLine[1];
+
+            RSL = FR15_DEBUG !== null
+            ? Math.max(0, Math.trunc((FR15_DEBUG - 0.01) / 0.00125))
+           : 0;
  
             PMI30_LB = isNaN(rateLine[2]) ? null : rateLine[2];
             PMI30_HB = isNaN(rateLine[3]) ? null : rateLine[3];
@@ -1757,12 +1761,29 @@ with a Loan Amount of <b>$${original.la.toLocaleString('en-US', {
 ${ original.la/ original.hp > 0.8
 ? ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)}<br> of loan
 amount) `
-: ` ($${fmt(annualHoiDisplay,0)}/$${fmt(hoiAmt,0)} of<br>80% of
+: ` ($${fmt(annualHoiDisplay,0)} per $${fmt(hoiAmt,0)} of<br>80% of
 home price) `}</td></tr>
-    <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${base.pmiF > 0 ? `(${fmt(base.pmiF*100,2)}% of<br>loan amount)` : ""}</td></tr>
-    <tr><th>${Number(propertyType) === 1
+    <tr><td>Private Mortgage Insurance (PMI)</td><td class="right">+ ${fmt(original.pmi)}</td><td class="right">${original.pmi > 0 ? `(${fmt(original.pmi*12/original.la*100,2)}% of<br>loan amount)` : ""}</td></tr>
+${Number(propertyType) === 1
+  ? `
+    <tr>
+      <td>Association Fee <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          Some properties have a homeowners association (HOA) fee.<br><br>
+          If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
+          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
+          - <u>Estimated average Association Fee</u><br>
+          = <b>Enter</b>: Comfortable Monthly Housing Expense
+        </span>
+      </span></td>
+      <td class="right">+ 0.00</td>
+      <td class="right">Excludes any<br>Association Fee </td>
+    </tr>
+    `
+  : ""}
+<tr><th>${Number(propertyType) === 1
   ? 'Total Estimated Payment'
-  : 'Total Estimated Payment, excluding any required Association Fee'}
+  : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'}
 </th><th class="right">&#8776; $${fmt(original.pmt)}</th><th class="right">For illustration<br>only, not actual<br>numbers</th></tr>
   </table>
   ${note1?`<div class="neu" style="margin-top:12px;">${note1}</div>`:""}
@@ -1931,12 +1952,12 @@ style="
 ">
 </div>
 <input
-type="range"
-id="rateSlider"
-min="-36"
-max="36"
-value="${simulator.rate}"
-step="1">
+    type="range"
+    id="rateSlider"
+    min="${-RSL}"
+    max="${RSL}"
+    value="${simulator.rate}"
+    step="1">
 </div>
 
 <div class="sliderRow">
@@ -2089,8 +2110,8 @@ ${fmt(ACTIVE_FACTORS.tax*(1+simulator.tax/100)*100,2)}%
   ? 'Homeowners Insurance (Condo)'
   : 'Homeowners Insurance'
 }${ adjusted.la/ adjusted.hp > 0.8
- ? `, per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of loan amount `
- : `, per $${fmt(ACTIVE_FACTORS.hoiBaseCoverage,0)} of 80% of home price `}</td>
+ ? `, per $${fmt(hoiAmt,0)} of loan amount `
+ : `, per $${fmt(hoiAmt,0)} of 80% of home price `}</td>
 <td class="right">
 $${fmt(
 annualHoiDisplay*(1+simulator.hoi/100),
@@ -2099,6 +2120,7 @@ annualHoiDisplay*(1+simulator.hoi/100),
 </td>
 </tr>
 <tr><td></td><td></td></tr>
+<tr>
 <th>
     <span style="font-size:18px;font-weight:700;">
         Adjusted Home Price Estimate
@@ -2147,10 +2169,15 @@ ${
 </th>
 </tr>
 
-<tr><td></td><td></td></tr>
+<table>
+<div>
+  <h2>Estimated Monthly Payment</h2>
+  <div style="margin-bottom:10px;">
+    Here’s how the estimated monthly housing payment is made up with adjustments.
+  </div>
 
-<tr><td><b>Estimated Monthly Payment:</b></td><td></td></tr>
-
+<table id="paymentTable" class="mono three-col-33">
+    <tr><th></th><th class="right">Monthly Estimate</th><th class="right">How it’s Calculated</th></tr>
 <tr><td><span class="label-with-tooltip">
       Principal &amp; Interest (P&amp;I)
       <span class="tooltip-icon">ⓘ
@@ -2158,8 +2185,11 @@ ${
           In this example, with the 1st payment, the loan balance would decrease by $${fmt(adjusted.pi-( adjusted.la*adjustedRate/12))} from the principal portion of the payment which effectively increases the equity position in the home. And with every scheduled payment thereafter, the principal portion of the payment increases, building even more potential equity.
         </span>
       </span>
-    </span></td><td align="right">$${fmt(adjusted.pi)}</td></tr>
-<tr><td>Property Taxes</td><td align="right">+ $${fmt(adjusted.tax)}</td></tr>
+    </span></td><td align="right">$${fmt(adjusted.pi)}</td><td class="right">${ adjusted.la > 0 ? `($${fmt(adjusted.pi/adjusted.la*1000,3)} per $1,000<br>of loan amount)` : ""}
+</td></tr>
+
+<tr><td>Property Taxes</td><td align="right">+ ${fmt(adjusted.tax)}</td><td class="right">(${fmt((adjusted.tax*12)/adjusted.hp *100,2)}% of home price)</td></tr>
+
 <tr><td>${Number(propertyType) === 3
   ? `Homeowners Insurance (Condo)
       <span class="tooltip-icon">ⓘ
@@ -2168,36 +2198,59 @@ ${
         </span>
       </span>`
   : 'Homeowners Insurance'
-}</td><td align="right">+ $${fmt(adjusted.hoi)}</td></tr>
+}</td><td align="right">+ ${fmt(adjusted.hoi)}</td><td class="right">
+${ adjusted.la/ adjusted.hp > 0.8
+? ` ($${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)} per $${fmt(hoiAmt,0)}<br> of loan
+amount) `
+: ` ($${fmt(annualHoiDisplay * (1 + simulator.hoi/100),0)} per $${fmt(hoiAmt,0)} of<br>80% of
+home price) `}</td></tr>
+
 <tr>
+<td>Private Mortgage Insurance (PMI)</td>
+<td align="right">+ ${fmt(adjusted.pmi)}</td><td class="right">${adjusted.pmi > 0 ? `(${fmt(adjusted.pmi*12/adjusted.la*100,2)}% of<br>loan amount)` : ""}</td></tr>
 
-<td>
+${Number(propertyType) === 1
+  ? `
+    <tr>
+      <td>Association Fee <span class="tooltip-icon">ⓘ
+        <span class="tooltip-text">
+          Some properties have a homeowners association (HOA) fee.<br><br>
+          If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
+          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
+          - <u>Estimated average Association Fee</u><br>
+          = <b>Enter</b>: Comfortable Monthly Housing Expense
+        </span>
+      </span></td>
+      <td align="right">+ 0.00</td><td class="right">Excludes any<br>Association Fee </td>
+    </tr>
+  `
+  : ''
+}
 
-Private Mortgage Insurance (PMI)
-
-</td>
-
-<td align="right">
-
-+ $${fmt(adjusted.pmi)}
-
-</td>
-
+      
+<tr>
+  <th><b>${Number(propertyType) === 1
+    ? 'Total Estimated Payment'
+    : 'Total Estimated Payment, <u>excluding</u> any required Association Fee'
+  }</b></th>
+  <th align="right"><b>≈ $${fmt(adjusted.pmt)}</b></th>
+<th class="right">For illustration<br>only, not actual<br>numbers</th>
 </tr>
-
-<tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt(adjusted.pmt)}</b></td></tr>
 </table>
+
 ${adjusted.la / adjusted.hp > 0.8
-  ? `<small style="display:block; text-align:center;"><strong>Note:</strong> Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
+  ? `<small style="display:block;"><br>Note: Based on this estimate, PMI would be eligible to be cancelled after approximately ${Math.ceil(adjustedMiDrop)} payments.</small>`
   : ""}
-<table class="mono">
-<tr><td></td><td></td></tr>
-
-<tr><td><b>Estimated Costs to Purchase:</b></td><td></td></tr>
-
-<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td></tr>
+<div>
+  <h2>Estimated Costs to Purchase</h2>
+  <div style="margin-bottom:10px;">
+    An estimate of what buying at this price could look like with adjustments.
+  </div>
+  <table class="mono three-col-33">
+    <tr><th></th><th class="right">Estimated Amount</th><th class="right">Notes</th></tr>
+<tr><td>Home Price</td><td align="right">$${fmt(adjusted.hp,0)}</td><td></td></tr>
 <tr><td><span class="label-with-tooltip">
-  Loan Amount ${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}% loan-to-value)` : ""}
+  Loan Amount
   <span class="tooltip-icon">ⓘ
     <span class="tooltip-text">
 
@@ -2270,12 +2323,15 @@ ${(() => {
     </span>
   </span>
 </span>
-</td><td align="right">- $${fmt(adjusted.la,0)}</td></tr>
-<tr><td>Down Payment ${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%)` : ""}</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td></tr>
+</td><td align="right">- ${fmt(adjusted.la,0)}</td><td align="right">${ adjusted.la > 0 ? `(${fmt((adjusted.la/ adjusted.hp*100),2)}%<br>loan-to-value)` : ""}</td></tr>
+<tr><td>Down Payment</td><td align="right">= $${fmt(adjusted.hp - adjusted.la,0)}</td><td class="right">${ adjusted.la > 0 ? `(${fmt(((adjusted.hp- adjusted.la)/ adjusted.hp*100),2)}%<br>down payment)` : ""}</td></tr>
 
-<tr><td>Closing Costs</td><td align="right">+ $${fmt(adjusted.cc,0)}</td></tr>
+<tr><td>Closing Costs</td><td align="right">+ ${fmt(adjusted.cc,0)}</td><td class="right">(${( original.cc/ original.hp*100).toFixed(2)}% of<br> home price)</td></tr>
 
-<tr><td><b>TOTAL</b></td><td align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></td></tr>
+<tr><th><b>Estimated Cash Needed</b></th>
+    <th align="right"><b>≈ $${fmt((adjusted.hp - adjusted.la) + adjusted.cc,0)}</b></th>
+    <th class="right">For illustration<br>only, not actual<br>numbers</th>
+</tr>
 
 </table>
 
@@ -2460,7 +2516,7 @@ if(name==="rate"){
             if(piEquivalent){
 
                 piEquivalent.textContent =
-                    "Equal to $" +
+                    "equal to $" +
                     piFactor.toFixed(3) +
                     " per $1,000 of loan amount";
 
@@ -2480,31 +2536,57 @@ document.getElementById("taxEquivalent");
 
 if(taxEquivalent){
 
+    const change = Number(simulator.tax);
+
+    const changeText = change > 0
+        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+        : change < 0
+            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+            : "";
+
     taxEquivalent.textContent =
-        "Equivalent to $" +
+        changeText +
+        "equivalent to $" +
         fmt(300000 * taxRate, 0) +
         " per year on a $300,000 home";
 
 }
-
 }else{
+    const propertyType = document.getElementById("propertyType")?.value || "1";
 
-    const propertyType =
-        document.getElementById("propertyType")?.value || "1";
-
-    const annualBase =
-        propertyType==="3"
+    const annualBase = propertyType === "3"
         ? (ACTIVE_FACTORS.ho3 ?? ACTIVE_FACTORS.hoiBaseAnnual)
         : ACTIVE_FACTORS.hoiBaseAnnual;
 
-    output.textContent =
-        "$" +
-        fmt(
-            annualBase *
-            (1 + simulator.hoi/100),
-            0
-        );
+    const hoiCoverage = Number(propertyType) === 3
+        ? (ACTIVE_FACTORS.ho6per || ACTIVE_FACTORS.hoiBaseCoverage)
+        : ACTIVE_FACTORS.hoiBaseCoverage;
 
+    const adjustedAnnual = annualBase * (1 + simulator.hoi / 100);
+
+    output.textContent = "$" + fmt(adjustedAnnual, 0);
+
+    const hoiEquivalent = document.getElementById("hoiEquivalent");
+
+    if (hoiEquivalent) {
+        const changePct = annualBase
+            ? ((adjustedAnnual / annualBase) - 1) * 100
+            : 0;
+
+        if (Math.abs(adjustedAnnual - annualBase) < 0.01) {
+            hoiEquivalent.textContent =
+                "per $" + fmt(hoiCoverage, 0) + " of coverage per year";
+        } else {
+            const changeWord = changePct > 0 ? "increase" : "decrease";
+
+            hoiEquivalent.textContent =
+                Math.abs(changePct).toFixed(0) +
+                "% " + changeWord +
+                " from the $" + fmt(annualBase, 0) +
+                " per year per $" + fmt(hoiCoverage, 0) +
+                " of coverage in the original estimate";
+        }
+    }
 }
 
     });
