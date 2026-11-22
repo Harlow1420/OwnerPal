@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78 ©2026
+<title>Home Price Estimator V78.1 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1183,10 +1183,9 @@ function updateCountyRequired(){
     if(!required) return;
 
     required.style.display =
-        (city || county)
-            ? "none"
-            : "inline";
-
+    county
+        ? "none"
+        : "inline";
 }
 
 async function getCountyFromCity(city, state) {
@@ -1638,7 +1637,7 @@ const paymentFailSafe =
     const dpConstraint = paymentFailSafe && outsidePmiCusp;
  
     const note2 = dpConstraint
-        ? `<p> Based on the inputs provided, the maximum home price would likely be a with less than 5% down payment.</p><p>This tool cannot calculate examples for less than 5% down payment, like FHA, VA, USDA Rural and First-Time Buyer Programs, because they have additional requirements and/or restrictions making them outside the scope of this tool.</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
+        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>This tool cannot calculate examples for less than 5% down payment, like FHA, VA, USDA Rural and First-Time Buyer Programs, because they have additional requirements and/or restrictions making them outside the scope of this tool.</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
         : "";
  
     const note3 =
@@ -2169,7 +2168,7 @@ ${
 </th>
 </tr>
 
-<table>
+</table>
 <div>
   <h2>Estimated Monthly Payment</h2>
   <div style="margin-bottom:10px;">
