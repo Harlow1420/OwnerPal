@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78.1 ©2026
+<title>Home Price Estimator V78.2les ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -574,7 +574,7 @@ This calculator works in reverse by starting with affordability (your budget) in
           Enter: Available Cash for Purchase
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              &nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u> *<br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
+              Available cash to purchase for down payment <u>and>/u> closing costs*<br><br>.&nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
             </span>
           </span>
         </label>
@@ -1637,7 +1637,8 @@ const paymentFailSafe =
     const dpConstraint = paymentFailSafe && outsidePmiCusp;
  
     const note2 = dpConstraint
-        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>This tool cannot calculate examples for less than 5% down payment, like FHA, VA, USDA Rural and First-Time Buyer Programs, because they have additional requirements and/or restrictions making them outside the scope of this tool.</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
+        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs have additional requirements and/or restrictions that are outside the scope of this tool.
+</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
         : "";
  
     const note3 =
