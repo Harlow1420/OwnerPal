@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78.3 ©2026
+<title>Home Price Estimator V78.4 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -574,7 +574,7 @@ This calculator works in reverse by starting with affordability (your budget) in
           Enter: Available Cash for Purchase
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              Available cash to purchase for down payment <u>and</u> closing costs*<br><br>.&nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
+              Available cash to purchase for down payment <u>and</u> closing costs*.<br><br>&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
             </span>
           </span>
         </label>
@@ -1637,7 +1637,7 @@ const paymentFailSafe =
     const dpConstraint = paymentFailSafe && outsidePmiCusp;
  
     const note2 = dpConstraint
-        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs have additional requirements and/or restrictions that are outside the scope of this tool.
+        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs may have additional requirements, restrictions and/or fees that are outside the scope of this tool.
 </p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
         : "";
  
@@ -1947,7 +1947,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6px 0 8px 0;
     font-style:italic;
 ">
 </div>
@@ -1978,7 +1978,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6fpx 0 8px 0;
     font-style:italic;
 ">
 Equivalent to
@@ -2031,7 +2031,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6px 0 8px 0;
     font-style:italic;
 ">
 per $${fmt(hoiAmt,0)} of coverage per year
@@ -2546,7 +2546,7 @@ if(piEquivalent){
                 : "decrease";
 
         piEquivalent.textContent =
-            Math.abs(factorDifference).toFixed(1) +
+            “a “ + Math.abs(factorDifference).toFixed(1) +
             "% " + direction +
             " in the monthly principal & interest factor " +
             "(from $" + originalPiFactor.toFixed(3) +
@@ -2576,9 +2576,9 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+        ? `a ${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
         : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+            ? `a ${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
             : "";
 
     taxEquivalent.textContent =
@@ -2617,7 +2617,7 @@ if(taxEquivalent){
             const changeWord = changePct > 0 ? "increase" : "decrease";
 
             hoiEquivalent.textContent =
-                Math.abs(changePct).toFixed(0) +
+                “a “ + Math.abs(changePct).toFixed(0) +
                 "% " + changeWord +
                 " from the $" + fmt(annualBase, 0) +
                 " per year per $" + fmt(hoiCoverage, 0) +
