@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78 ©2026
+<title>Home Price Estimator V78.6 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -574,7 +574,7 @@ This calculator works in reverse by starting with affordability (your budget) in
           Enter: Available Cash for Purchase
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              &nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u> *<br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
+              Available cash to purchase for down payment <u>and</u> closing costs*.<br><br>&nbsp;Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
             </span>
           </span>
         </label>
@@ -1183,10 +1183,9 @@ function updateCountyRequired(){
     if(!required) return;
 
     required.style.display =
-        (city || county)
-            ? "none"
-            : "inline";
-
+    county
+        ? "none"
+        : "inline";
 }
 
 async function getCountyFromCity(city, state) {
@@ -1638,7 +1637,8 @@ const paymentFailSafe =
     const dpConstraint = paymentFailSafe && outsidePmiCusp;
  
     const note2 = dpConstraint
-        ? `<p> Based on the inputs provided, the maximum home price would likely be a with less than 5% down payment.</p><p>This tool cannot calculate examples for less than 5% down payment, like FHA, VA, USDA Rural and First-Time Buyer Programs, because they have additional requirements and/or restrictions making them outside the scope of this tool.</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
+        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs may have additional requirements, restrictions and/or costs that are outside the scope of this tool.
+</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
         : "";
  
     const note3 =
@@ -1947,7 +1947,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6px 0 8px 0;
     font-style:italic;
 ">
 </div>
@@ -1978,7 +1978,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6fpx 0 8px 0;
     font-style:italic;
 ">
 Equivalent to
@@ -2031,7 +2031,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6px 0 8px 0;
     font-style:italic;
 ">
 per $${fmt(hoiAmt,0)} of coverage per year
@@ -2169,7 +2169,7 @@ ${
 </th>
 </tr>
 
-<table>
+</table>
 <div>
   <h2>Estimated Monthly Payment</h2>
   <div style="margin-bottom:10px;">
@@ -2495,32 +2495,69 @@ if(name==="rate"){
             output.textContent =
                 (displayRate * 100).toFixed(3) + "%";
 
-            const monthlyRate =
-                displayRate / 12;
+            const originalMonthlyRate =
+    fetchedRate / 12;
 
-            const piFactor =
-                monthlyRate > 0
-                    ? (
-                        monthlyRate *
-                        Math.pow(1 + monthlyRate, term)
-                      ) /
-                      (
-                        Math.pow(1 + monthlyRate, term) - 1
-                      ) *
-                      1000
-                    : (1000 / term);
+const adjustedMonthlyRate =
+    displayRate / 12;
 
-            const piEquivalent =
-                document.getElementById("piEquivalent");
+const originalPiFactor =
+    originalMonthlyRate > 0
+        ? (
+            originalMonthlyRate *
+            Math.pow(1 + originalMonthlyRate, term)
+          ) /
+          (
+            Math.pow(1 + originalMonthlyRate, term) - 1
+          ) * 1000
+        : (1000 / term);
 
-            if(piEquivalent){
+const adjustedPiFactor =
+    adjustedMonthlyRate > 0
+        ? (
+            adjustedMonthlyRate *
+            Math.pow(1 + adjustedMonthlyRate, term)
+          ) /
+          (
+            Math.pow(1 + adjustedMonthlyRate, term) - 1
+          ) * 1000
+        : (1000 / term);
 
-                piEquivalent.textContent =
-                    "equal to $" +
-                    piFactor.toFixed(3) +
-                    " per $1,000 of loan amount";
+const piEquivalent =
+    document.getElementById("piEquivalent");
 
-            }
+if(piEquivalent){
+
+    const factorDifference =
+        ((adjustedPiFactor / originalPiFactor) - 1) * 100;
+
+    if(Math.abs(factorDifference) < 0.000001){
+
+        piEquivalent.textContent =
+            "equal to $" +
+            adjustedPiFactor.toFixed(3) +
+            " per $1,000 of loan amount";
+
+    }else{
+
+        const direction =
+            factorDifference > 0
+                ? "increase"
+                : "decrease";
+
+        piEquivalent.textContent =
+            ", a " + Math.abs(factorDifference).toFixed(1) +
+            "% " + direction +
+            " in the monthly principal & interest factor " +
+            "(from $" + originalPiFactor.toFixed(3) +
+            " to $" + adjustedPiFactor.toFixed(3) +
+            " per $1,000) " +
+            "from original interest estimate of " +
+            (fetchedRate * 100).toFixed(2) + "%";
+
+    }
+
+}
 
 }else if(name==="tax"){
 
@@ -2539,9 +2576,9 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+        ? `, a ${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
         : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+            ? `, a ${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
             : "";
 
     taxEquivalent.textContent =
@@ -2580,7 +2617,7 @@ if(taxEquivalent){
             const changeWord = changePct > 0 ? "increase" : "decrease";
 
             hoiEquivalent.textContent =
-                Math.abs(changePct).toFixed(0) +
+                ", a " + Math.abs(changePct).toFixed(0) +
                 "% " + changeWord +
                 " from the $" + fmt(annualBase, 0) +
                 " per year per $" + fmt(hoiCoverage, 0) +
