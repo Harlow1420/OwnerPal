@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78.6 ©2026
+<title>Home Price Estimator V78.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1919,7 +1919,7 @@ Use the controls below to see how changing one or more assumptions affects the e
 
 <div class="sliderRow">
 <div class="sliderHeader">
-<span>Interest Rate (${currentProgramName})
+<span>Interest Rate (${currentProgramName})<br><br>
 </span>
 <span class="sliderValue" id="rateSliderValue">
 ${
@@ -1964,7 +1964,7 @@ style="
 
 <div class="sliderHeader">
 
-<span>Property Taxes (as % of home value per year)</span>
+<span>Property Taxes (as % of home value per year)<br><br></span>
 
 <span class="sliderValue" id="taxSliderValue">
 ${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%
@@ -2005,13 +2005,13 @@ step="1">
 
 <span>
 ${Number(propertyType) === 3
-  ? `Homeowners Insurance (Condo)
+  ? `Homeowners Insurance (Condo)<br><br>
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
           Homeowners Insurance for a Condominium Unit is sometimes referred to as an HO-6 Policy. It covers the "walls-in" portion of the unit. The remainder of the building is typically insured by the Condominium Association as part of the Association Fees.
         </span>
       </span>`
-  : 'Homeowners Insurance'
+  : 'Homeowners Insurance<br><br>'
 }
 
 </span>
