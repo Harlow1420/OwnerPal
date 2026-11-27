@@ -1909,7 +1909,7 @@ ${note4?`<div class="neu" style="margin-top:12px;">${note4}</div>`:""}
 
 The estimate above is based on several assumptions, including the interest rate, property taxes, and homeowners’ insurance.
 
-Use the controls below to see how changing one or more assumptions affects the estimated home price while keeping your monthly payment target the same.
+Use the sliders below to see how changing one or more assumptions affects the estimated home price while keeping your monthly payment target the same.
 
 </div>
 
@@ -2034,7 +2034,7 @@ style="
     margin:6px 0 8px 0;
     font-style:italic;
 ">
-per $${fmt(hoiAmt,0)} of coverage per year
+, per $${fmt(hoiAmt,0)} of coverage per year
 </div>
 
 <input
@@ -2583,7 +2583,7 @@ if(taxEquivalent){
 
     taxEquivalent.textContent =
         changeText +
-        "equivalent to $" +
+        ", equivalent to $" +
         fmt(300000 * taxRate, 0) +
         " per year on a $300,000 home";
 
@@ -2612,7 +2612,7 @@ if(taxEquivalent){
 
         if (Math.abs(adjustedAnnual - annualBase) < 0.01) {
             hoiEquivalent.textContent =
-                "per $" + fmt(hoiCoverage, 0) + " of coverage per year";
+                ", per $" + fmt(hoiCoverage, 0) + " of coverage per year";
         } else {
             const changeWord = changePct > 0 ? "increase" : "decrease";
 
@@ -2766,6 +2766,6 @@ function printEstimator(){
     data-cf-beacon='{"token": "a39b81e5809742089b648d0980f82941"}'>
   </script>
   <!-- End Cloudflare Web Analytics -->
-
+	
 </body>
 </html>
