@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78 ©2026
+<title>Home Price Estimator V78.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -559,7 +559,7 @@ This calculator works in reverse by starting with affordability (your budget) in
   Enter: A Comfortable Monthly Housing Payment
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              Some properties have a homeowners association (HOA) fee.<br><br>If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>&nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>- <u>Estimated average Association Fee</u><br>= <b>Enter</b>: Comfortable Monthly Housing Expense
+              Some properties have a homeowners association (HOA) fee.<br><br>If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>Comfortable housing expense “including” Association Fee<br>-  &nbsp;<u>Estimated average Association Fee</u><br>= <b>Enter</b>: Comfortable Monthly Housing Expense
             </span>
           </span>
         </label> 
@@ -574,7 +574,7 @@ This calculator works in reverse by starting with affordability (your budget) in
           Enter: Available Cash for Purchase
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              &nbsp;&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u> *<br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
+              Available cash to purchase for down payment <u>and</u> closing costs*.<br><br>Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
             </span>
           </span>
         </label>
@@ -631,7 +631,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ====================================== -->
 <!-- SECTION: DISCLAIMER -->
 <!-- ====================================== -->
-<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
+<div class="disclaimer"><b>Not&nbsp;an&nbsp;offer&nbsp;to&nbsp;lend.</b> | <b>Not&nbsp;financial&nbsp;advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
 <!-- ====================================== -->
 <!-- SECTION: SCRIPT START -->
 <!-- ====================================== -->
@@ -1183,10 +1183,9 @@ function updateCountyRequired(){
     if(!required) return;
 
     required.style.display =
-        (city || county)
-            ? "none"
-            : "inline";
-
+    county
+        ? "none"
+        : "inline";
 }
 
 async function getCountyFromCity(city, state) {
@@ -1638,7 +1637,8 @@ const paymentFailSafe =
     const dpConstraint = paymentFailSafe && outsidePmiCusp;
  
     const note2 = dpConstraint
-        ? `<p> Based on the inputs provided, the maximum home price would likely be a with less than 5% down payment.</p><p>This tool cannot calculate examples for less than 5% down payment, like FHA, VA, USDA Rural and First-Time Buyer Programs, because they have additional requirements and/or restrictions making them outside the scope of this tool.</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
+        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs may have additional requirements, restrictions and/or costs that are outside the scope of this tool.
+</p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
         : "";
  
     const note3 =
@@ -1771,8 +1771,8 @@ ${Number(propertyType) === 1
         <span class="tooltip-text">
           Some properties have a homeowners association (HOA) fee.<br><br>
           If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
-          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
-          - <u>Estimated average Association Fee</u><br>
+          Comfortable housing expense “including” Association Fee<br>
+          -  &nbsp;<u>Estimated average Association Fee</u><br>
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
@@ -1909,17 +1909,17 @@ ${note4?`<div class="neu" style="margin-top:12px;">${note4}</div>`:""}
 
 The estimate above is based on several assumptions, including the interest rate, property taxes, and homeowners’ insurance.
 
-Use the controls below to see how changing one or more assumptions affects the estimated home price while keeping your monthly payment target the same.
+Use the sliders below to see how changing one or more assumptions affects the estimated home price while keeping your monthly payment target the same.
 
 </div>
 
 <div class="simulator-card">
 
-<h3>Interactive What-If Calculator</h3>
+<h3>Interactive What-If Calculator</h3><br><br>
 
 <div class="sliderRow">
 <div class="sliderHeader">
-<span>Interest Rate (${currentProgramName})
+<span><b>Interest Rate (${currentProgramName})</b><br><br>
 </span>
 <span class="sliderValue" id="rateSliderValue">
 ${
@@ -1947,7 +1947,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6px 0 8px 0;
     font-style:italic;
 ">
 </div>
@@ -1964,7 +1964,7 @@ style="
 
 <div class="sliderHeader">
 
-<span>Property Taxes (as % of home value per year)</span>
+<span><b>Property Taxes (as % of home value per year)</b><br><br></span>
 
 <span class="sliderValue" id="taxSliderValue">
 ${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%
@@ -1978,7 +1978,7 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6fpx 0 8px 0;
     font-style:italic;
 ">
 Equivalent to
@@ -1987,7 +1987,7 @@ $${fmt(
 ACTIVE_FACTORS.tax *
 (1 + simulator.tax/100),
 0
-)} per year on a $300,000 home
+)}, per year on a $300,000 home
 </div>
 
 <input
@@ -2005,13 +2005,13 @@ step="1">
 
 <span>
 ${Number(propertyType) === 3
-  ? `Homeowners Insurance (Condo)
+  ? `<b>Homeowners Insurance (Condo)</b><br><br>
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
           Homeowners Insurance for a Condominium Unit is sometimes referred to as an HO-6 Policy. It covers the "walls-in" portion of the unit. The remainder of the building is typically insured by the Condominium Association as part of the Association Fees.
         </span>
       </span>`
-  : 'Homeowners Insurance'
+  : '<b>Homeowners Insurance</b><br><br>'
 }
 
 </span>
@@ -2031,10 +2031,10 @@ style="
     text-align:right;
     font-size:12px;
     color:#666;
-    margin:-2px 0 8px 0;
+    margin:6px 0 8px 0;
     font-style:italic;
 ">
-per $${fmt(hoiAmt,0)} of coverage per year
+, per $${fmt(hoiAmt,0)} of coverage per year
 </div>
 
 <input
@@ -2169,7 +2169,7 @@ ${
 </th>
 </tr>
 
-<table>
+</table>
 <div>
   <h2>Estimated Monthly Payment</h2>
   <div style="margin-bottom:10px;">
@@ -2216,8 +2216,8 @@ ${Number(propertyType) === 1
         <span class="tooltip-text">
           Some properties have a homeowners association (HOA) fee.<br><br>
           If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
-          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
-          - <u>Estimated average Association Fee</u><br>
+          Comfortable housing expense “including” Association Fee<br>
+          -   &nbsp;<u>Estimated average Association Fee</u><br>
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
@@ -2495,32 +2495,69 @@ if(name==="rate"){
             output.textContent =
                 (displayRate * 100).toFixed(3) + "%";
 
-            const monthlyRate =
-                displayRate / 12;
+            const originalMonthlyRate =
+    fetchedRate / 12;
 
-            const piFactor =
-                monthlyRate > 0
-                    ? (
-                        monthlyRate *
-                        Math.pow(1 + monthlyRate, term)
-                      ) /
-                      (
-                        Math.pow(1 + monthlyRate, term) - 1
-                      ) *
-                      1000
-                    : (1000 / term);
+const adjustedMonthlyRate =
+    displayRate / 12;
 
-            const piEquivalent =
-                document.getElementById("piEquivalent");
+const originalPiFactor =
+    originalMonthlyRate > 0
+        ? (
+            originalMonthlyRate *
+            Math.pow(1 + originalMonthlyRate, term)
+          ) /
+          (
+            Math.pow(1 + originalMonthlyRate, term) - 1
+          ) * 1000
+        : (1000 / term);
 
-            if(piEquivalent){
+const adjustedPiFactor =
+    adjustedMonthlyRate > 0
+        ? (
+            adjustedMonthlyRate *
+            Math.pow(1 + adjustedMonthlyRate, term)
+          ) /
+          (
+            Math.pow(1 + adjustedMonthlyRate, term) - 1
+          ) * 1000
+        : (1000 / term);
 
-                piEquivalent.textContent =
-                    "equal to $" +
-                    piFactor.toFixed(3) +
-                    " per $1,000 of loan amount";
+const piEquivalent =
+    document.getElementById("piEquivalent");
 
-            }
+if(piEquivalent){
+
+    const factorDifference =
+        ((adjustedPiFactor / originalPiFactor) - 1) * 100;
+
+    if(Math.abs(factorDifference) < 0.000001){
+
+        piEquivalent.textContent =
+            ", equal to $" +
+            adjustedPiFactor.toFixed(3) +
+            " per $1,000 of loan amount";
+
+    }else{
+
+        const direction =
+            factorDifference > 0
+                ? "increase"
+                : "decrease";
+
+        piEquivalent.textContent =
+            ", a " + Math.abs(factorDifference).toFixed(1) +
+            "% " + direction +
+            " in the monthly principal & interest factor " +
+            "(from $" + originalPiFactor.toFixed(3) +
+            " to $" + adjustedPiFactor.toFixed(3) +
+            " per $1,000) " +
+            "from original interest estimate of " +
+            (fetchedRate * 100).toFixed(2) + "%";
+
+    }
+
+}
 
 }else if(name==="tax"){
 
@@ -2539,14 +2576,14 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+        ? `, a ${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate`
         : change < 0
-            ? `${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+            ? `, a ${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate`
             : "";
 
     taxEquivalent.textContent =
         changeText +
-        "equivalent to $" +
+        ", equivalent to $" +
         fmt(300000 * taxRate, 0) +
         " per year on a $300,000 home";
 
@@ -2575,12 +2612,12 @@ if(taxEquivalent){
 
         if (Math.abs(adjustedAnnual - annualBase) < 0.01) {
             hoiEquivalent.textContent =
-                "per $" + fmt(hoiCoverage, 0) + " of coverage per year";
+                ", per $" + fmt(hoiCoverage, 0) + " of coverage per year";
         } else {
             const changeWord = changePct > 0 ? "increase" : "decrease";
 
             hoiEquivalent.textContent =
-                Math.abs(changePct).toFixed(0) +
+                ", a " + Math.abs(changePct).toFixed(0) +
                 "% " + changeWord +
                 " from the $" + fmt(annualBase, 0) +
                 " per year per $" + fmt(hoiCoverage, 0) +
@@ -2729,6 +2766,6 @@ function printEstimator(){
     data-cf-beacon='{"token": "a39b81e5809742089b648d0980f82941"}'>
   </script>
   <!-- End Cloudflare Web Analytics -->
-
+	
 </body>
 </html>
