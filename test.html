@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78.5 ©2026
+<title>Home Price Estimator V78.7 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -559,7 +559,7 @@ This calculator works in reverse by starting with affordability (your budget) in
   Enter: A Comfortable Monthly Housing Payment
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              Some properties have a homeowners association (HOA) fee.<br><br>If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>&nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>- <u>Estimated average Association Fee</u><br>= <b>Enter</b>: Comfortable Monthly Housing Expense
+              Some properties have a homeowners association (HOA) fee.<br><br>If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>Comfortable housing expense “including” Association Fee<br>-  &nbsp;<u>Estimated average Association Fee</u><br>= <b>Enter</b>: Comfortable Monthly Housing Expense
             </span>
           </span>
         </label> 
@@ -574,7 +574,7 @@ This calculator works in reverse by starting with affordability (your budget) in
           Enter: Available Cash for Purchase
           <span class="tooltip-icon">ⓘ
             <span class="tooltip-text">
-              Available cash to purchase for down payment <u>and</u> closing costs*.<br><br>&nbsp;&nbsp;Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
+              Available cash to purchase for down payment <u>and</u> closing costs*.<br><br>Down Payment<br>+ <u>Closing Costs</u><br>= Cash Needed<br><br>* For this calculator, closing costs simply implies potential money “other than” the down payment needed to purchase a home.<br><br>For more information, refer to Q&A’s.
             </span>
           </span>
         </label>
@@ -631,7 +631,7 @@ This calculator works in reverse by starting with affordability (your budget) in
 <!-- ====================================== -->
 <!-- SECTION: DISCLAIMER -->
 <!-- ====================================== -->
-<div class="disclaimer"><b>Not an offer to lend.</b> | <b>Not financial advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
+<div class="disclaimer"><b>Not&nbsp;an&nbsp;offer&nbsp;to&nbsp;lend.</b> | <b>Not&nbsp;financial&nbsp;advice.</b><br> The Home Price Estimator is an interactive calculator provided for illustrative estimates, entertainment purposes and context only and not a precise determination. Results are simulations based on assumptions. OwnerPal is not affiliated with or endorsed by any person or organization that may share or link to this calculator. <br>Home Price Estimator&copy;2026</div>
 <!-- ====================================== -->
 <!-- SECTION: SCRIPT START -->
 <!-- ====================================== -->
@@ -1637,7 +1637,7 @@ const paymentFailSafe =
     const dpConstraint = paymentFailSafe && outsidePmiCusp;
  
     const note2 = dpConstraint
-        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs may have additional requirements, restrictions and/or fees that are outside the scope of this tool.
+        ? `<p>Based on the inputs provided, a higher maximum home price may be achievable with less than 5% down payment.</p><p>Unfortunately, this tool cannot calculate examples involving less than a 5% down payment, such as FHA, VA, USDA Rural Development, and First-Time Home Buyer programs, because those programs may have additional requirements, restrictions and/or costs that are outside the scope of this tool.
 </p><p>Program options with less than 5% down payment should be discussed with a lender.</p>`
         : "";
  
@@ -1771,8 +1771,8 @@ ${Number(propertyType) === 1
         <span class="tooltip-text">
           Some properties have a homeowners association (HOA) fee.<br><br>
           If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
-          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
-          - <u>Estimated average Association Fee</u><br>
+          Comfortable housing expense “including” Association Fee<br>
+          -  &nbsp;<u>Estimated average Association Fee</u><br>
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
@@ -1915,11 +1915,11 @@ Use the controls below to see how changing one or more assumptions affects the e
 
 <div class="simulator-card">
 
-<h3>Interactive What-If Calculator</h3>
+<h3>Interactive What-If Calculator</h3><br><br>
 
 <div class="sliderRow">
 <div class="sliderHeader">
-<span>Interest Rate (${currentProgramName})
+<span><b>Interest Rate (${currentProgramName})</b><br><br>
 </span>
 <span class="sliderValue" id="rateSliderValue">
 ${
@@ -1964,7 +1964,7 @@ style="
 
 <div class="sliderHeader">
 
-<span>Property Taxes (as % of home value per year)</span>
+<span><b>Property Taxes (as % of home value per year)</b><br><br></span>
 
 <span class="sliderValue" id="taxSliderValue">
 ${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%
@@ -1987,7 +1987,7 @@ $${fmt(
 ACTIVE_FACTORS.tax *
 (1 + simulator.tax/100),
 0
-)} per year on a $300,000 home
+)}, per year on a $300,000 home
 </div>
 
 <input
@@ -2005,13 +2005,13 @@ step="1">
 
 <span>
 ${Number(propertyType) === 3
-  ? `Homeowners Insurance (Condo)
+  ? `<b>Homeowners Insurance (Condo)</b><br><br>
       <span class="tooltip-icon">ⓘ
         <span class="tooltip-text">
           Homeowners Insurance for a Condominium Unit is sometimes referred to as an HO-6 Policy. It covers the "walls-in" portion of the unit. The remainder of the building is typically insured by the Condominium Association as part of the Association Fees.
         </span>
       </span>`
-  : 'Homeowners Insurance'
+  : '<b>Homeowners Insurance</b><br><br>'
 }
 
 </span>
@@ -2216,8 +2216,8 @@ ${Number(propertyType) === 1
         <span class="tooltip-text">
           Some properties have a homeowners association (HOA) fee.<br><br>
           If you're considering homes with association fees—for example, with an estimated average of $400 per month—and your target maximum monthly housing expense is $2,900, you should <b>enter</b> $2,500 as your comfortable monthly payment.<br><br>
-          &nbsp;&nbsp;&nbsp;Comfortable housing expense “including” Association Fee<br>
-          - <u>Estimated average Association Fee</u><br>
+          Comfortable housing expense “including” Association Fee<br>
+          -   &nbsp;<u>Estimated average Association Fee</u><br>
           = <b>Enter</b>: Comfortable Monthly Housing Expense
         </span>
       </span></td>
@@ -2534,7 +2534,7 @@ if(piEquivalent){
     if(Math.abs(factorDifference) < 0.000001){
 
         piEquivalent.textContent =
-            "equal to $" +
+            ", equal to $" +
             adjustedPiFactor.toFixed(3) +
             " per $1,000 of loan amount";
 
