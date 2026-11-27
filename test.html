@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OwnerPal">
 
-<title>Home Price Estimator V78.8 ©2026
+<title>Home Price Estimator V78.9 ©2026
 </title>
 <!-- ====================================== -->
 <!-- SECTION: STYLES / UI DESIGN -->
@@ -1922,7 +1922,7 @@ Use the sliders below to see how changing one or more assumptions affects the es
 <span><b>Interest Rate (${currentProgramName})</b><br><br>
 </span>
 <span class="sliderValue" id="rateSliderValue">
-${
+<b>${
 (
 (() => {
 
@@ -1938,7 +1938,7 @@ ${
 })()
 )*100
 .toFixed(3)
-}%
+}%</b>
 </span>
 </div>
 <div
@@ -1967,7 +1967,7 @@ style="
 <span><b>Property Taxes (as % of home value per year)</b><br><br></span>
 
 <span class="sliderValue" id="taxSliderValue">
-${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%
+<b>${(ACTIVE_FACTORS.tax * (1 + simulator.tax/100) * 100).toFixed(2)}%</b>
 </span>
 
 </div>
@@ -2017,10 +2017,10 @@ ${Number(propertyType) === 3
 </span>
 <span class="sliderValue"
 id="hoiSliderValue">
-$${fmt(
+<b>$${fmt(
 annualHoiDisplay * (1 + simulator.hoi/100),
 0
-)}
+)}</b>
 </span>
 
 </div>
