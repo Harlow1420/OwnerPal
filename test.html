@@ -2576,9 +2576,9 @@ if(taxEquivalent){
     const change = Number(simulator.tax);
 
     const changeText = change > 0
-        ? `, a ${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+        ? `, a ${Math.abs(change).toFixed(0)}% increase per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate`
         : change < 0
-            ? `, a ${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate, `
+            ? `, a ${Math.abs(change).toFixed(0)}% decrease per year from original ${fmt(ACTIVE_FACTORS.tax*100,2)}% estimate`
             : "";
 
     taxEquivalent.textContent =
